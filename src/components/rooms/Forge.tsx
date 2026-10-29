@@ -4,7 +4,7 @@ import { useRef, useState, type CSSProperties } from 'react';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { ForgeStack } from '@/components/flows/ForgeStack';
-import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
+import { Heading, Lead, Accent } from '@/components/ui/type';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { clamp } from '@/lib/env';
 import { getLenis } from '@/lib/scroll';
@@ -16,7 +16,7 @@ const PROJECTS = [
   { slug: 'tournament', title: 'Tournament platform', line: 'Registration, brackets, results, admin.' },
   { slug: 'merch-store', title: 'Merch store', line: 'Drops, sizes, checkout, inventory.' },
   { slug: 'microsite', title: 'Campaign microsite', line: 'Season launches, player reveals, sponsor activations.' },
-  { slug: 'web-app', title: 'Internal web app', line: 'Scrim schedulers, VOD queues, payouts — staff tools.' },
+  { slug: 'web-app', title: 'Internal web app', line: 'Staff tools: scrim schedulers, VOD queues, payouts.' },
 ];
 const N = PROJECTS.length;
 const ARRIVE = [-0.22, 0.13]; // when, within its turn, a card slides in…
@@ -124,19 +124,15 @@ export function ForgeRoom({ headingLevel = 'h2' }: Props) {
   const H = headingLevel;
   return (
     <Room ref={ref} tone="trench" room="forge" id="forge" pad={false} labelledBy="forge-title" className="overflow-hidden">
-      {/* The blueprint grid as a quiet ground: low contrast, fading out toward the edges. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 bg-[url(/assets/texture/blueprint-grid.svg)] bg-[length:640px_640px] opacity-[.16] [mask-image:radial-gradient(ellipse_70%_65%_at_62%_50%,#000_20%,transparent_100%)]"
-      />
       <div data-stage="" className="relative flex min-h-svh items-center py-[88px] md:h-svh md:py-0">
         <div className="wrap grid grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,.78fr)_minmax(0,1.22fr)] md:gap-[clamp(32px,4vw,72px)] md:pt-16">
           <div className="grid content-center gap-6">
-            <Eyebrow>Forge</Eyebrow>
-            <Heading as={H} id="forge-title" size="h1">
+            <Heading data-line="in" as={H} id="forge-title" size="h1">
               Built to carry<br /><Accent touch="forge">your name.</Accent>
             </Heading>
-            <Lead>The website that carries your brand, and the tools that run your org.</Lead>
+            <Lead>
+              <b className="font-semibold text-white">Forge</b> builds the website that carries your brand and the tools that run your org, all on one base, so they share your data and your look.
+            </Lead>
 
             <ol aria-label="Five things we build" className="mt-2 hidden border-t border-rule-dark md:block">
               {PROJECTS.map((p, i) => {
@@ -151,9 +147,6 @@ export function ForgeRoom({ headingLevel = 'h2' }: Props) {
                     >
                       <span className={cn('label transition-colors duration-500', on ? 'text-mist' : '')}>0{i + 1}</span>
                       <span className="font-display text-[18px] leading-tight font-semibold tracking-[-0.01em]">{p.title}</span>
-                      <span className={cn('col-start-2 overflow-hidden text-[14px] text-fog transition-[max-height,opacity] duration-500 ease-out-expo', on ? 'max-h-12 opacity-100' : 'max-h-0 opacity-0')}>
-                        {p.line}
-                      </span>
                       <span ref={(el) => { bars.current[i] = el; }} aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-0 bg-mist" />
                     </button>
                   </li>
@@ -176,13 +169,10 @@ export function ForgeRoom({ headingLevel = 'h2' }: Props) {
                     <Asset src={`forge/${p.slug}-blueprint.svg`} label={`${p.title}, blueprint`} className="absolute inset-0" />
                     <Asset src={`forge/${p.slug}.svg`} label={`${p.title}, finished`} className="wipe__live absolute inset-0" />
                     <span aria-hidden="true" className="wipe__scan absolute inset-y-0 w-0.5 bg-paper" />
-                    <span aria-hidden="true" className="wipe__tag label absolute top-3 rounded-full bg-paper px-2.5 py-1 text-[10px] font-bold text-ink">
-                      Blueprint → Live
-                    </span>
                   </div>
-                  <footer className="flex h-[66px] items-center justify-between gap-4 border-t border-mist/15 px-[22px]">
+                  <footer className="flex min-h-[66px] flex-col justify-center gap-1 border-t border-mist/15 px-[22px] py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 md:h-[66px] md:py-0">
                     <h3 className="font-display text-[19px] font-bold tracking-[-0.01em]">{p.title}</h3>
-                    <p className="hidden text-[14px] text-fog sm:block">{p.line}</p>
+                    <p className="text-[15px] text-fog">{p.line}</p>
                   </footer>
                   <span data-shade="" aria-hidden="true" className="pointer-events-none absolute inset-0 bg-abyss opacity-0" />
                 </article>

@@ -50,7 +50,7 @@ export function DragPill({ label = 'Drag' }: { label?: string }) {
     <span
       ref={ref}
       aria-hidden="true"
-      className="drag-pill pointer-events-none absolute top-0 left-0 z-[6] -translate-x-1/2 -translate-y-1/2 scale-[.6] rounded-full bg-paper px-3.5 py-2 font-mono text-[11px] font-bold tracking-[.16em] text-ink uppercase opacity-0 transition-[opacity,scale] duration-200 ease-out-expo"
+      className="drag-pill pointer-events-none absolute top-0 left-0 z-[6] -translate-x-1/2 -translate-y-1/2 scale-[.6] rounded-full bg-paper px-3.5 py-2 text-[13px] font-semibold text-ink opacity-0 transition-[opacity,scale] duration-200 ease-out-expo"
     >
       {label}
     </span>

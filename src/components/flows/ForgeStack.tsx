@@ -44,7 +44,7 @@ export function ForgeStack() {
           <div className="fstack-plate fstack-core" style={{ '--z': 1 } as CSSProperties}>
             <Icon name="forge" strokeWidth={6} className="fstack-icon" />
             <p className="fstack-name">Forge</p>
-            <p className="fstack-steps">Blueprint · Build · Launch</p>
+            <p className="fstack-steps">Blueprint, build, launch</p>
           </div>
           <div className="fstack-plate fstack-top" style={{ '--z': 2 } as CSSProperties}>
             {SURFACES.map((s) => (

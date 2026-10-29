@@ -22,7 +22,7 @@ export function Stepper({ steps, label }: { steps: [string, string, string][]; l
             aria-controls={`${id}-p${i}`}
             onClick={() => setIndex(i)}
             {...item(i)}
-            className="label min-h-11 rounded-full border border-hairline px-4 text-left font-semibold tracking-[.14em] text-muted transition-colors duration-200 hover:text-ink aria-selected:border-strike aria-selected:text-strike on-dark:border-rule-dark on-dark:text-fog/70 on-dark:hover:text-white on-dark:aria-selected:border-mist on-dark:aria-selected:text-mist lg:-ml-0.5 lg:min-h-12 lg:rounded-none lg:border-0 lg:border-l-2 lg:border-transparent lg:px-[18px] lg:on-dark:border-transparent lg:aria-selected:border-strike lg:on-dark:aria-selected:border-mist"
+            className="label min-h-11 rounded-full border border-hairline px-4 text-left font-semibold text-muted transition-colors duration-200 hover:text-ink aria-selected:border-strike aria-selected:text-strike on-dark:border-rule-dark on-dark:text-fog/70 on-dark:hover:text-white on-dark:aria-selected:border-mist on-dark:aria-selected:text-mist lg:-ml-0.5 lg:min-h-12 lg:rounded-none lg:border-0 lg:border-l-2 lg:border-transparent lg:px-[18px] lg:on-dark:border-transparent lg:aria-selected:border-strike lg:on-dark:aria-selected:border-mist"
           >
             {tab}
           </button>

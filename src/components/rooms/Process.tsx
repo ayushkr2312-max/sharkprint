@@ -2,17 +2,16 @@
 
 import { useRef, type CSSProperties } from 'react';
 import { Room } from '@/components/site/Room';
-import { Icon } from '@/components/ui/Icon';
-import { Eyebrow, Heading, Accent } from '@/components/ui/type';
+import { Heading, Lead, Accent } from '@/components/ui/type';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { cn } from '@/lib/cn';
 
 const STEPS: [string, string][] = [
-  ['Discovery', 'We map your tools, spend and goals.'],
-  ['Blueprint', 'A plan for what to build first, and why.'],
-  ['Build & automate', 'We build it; insiders review all of it.'],
-  ['Launch', 'Your staff trained, the docs handed over.'],
-  ['Optimise', 'Monthly reports and tweaks, from then on.'],
+  ['Discovery', 'We map your tools, your spend and what you want next season to look like.'],
+  ['Blueprint', 'A plan for what to build first and why, with the cost before anything starts.'],
+  ['Build & automate', 'We build it and wire up the automations. Insiders review every piece.'],
+  ['Launch', 'Your staff trained on it, and the docs handed over.'],
+  ['Optimise', 'A report every month, and changes based on what it shows.'],
 ];
 
 // Outcome copy straight from the deck: no invented stats.
@@ -52,10 +51,14 @@ export function Process() {
       labelledBy="process-title"
     >
       <div className="wrap">
-        <Eyebrow className="mb-5">How we work</Eyebrow>
-        <Heading id="process-title" size="h1" className="mb-[clamp(40px,6vh,64px)]">
-          Kickoff to <Accent touch="route">autopilot.</Accent>
-        </Heading>
+        <div className="mb-[clamp(40px,6vh,64px)] grid gap-6">
+          <Heading data-line="in" id="process-title" size="h1">
+            Kickoff to <Accent touch="route">autopilot.</Accent>
+          </Heading>
+          <Lead>
+            Five steps from the first call to systems that run on their own. You see the plan and the cost before we build anything.
+          </Lead>
+        </div>
         <div data-steps="" className="steps">
           <span aria-hidden="true" className="steps-bar"><i /></span>
           <ol className="steps-row">
@@ -66,9 +69,9 @@ export function Process() {
                   <span aria-hidden="true" className="step-tick" />
                   <span className="step-top">
                     <span className="step-n">0{i + 1}</span>
-                    <span aria-hidden="true" className="step-state">
-                      {last ? <><i className="step-live" />Autopilot on</> : <><Icon name="check" strokeWidth={14} className="size-3" />Done</>}
-                    </span>
+                    {last && (
+                      <span aria-hidden="true" className="step-state"><i className="step-live" />Autopilot on</span>
+                    )}
                   </span>
                   <h3 className="step-title">{title}</h3>
                   <p className="step-line">{line}</p>

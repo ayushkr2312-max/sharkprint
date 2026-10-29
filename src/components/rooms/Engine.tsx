@@ -7,15 +7,13 @@ import { EngineCut } from '@/components/flows/EngineCut';
 import { Gets } from '@/components/ui/Gets';
 import { Eyebrow, Heading, Lead, Micro, Accent } from '@/components/ui/type';
 import { useRoving } from '@/components/ui/useRoving';
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { gsap, useGSAP } from '@/lib/gsap';
 import { clamp, rng } from '@/lib/env';
-import { TIP_AT } from '@/lib/line';
 import { engineVolume, useStore, type Volume } from '@/lib/store';
 import { trackOnce } from '@/lib/track';
 import { cn } from '@/lib/cn';
 
 const NS = 'http://www.w3.org/2000/svg';
-const TRACK_AT = 228 / 300; // the progress track's height in vod-timeline.svg
 const VOLUMES: { v: Volume; label: string; aria?: string }[] = [
   { v: '30', label: '30' },
   { v: '60', label: '60' },
@@ -26,6 +24,13 @@ const PHONES = [
   { src: 'engine/clip-tactical.svg', label: 'Vertical clip: a clutch play with karaoke subtitles', speed: 0.9, offset: '' },
   { src: 'engine/clip-arena.svg', label: 'Vertical clip: grand final crowd moment', speed: 1.04, offset: 'md:-mt-9' },
   { src: 'engine/clip-stat.svg', label: 'Vertical clip: four eliminations stat card', speed: 1.12, offset: 'md:mt-9' },
+];
+
+const OFFER: [string, string][] = [
+  ['Every VOD logged', 'Each stream and match gets timestamps for the moments worth a look.'],
+  ['Picked by people', 'Software flags clutches, aces and crowd pops. An editor picks the ones worth posting.'],
+  ['Cut for every feed', 'Vertical for Shorts, Reels and TikTok, with subtitles burned in, in your colours.'],
+  ['As many as you need', 'Thirty clips a month or a few hundred. The engine scales and the price follows.'],
 ];
 
 type Props = { headingLevel?: 'h1' | 'h2' };
@@ -48,72 +53,6 @@ export function EngineRoom({ headingLevel = 'h2' }: Props) {
     return () => mm.revert();
   }, { scope: ref });
 
-  // The VOD playhead is tied to scroll; crossing a moment flashes it and lifts a clip off the track.
-  const onVod = (svg: SVGSVGElement) => {
-    const vod = ref.current!.querySelector<HTMLElement>('[data-vod]')!;
-    const lift = vod.querySelector<HTMLElement>('[data-vod-lift]')!;
-    // Remove the baked playhead; ours is driven by scroll.
-    svg.querySelectorAll('line').forEach((l) => {
-      if (l.getAttribute('stroke') === '#0A0C11' && l.getAttribute('stroke-width') === '2') l.remove();
-    });
-    svg.querySelectorAll('rect').forEach((r) => {
-      if (r.getAttribute('rx') === '11' && r.getAttribute('fill') === '#0A0C11') {
-        if (r.nextElementSibling?.tagName === 'text') r.nextElementSibling.remove();
-        r.remove();
-      }
-    });
-    const X0 = 120, X1 = 1148, TOTAL = 2 * 3600 + 14 * 60 + 9;
-    const moments = Array.from(svg.querySelectorAll('rect'))
-      .filter((r) => r.getAttribute('fill') === '#2457F5' && r.getAttribute('y') === '190')
-      .map((r) => ({ r, x: +r.getAttribute('x')! + 34 }));
-
-    // The Lateral Line flattens into the track: a progress stroke under the moments row.
-    const progress = document.createElementNS(NS, 'line');
-    Object.entries({ x1: X0, y1: 228, x2: X0, y2: 228, stroke: '#2457F5', 'stroke-width': 2 }).forEach(([k, v]) => progress.setAttribute(k, String(v)));
-    svg.appendChild(progress);
-    const head = document.createElementNS(NS, 'g');
-    head.innerHTML =
-      '<line x1="0" y1="50" x2="0" y2="262" stroke="#0A0C11" stroke-width="2"/>' +
-      '<rect x="-46" y="262" width="92" height="22" rx="11" fill="#0A0C11"/>' +
-      '<text x="0" y="277" style="font-family: var(--font-jetbrains), monospace" font-size="11" font-weight="600" fill="#FBF9F3" text-anchor="middle">00:00:00</text>';
-    svg.appendChild(head);
-    const label = head.querySelector('text')!;
-    const fmt = (s: number) => [Math.floor(s / 3600), Math.floor(s / 60) % 60, Math.floor(s % 60)].map((n) => String(n).padStart(2, '0')).join(':');
-
-    let lastX = X0;
-    const flash = (m: { r: SVGRectElement; x: number }) => {
-      gsap.fromTo(m.r, { attr: { fill: '#0A0C11' } }, { attr: { fill: '#2457F5' }, duration: 0.6, ease: 'power2.out' });
-      const card = document.createElement('span');
-      card.className = 'vod-lift';
-      card.style.left = (m.x / 1200) * 100 + '%';
-      lift.appendChild(card);
-      gsap.fromTo(card, { y: 0, opacity: 0, scale: 0.6 }, {
-        y: -90, opacity: 1, scale: 1, duration: 0.9, ease: 'expo.out',
-        onComplete: () => { gsap.to(card, { opacity: 0, y: -120, duration: 0.5, delay: 0.3, onComplete: () => card.remove() }); },
-      });
-      trackOnce('vod', { type: 'scrub', room: 'engine' });
-    };
-    const set = (p: number, fromScroll: boolean) => {
-      const x = X0 + (X1 - X0) * p;
-      head.setAttribute('transform', `translate(${x.toFixed(1)} 0)`);
-      progress.setAttribute('x2', x.toFixed(1));
-      label.textContent = fmt(TOTAL * p);
-      if (fromScroll && x > lastX) moments.forEach((m) => { if (lastX < m.x && x >= m.x) flash(m); });
-      lastX = x;
-    };
-
-    set(0, false);
-    // The playhead sets off as the track reaches the Lateral Line's reading height.
-    const st = ScrollTrigger.create({
-      trigger: vod,
-      start: () => `top+=${vod.offsetHeight * TRACK_AT} ${TIP_AT * 100}%`,
-      end: 'bottom 30%',
-      scrub: 0.4,
-      onUpdate: (self) => set(self.progress, true),
-    });
-    return () => st.kill();
-  };
-
   const H = headingLevel;
   return (
     <Room
@@ -125,16 +64,16 @@ export function EngineRoom({ headingLevel = 'h2' }: Props) {
     >
       <div className="wrap grid grid-cols-1 items-center gap-[clamp(24px,4vw,72px)] lg:grid-cols-[1fr_1.05fr]">
         <div className="grid content-start gap-6">
-          <Eyebrow>Engine</Eyebrow>
-          <Heading as={H} id="engine-title" size="h1">
+          <Heading data-line="in" as={H} id="engine-title" size="h1">
             Every moment,<br /><Accent touch="clip">clipped.</Accent>
           </Heading>
-          <Lead>Your streams and matches, cut into shorts every month. Subtitled, edited, ready to post.</Lead>
+          <Lead>
+            <b className="font-semibold text-ink">Engine</b> turns your streams and matches into short clips, every month: found, cut, subtitled and ready to post.
+          </Lead>
         </div>
 
         <div data-phones="" className="relative -mx-[var(--gutter)] flex snap-x snap-mandatory items-start justify-start gap-3.5 overflow-x-auto px-[var(--gutter)] pt-6 pb-10 md:mx-0 md:justify-center md:gap-[clamp(10px,1.6vw,22px)] md:overflow-visible md:px-0 md:pb-16">
           {PHONES.map((p) => <Phone key={p.src} {...p} />)}
-          <span aria-hidden="true" className="label absolute bottom-1.5 left-[var(--gutter)] text-[11px] text-muted md:hidden">Swipe clips →</span>
         </div>
       </div>
 
@@ -142,11 +81,8 @@ export function EngineRoom({ headingLevel = 'h2' }: Props) {
         <EngineCut />
       </div>
 
-      <div className="wrap">
-        <div data-vod="" data-line="foot" className="relative mt-[clamp(40px,6vh,72px)] max-md:-mx-[var(--gutter)] max-md:overflow-x-auto max-md:px-[var(--gutter)]">
-          <Asset src="engine/vod-timeline.svg" label="VOD timeline with six detected moments" className="shadow-1 max-md:w-[820px] [&>svg]:rounded-[20px] rounded-[20px]" onReady={onVod} />
-          <div data-vod-lift="" aria-hidden="true" className="pointer-events-none absolute inset-0" />
-        </div>
+      <div data-line="foot" data-reveal="" className="wrap mt-[clamp(48px,7vh,72px)]">
+        <Gets items={OFFER} cols="sm:grid-cols-2 lg:grid-cols-4" />
       </div>
     </Room>
   );
@@ -231,7 +167,7 @@ function Phone({ src, label, speed, offset }: (typeof PHONES)[number]) {
           return () => clearInterval(timer.current);
         }}
       />
-      <span className="label absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-1.5 rounded-full bg-ink px-2.5 py-1.5 text-[10px] whitespace-nowrap text-paper opacity-0 transition-[opacity,translate] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-data-[playing=true]:translate-y-0 group-data-[playing=true]:opacity-100">
+      <span className="label absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-1.5 rounded-full bg-ink px-2.5 py-1.5 text-[12px] whitespace-nowrap text-paper opacity-0 transition-[opacity,translate] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-data-[playing=true]:translate-y-0 group-data-[playing=true]:opacity-100">
         Muted loop
       </span>
     </figure>
@@ -240,7 +176,7 @@ function Phone({ src, label, speed, offset }: (typeof PHONES)[number]) {
 
 const GETS: [string, string][] = [
   ['Timestamped VOD logs', 'Every stream and match logged with moments, by type.'],
-  ['Moment finding', 'Clutches, aces, crowd pops, comms gold — auto-flagged, human-picked.'],
+  ['Moment finding', 'Clutches, aces, crowd pops and comms gold: flagged by software, picked by people.'],
   ['Clipping in 9:16 and 1:1', 'Cut for Shorts, Reels and TikTok formats.'],
   ['Karaoke subtitles', 'Burned-in, on-brand, word-by-word highlight.'],
   ['Basic editing', 'Hooks, zooms, captions, end cards.'],

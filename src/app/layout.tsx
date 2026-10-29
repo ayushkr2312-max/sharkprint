@@ -17,10 +17,10 @@ const michroma = Michroma({ subsets: ['latin'], weight: '400', variable: '--font
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3000'),
   title: {
-    default: "Finishers Sharkprint — Your org's edge, engineered",
+    default: "Finishers Sharkprint: your org's edge, engineered",
     template: '%s · Finishers Sharkprint',
   },
-  description: 'Clips, scouting, a live command centre and the sites that carry your name — one partner, built for esports orgs.',
+  description: 'Clips, scouting, a live command centre and the sites that carry your name. One partner, built for esports orgs.',
   openGraph: { type: 'website', siteName: 'Finishers Sharkprint' },
   twitter: { card: 'summary_large_image' },
 };

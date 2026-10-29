@@ -40,8 +40,8 @@ export default async function CasePage({ params }: PageProps<'/work/[slug]'>) {
       <Room tone="abyss" room="case" labelledBy="case-title" className="pt-[clamp(120px,16vh,170px)]!">
         <div className="wrap grid gap-6">
           <Eyebrow>
-            <Link href="/work" className="no-underline hover:text-white">Work</Link> · Case study
-            {c.sample && <span className="ml-3 rounded-full bg-white/10 px-2.5 py-1 text-[10px] text-fog">Sample · fictional org</span>}
+            <Link href="/work" className="no-underline hover:text-white">Back to all work</Link>
+            {c.sample && <span className="ml-3 rounded-full bg-white/10 px-2.5 py-1 text-[12px] text-fog">Sample, fictional org</span>}
           </Eyebrow>
           <Heading as="h1" id="case-title" size="h1" reveal={false}>
             {c.title[0]}<br /><Accent>{c.title[1]}</Accent>
@@ -121,7 +121,7 @@ export default async function CasePage({ params }: PageProps<'/work/[slug]'>) {
             ))}
           </div>
           <Link href={`/work/${next.slug}`} className="mt-10 inline-flex min-h-11 items-center gap-3 font-display text-[clamp(20px,2vw,26px)] font-semibold no-underline hover:text-strike">
-            <span className="label text-muted">Next case</span> {next.title[0]} {next.title[1]} →
+            <span className="label text-muted">Next case</span> {next.title[0]} {next.title[1]}
           </Link>
         </div>
       </Room>

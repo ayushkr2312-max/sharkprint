@@ -23,6 +23,13 @@ const TILES: { id: string; x: number; y: number; w: number; h: number }[] = [
   { id: 'sources', x: 68.75, y: 72, w: 29, h: 25 },
 ];
 
+// What a client gets, in plain words, to close the room.
+const OFFER: [string, string][] = [
+  ['Every source in one place', 'Socials, team stats, the calendar, sponsors and finance, pulled in on their own.'],
+  ['Kept right', 'Automations keep it fresh. People who know esports check that it adds up.'],
+  ['Out to your staff', 'A live dashboard, reminders before deadlines, and a report at the end of each month.'],
+];
+
 const CHIPS: [string, string[]][] = [
   ['Socials', ['followers', 'growth']],
   ['Team stats', ['winrate', 'rosters']],
@@ -147,15 +154,16 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
     >
       <div className="wrap">
         <header className="grid justify-items-center gap-5 text-center">
-          <Eyebrow>Command</Eyebrow>
-          <Heading as={H} id="command-title" size="h1">
+          <Heading data-line="in" as={H} id="command-title" size="h1">
             Your whole org, <Accent touch="screen">one screen.</Accent>
           </Heading>
-          <Lead className="mx-auto">Socials, team stats, calendar and reminders on one live dashboard.</Lead>
+          <Lead className="mx-auto">
+            <b className="font-semibold text-ink">Command</b> puts socials, team stats, the calendar and reminders on one live dashboard, so nobody has to ask where a number came from.
+          </Lead>
         </header>
 
         <div className="relative z-[4] mt-[clamp(40px,6vh,64px)] grid justify-items-center gap-4">
-          <p className="label text-[11px] text-muted">Every number has a source</p>
+          <p className="text-[15px] text-ink-60">Pick a source to see what it feeds.</p>
           <ul aria-label="Sources. Pick one to find what it feeds on the dashboard." className="flex flex-wrap justify-center gap-2.5">
             {CHIPS.map(([chip, tiles], i) => {
               const on = pinned === chip;
@@ -175,9 +183,8 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
                       setPinned(on ? null : chip);
                       trackOnce('chip', { type: 'chip', room: 'command' });
                     }}
-                    className="group/src inline-flex min-h-11 items-center gap-2.5 rounded-full border border-hairline bg-paper px-4 text-[15px] font-semibold text-ink shadow-1 transition-colors duration-200 hover:border-strike aria-pressed:border-strike aria-pressed:bg-strike aria-pressed:text-white"
+                    className="inline-flex min-h-11 items-center rounded-full border border-hairline bg-paper px-4 text-[15px] font-semibold text-ink shadow-1 transition-colors duration-200 hover:border-strike aria-pressed:border-strike aria-pressed:bg-strike aria-pressed:text-white"
                   >
-                    <i className="size-2 rounded-full bg-muted group-hover/src:bg-strike group-aria-pressed/src:bg-white" />
                     {chip}
                   </button>
                 </li>
@@ -189,8 +196,8 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
         {/* Command itself: what comes in raw goes out clean. */}
         <div data-band="" className="relative z-[4] mx-auto mt-[clamp(48px,7vh,72px)] flex max-w-[1080px] flex-wrap items-center justify-between gap-x-6 gap-y-2 overflow-hidden rounded-[20px] bg-ink px-6 py-4 text-paper md:w-[86%] md:rounded-full">
           <span className="flex items-center gap-3 font-display text-[22px] font-bold"><Icon name="command" strokeWidth={7} className="size-6 text-current-blue" />Command</span>
-          <span className="font-mono text-[11px] font-semibold tracking-[.16em] text-mist uppercase">Sync · Clean · Check</span>
-          <span className="text-[14px] text-fog">Out: the dashboard, reminders, a monthly report</span>
+          <span className="text-[15px] font-medium text-mist">Synced, cleaned and checked</span>
+          <span className="text-[15px] text-fog">Out: the dashboard, reminders and a monthly report</span>
           <span aria-hidden="true" className="wiring-scan" />
         </div>
 
@@ -211,7 +218,7 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
         </svg>
 
         <div data-dash-stage="" className="relative mt-[clamp(48px,7vh,80px)] perspective-[1800px] md:px-[7%]">
-          <div data-dash="" data-line="foot" className="relative mx-auto max-w-[1080px] origin-top overflow-hidden rounded-[22px] shadow-[0_60px_100px_-50px_rgba(7,18,43,.55),0_1px_2px_rgba(10,12,17,.06)] will-change-transform">
+          <div data-dash="" className="relative mx-auto max-w-[1080px] origin-top overflow-hidden rounded-[22px] shadow-[0_60px_100px_-50px_rgba(7,18,43,.55),0_1px_2px_rgba(10,12,17,.06)] will-change-transform">
             <Asset
               src="command/dashboard-light.svg"
               label="Command dashboard: followers, win rate, clips shipped, sponsor deliverables, audience growth, roster win rates, this week and sources of truth"
@@ -236,6 +243,10 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
           {WIDGETS.map((w) => (
             <Widget key={w.src} {...w} />
           ))}
+        </div>
+
+        <div data-line="foot" data-reveal="" className="mt-[clamp(56px,8vh,88px)]">
+          <Gets items={OFFER} cols="md:grid-cols-3" />
         </div>
       </div>
     </Room>
@@ -271,7 +282,7 @@ function Widget({ src, label, source, speed, place }: (typeof WIDGETS)[number]) 
           }}
         />
       </div>
-      <figcaption aria-hidden="true" className="label absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 -translate-y-1 rounded-full bg-ink px-2.5 py-1.5 text-[10px] whitespace-nowrap text-paper opacity-0 transition-[opacity,translate] duration-200 ease-out-expo group-hover:translate-y-0 group-hover:opacity-100 group-data-[dragging=true]:opacity-100">
+      <figcaption aria-hidden="true" className="label absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 -translate-y-1 rounded-full bg-ink px-2.5 py-1.5 text-[12px] whitespace-nowrap text-paper opacity-0 transition-[opacity,translate] duration-200 ease-out-expo group-hover:translate-y-0 group-hover:opacity-100 group-data-[dragging=true]:opacity-100">
         {source}
       </figcaption>
     </figure>
@@ -283,7 +294,7 @@ const GETS: [string, string][] = [
   ['Team performance', 'Win rates, form, scrim results per roster.'],
   ['Calendar', 'Matches, scrims, content drops, travel.'],
   ['Reminders', 'Sponsor deliverables, contracts, payouts.'],
-  ['Linked databases', 'Everything your org already has — one place, one truth.'],
+  ['Linked databases', 'Everything your org already has, in one place, with one truth.'],
   ['Maintained two ways', 'Automations keep it fresh; esports pros keep it right.'],
 ];
 

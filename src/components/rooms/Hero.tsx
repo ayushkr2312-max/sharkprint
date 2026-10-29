@@ -10,10 +10,10 @@ import { onIntro } from '@/lib/intro';
 // The dock: the four pillars side by side, each with one real output rising out of it,
 // and each a way into its room.
 const DOCK = [
-  { id: 'engine', n: '01', name: 'Engine', kind: 'Clips & content', src: 'engine/clip-tactical.svg', label: 'Engine: a clutch clip, cut for Shorts' },
-  { id: 'intel', n: '02', name: 'Intel', kind: 'Prep & scouting', src: 'intel/scouting-report.svg', label: 'Intel: a scouting report' },
-  { id: 'command', n: '03', name: 'Command', kind: 'Live dashboard', src: 'command/widget-winrate.svg', label: 'Command: the win-rate widget' },
-  { id: 'forge', n: '04', name: 'Forge', kind: 'Sites & tools', src: 'forge/brand-site.svg', label: 'Forge: a brand website' },
+  { id: 'engine', name: 'Engine', kind: 'Clips & content', src: 'engine/clip-tactical.svg', label: 'Engine: a clutch clip, cut for Shorts' },
+  { id: 'intel', name: 'Intel', kind: 'Prep & scouting', src: 'intel/scouting-report.svg', label: 'Intel: a scouting report' },
+  { id: 'command', name: 'Command', kind: 'Live dashboard', src: 'command/widget-winrate.svg', label: 'Command: the win-rate widget' },
+  { id: 'forge', name: 'Forge', kind: 'Sites & tools', src: 'forge/brand-site.svg', label: 'Forge: a brand website' },
 ];
 
 /** A word whose letters rise out of its own baseline. */
@@ -75,13 +75,11 @@ export function Hero() {
       labelledBy="hero-title"
       className="flex min-h-svh flex-col overflow-hidden pt-[104px] md:pt-[112px]"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute top-[30%] left-1/2 z-0 size-[min(1300px,130vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,#FFFFFF_0%,rgba(251,249,243,.7)_35%,transparent_68%)]" />
-      <div aria-hidden="true" className="hero-grain pointer-events-none absolute inset-0 z-0" />
 
       <div className="wrap flex flex-1 flex-col">
         <div className="hx">
           <h1 id="hero-title" className="hx-title">
-            <span className="sr-only">Your org&apos;s edge, engineered.</span>
+            <span className="sr-only text-[16px]">Your org&apos;s edge, engineered.</span>
             <span aria-hidden="true" className="hx-l1">
               <Word>YOUR</Word> <Word>ORG&apos;S</Word><br className="md:hidden" /> <Word>EDGE,</Word>
             </span>
@@ -113,7 +111,6 @@ export function Hero() {
                     <span className="hx-tile-name">{d.name}</span>
                     <span className="hx-tile-kind">{d.kind}</span>
                   </span>
-                  <span className="hx-tile-n">{d.n}</span>
                 </span>
                 <span aria-hidden="true" className="hx-tile-go"><Arrow dir="down" className="size-[14px]" /></span>
                 <span data-art="" className="hx-tile-art">

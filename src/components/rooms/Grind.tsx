@@ -4,20 +4,20 @@ import { useRef } from 'react';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { Icon, PILLARS, type Pillar } from '@/components/ui/Icon';
-import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
+import { Heading, Lead, Accent } from '@/components/ui/type';
 import { gsap, useGSAP } from '@/lib/gsap';
 
-const TOOLS: { label: string; to: Pillar; x: string; y: string; r: number; c: string }[] = [
-  { label: 'roster_final_v7.xlsx', to: 'intel', x: '2%', y: '12%', r: -6, c: '#7B808C' },
-  { label: 'Sponsor DMs (43)', to: 'command', x: '50%', y: '6%', r: 5, c: '#E4705A' },
-  { label: 'Who paid for this?', to: 'command', x: '8%', y: '30%', r: 4, c: '#5E8BFF' },
-  { label: 'Canva · 3 seats', to: 'forge', x: '55%', y: '27%', r: -7, c: '#7B808C' },
-  { label: 'Clip ideas.txt', to: 'engine', x: '0%', y: '48%', r: -3, c: '#E4705A' },
-  { label: 'Scrim sheet (old)', to: 'intel', x: '48%', y: '46%', r: 8, c: '#5E8BFF' },
-  { label: 'Bot broke again', to: 'forge', x: '10%', y: '66%', r: 6, c: '#7B808C' },
-  { label: 'Notion?', to: 'command', x: '62%', y: '64%', r: -5, c: '#E4705A' },
-  { label: 'Invoices / misc', to: 'command', x: '2%', y: '84%', r: -4, c: '#5E8BFF' },
-  { label: 'VODs to cut: 19', to: 'engine', x: '50%', y: '82%', r: 3, c: '#7B808C' },
+const TOOLS: { label: string; to: Pillar; x: string; y: string; r: number }[] = [
+  { label: 'roster_final_v7.xlsx', to: 'intel', x: '2%', y: '12%', r: -6 },
+  { label: 'Sponsor DMs (43)', to: 'command', x: '50%', y: '6%', r: 5 },
+  { label: 'Who paid for this?', to: 'command', x: '8%', y: '30%', r: 4 },
+  { label: 'Canva, 3 seats', to: 'forge', x: '55%', y: '27%', r: -7 },
+  { label: 'Clip ideas.txt', to: 'engine', x: '0%', y: '48%', r: -3 },
+  { label: 'Scrim sheet (old)', to: 'intel', x: '48%', y: '46%', r: 8 },
+  { label: 'Bot broke again', to: 'forge', x: '10%', y: '66%', r: 6 },
+  { label: 'Notion?', to: 'command', x: '62%', y: '64%', r: -5 },
+  { label: 'Invoices / misc', to: 'command', x: '2%', y: '84%', r: -4 },
+  { label: 'VODs to cut: 19', to: 'engine', x: '50%', y: '82%', r: 3 },
 ];
 
 const SYS_BG: Record<Pillar, string> = { engine: 'bg-strike', intel: 'bg-navy', command: 'bg-trench', forge: 'bg-abyss' };
@@ -68,11 +68,12 @@ export function Grind() {
       <div className="relative flex flex-col justify-center py-[88px] md:min-h-svh md:pt-[120px]">
         <div className="wrap grid grid-cols-1 items-center gap-[clamp(24px,4vw,64px)] lg:grid-cols-[.9fr_1.5fr]">
           <div className="grid content-start gap-6">
-            <Eyebrow>The grind</Eyebrow>
-            <Heading id="grind-title" size="h1">
+            <Heading data-line="in" id="grind-title" size="h1">
               Growing orgs<br />run on <Accent touch="tape">duct tape.</Accent>
             </Heading>
-            <Lead>Spreadsheets, DMs and a dozen apps, and big calls made on gut feel.</Lead>
+            <Lead>
+              Spreadsheets, DMs and a dozen apps, and big calls made on gut feel. It holds until the season gets busy: clips go out late, a signing rests on one highlight reel, and the sponsor report eats a weekend.
+            </Lead>
           </div>
 
           <div className="hidden grid-cols-[1fr_40px_200px] items-center gap-4 md:grid min-[1101px]:grid-cols-[1fr_64px_minmax(200px,250px)]">
@@ -80,10 +81,9 @@ export function Grind() {
               {TOOLS.map((t, i) => (
                 <div key={t.label} data-tool={t.to} className="absolute will-change-transform" style={{ left: t.x, top: t.y, transform: `rotate(${t.r}deg)` }}>
                   <span
-                    className="inline-flex animate-drift items-center gap-2.5 whitespace-nowrap rounded-[10px] border border-hairline bg-paper px-3 py-[9px] text-[13px] font-medium text-ink-60 shadow-1 min-[1101px]:px-4 min-[1101px]:py-[11px] min-[1101px]:text-[14px]"
+                    className="inline-flex animate-drift items-center whitespace-nowrap rounded-[10px] border border-hairline bg-paper px-3 py-[9px] text-[13px] font-medium text-ink-60 shadow-1 min-[1101px]:px-4 min-[1101px]:py-[11px] min-[1101px]:text-[14px]"
                     style={i % 2 ? { animationDelay: `${-1.7 - (i % 3)}s`, animationDuration: `${5 + (i % 3) * 0.6}s` } : undefined}
                   >
-                    <i className="size-2.5 flex-none rounded-full" style={{ background: t.c }} />
                     {t.label}
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export function Grind() {
             {/* The Lateral Line leaves from under the stack, below Forge. */}
             <div data-line="foot" className="grid gap-2.5">
               {PILLARS.map((p) => (
-                <div key={p} data-sys={p} data-lit="false" className={`group flex h-[54px] items-center gap-3 rounded-xl px-4 font-mono text-[12px] font-semibold tracking-[.16em] text-white uppercase ${SYS_BG[p]}`}>
+                <div key={p} data-sys={p} data-lit="false" className={`group flex h-[54px] items-center gap-3 rounded-xl px-4 text-[16px] font-semibold text-white capitalize ${SYS_BG[p]}`}>
                   <Icon name={p} className="size-[22px]" />
                   <span className="flex-1">{p}</span>
                   <i className="size-2 rounded-full bg-white/20 transition-[background-color,box-shadow] duration-[450ms] group-data-[lit=true]:bg-signal group-data-[lit=true]:shadow-[0_0_0_4px_rgba(63,208,143,.2)]" />

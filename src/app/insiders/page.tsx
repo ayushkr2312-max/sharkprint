@@ -4,7 +4,7 @@ import { Humans } from '@/components/rooms/Humans';
 import { Icon, type Pillar } from '@/components/ui/Icon';
 import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
 
-const title = 'Insiders — who reviews what';
+const title = 'Insiders: who reviews what';
 const description = 'Machines do the reps. Insiders make the calls: every clip, report, dashboard and build is reviewed by people who’ve worked inside esports orgs.';
 export const metadata: Metadata = { title, description, openGraph: { title, description } };
 
@@ -36,7 +36,7 @@ export default function InsidersPage() {
             <Heading id="roles-title" size="h2">
               People who&apos;ve <Accent>done the job.</Accent>
             </Heading>
-            <Lead>Every output has an insider who signs it off — matched to the work, not to whoever is free.</Lead>
+            <Lead>Every output has an insider who signs it off, matched to the work, not to whoever is free.</Lead>
           </div>
           <ul className="border-t border-hairline">
             {ROLES.map((r) => (
@@ -45,7 +45,7 @@ export default function InsidersPage() {
                   <h3 className="font-display text-[22px] leading-[1.1] font-bold tracking-[-0.01em]">{r.role}</h3>
                   <div className="flex flex-wrap gap-1.5">
                     {r.pillars.map((p) => (
-                      <span key={p} className="label inline-flex items-center gap-1.5 rounded-full bg-ice px-2.5 py-1 text-[10px] font-semibold text-strike">
+                      <span key={p} className="label inline-flex items-center gap-1.5 rounded-full bg-ice px-2.5 py-1 text-[12px] font-semibold text-strike capitalize">
                         <Icon name={p} strokeWidth={8} className="size-3.5" />
                         {p}
                       </span>

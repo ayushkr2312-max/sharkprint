@@ -9,10 +9,11 @@ import { onPageReady } from '@/lib/page-ready';
 /* The Lateral Line (concept p.04): one 2px Strike stroke, drawn by scroll with a glowing
    head, that only shows itself between rooms. In each room it:
    - comes down out of the gap above and runs in under the room's label, becoming its
-     underline (the label lights up as it arrives);
+     underline (the label lights up as it arrives), or, where a room has no label, turns
+     in and stops just short of its heading ([data-line="in"]);
    - is gone while you read the room;
    - comes back out from under the room's last piece ([data-line="foot"]) and runs down
-     through the gap to the next room's label.
+     through the gap to the next room.
    In the footer it turns into the underline of the SHARKPRINT wordmark. It runs in a lane
    outside the content column and crosses only through empty space. */
 
@@ -155,6 +156,8 @@ export function LateralLine() {
         const plans: Plan[] = [];
         const underline = host.querySelector<HTMLElement>('[data-footer-underline]');
         const eyebrow = Array.from(host.querySelectorAll<HTMLElement>('[data-eyebrow]')).find(isShown);
+        // A room without a label points at its heading ([data-line="in"]) instead.
+        const heading = eyebrow ? undefined : Array.from(host.querySelectorAll<HTMLElement>('[data-line="in"]')).find(isShown);
 
         if (underline) {
           // The footer: down out of the last room and one rounded turn into the wordmark's underline.
@@ -176,6 +179,19 @@ export function LateralLine() {
             route.move(X, 0);
             route.runTo(tx + tr.width, y);
             plans.push({ route, label: { el: eyebrow, x: tx, y }, marks: [{ x: tx + tr.width, y, at: 'end' }] });
+          } else if (heading) {
+            // In: down out of the gap, then a short turn that stops just before the heading's
+            // first line, halfway up it.
+            const b = boxWithin(heading, host);
+            const range = document.createRange();
+            range.selectNodeContents(heading);
+            const first = Array.from(range.getClientRects()).find((r) => r.width > 0) ?? heading.getBoundingClientRect();
+            const x = first.left - hostLeft - (mobile ? 6 : 16);
+            const y = b.y + first.height / 2;
+            const route = new Route(R);
+            route.move(X, 0);
+            route.runTo(Math.max(X + 4, x), y);
+            plans.push({ route, marks: [{ x: Math.max(X + 4, x), y, at: 'end' }] });
           }
           // Out: from under the room's last piece, back to the lane and down into the next room.
           const marked = Array.from(host.querySelectorAll<HTMLElement>('[data-line="foot"]')).filter(isShown);
@@ -190,7 +206,7 @@ export function LateralLine() {
             route.cross(X, y0 + Math.min(40, (h - y0) * 0.45));
             route.down(h);
             plans.push({ route, marks: [{ x: x0, y: y0, at: 'start' }] });
-          } else if (!eyebrow) {
+          } else if (!eyebrow && !heading) {
             const route = new Route(R);
             route.move(X, 0);
             route.down(h);

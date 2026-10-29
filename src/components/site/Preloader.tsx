@@ -86,8 +86,8 @@ export function Preloader() {
           ))}
         </p>
       </div>
-      <span data-count="" className="absolute bottom-7 left-[var(--gutter)] font-mono text-[13px] tracking-[.16em] text-mist">000</span>
-      <span className="label absolute right-[var(--gutter)] bottom-7 text-[11px] text-mist/55">Click or press any key to skip</span>
+      <span data-count="" className="absolute bottom-7 left-[var(--gutter)] font-mono text-[13px] text-mist tabular-nums">000</span>
+      <span className="label absolute right-[var(--gutter)] bottom-7 text-[13px] text-mist/75">Click or press any key to skip</span>
     </div>
   );
 }

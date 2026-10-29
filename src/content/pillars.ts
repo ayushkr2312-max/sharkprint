@@ -22,8 +22,8 @@ export type PillarContent = {
 
 export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
   engine: {
-    title: 'Engine — Every moment, clipped',
-    description: 'Hours of VOD in. A month of shorts out — timestamped, cut, subtitled and edited, at whatever volume you need.',
+    title: 'Engine: every moment, clipped',
+    description: 'Hours of VOD in. A month of shorts out: timestamped, cut, subtitled and edited, at whatever volume you need.',
     tones: ['creme', 'deep'],
     words: ['We stream every weekend.', 'We post twice a month.', 'The best moments die in the VOD.'],
     how: {
@@ -33,7 +33,7 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
         ['02 Find moments', 'Find moments', 'Clutches, aces, crowd pops and comms gold are flagged automatically. Editors who know the scene pick the ones that ship.'],
         ['03 Clip', 'Clip', 'Each pick is cut for Shorts, Reels and TikTok in 9:16, and 1:1 for feeds.'],
         ['04 Subtitle', 'Subtitle', 'Karaoke subtitles, burned in and on-brand, with word-by-word highlight.'],
-        ['05 Edit', 'Edit', 'Hooks, zooms, captions and end cards — the basic edit that makes a clip stop the scroll.'],
+        ['05 Edit', 'Edit', 'Hooks, zooms, captions and end cards: the basic edit that makes a clip stop the scroll.'],
         ['06 Ship', 'Ship', 'Posted on your calendar with captions, or handed over ready to post. The month fills itself.'],
       ],
     },
@@ -50,26 +50,26 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
     workflow: {
       automation: ['Logs and timestamps every VOD', 'Flags candidate moments by type', 'Drafts cuts and subtitles', 'Schedules posts and captions'],
       insiders: ['Pick the moments that ship', 'Write the hooks, tune the edit', 'Approve every clip before it posts'],
-      time: ['Turnaround', '48–72h', 'per batch, at a monthly volume you set.'],
+      time: ['Turnaround', '48 to 72h', 'per batch, at a monthly volume you set.'],
     },
     faq: [
       ['What do you need from us to start?', 'Links to your stream VODs and match recordings, wherever they already live. We log and timestamp from there.'],
       ['Which formats do you deliver?', '9:16 for Shorts, Reels and TikTok, and 1:1 for feeds. Subtitles are burned in and match your brand.'],
       ['Who decides which moments get clipped?', 'Machines flag the moments. Editors who know your scene pick what ships, and you can veto anything.'],
       ['Can we change volume month to month?', 'Yes. You set the monthly volume; the engine scales and the price is shaped around it.'],
-      ['Do you post for us?', 'We can — auto posts and captions are part of Engine. Or we hand over a ready-to-post folder on schedule.'],
+      ['Do you post for us?', 'We can. Auto posts and captions are part of Engine. Or we hand over a ready-to-post folder on schedule.'],
     ],
   },
 
   intel: {
-    title: 'Intel — Know them before you face them',
-    description: 'Scouting reports for any scene, prep packs for every roster — your own analyst, without hiring one per team.',
+    title: 'Intel: prep to win, scout to grow',
+    description: 'Scouting reports for any scene, prep packs for every roster: your own analyst, without hiring one per team.',
     tones: ['trench', 'abyss'],
     words: ['We sign players off highlight reels.', 'We prep the night before.', 'Half our calls are gut feel.'],
     how: {
       title: ['Pick a scene,', 'get a report.'],
       steps: [
-        ['01 Pick a scene', 'Pick a scene', 'Tell us the regions and games you care about — India BGMI, EU Valorant, SEA MLBB, wherever your next roster comes from.'],
+        ['01 Pick a scene', 'Pick a scene', 'Tell us the regions and games you care about: India BGMI, EU Valorant, SEA MLBB, wherever your next roster comes from.'],
         ['02 Shortlist', 'Shortlist', 'Data ranks players, staff and creators in that scene by fit for your roster and your budget.'],
         ['03 Scout', 'Scout', "Scouts who know the scene watch the shortlist and write the notes data can't."],
         ['04 Report', 'Report', 'A fit score, the stats that matter for the role, and a scout note with a clear recommendation.'],
@@ -102,17 +102,17 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
   },
 
   command: {
-    title: 'Command — Your whole org, one screen',
-    description: 'Socials, team stats, calendar and reminders — linked to everything you have, kept true by automation and esports pros.',
+    title: 'Command: your whole org, one screen',
+    description: 'Socials, team stats, calendar and reminders, linked to everything you have, kept true by automation and esports pros.',
     tones: ['deep', 'creme'],
     words: ['Our numbers live in nine tabs and three heads.', "Nobody knows what's due to sponsors.", 'Monday is spent finding things.'],
     how: {
       title: ['Build your dashboard,', 'keep it true.'],
       steps: [
-        ['01 Connect', 'Connect', 'Socials, match data, calendar, sponsors, finance and Discord — everything your org already uses.'],
+        ['01 Connect', 'Connect', 'Socials, match data, calendar, sponsors, finance and Discord: everything your org already uses.'],
         ['02 Clean', 'Clean', 'We turn scattered sheets and apps into clean, linked databases. One place, one truth.'],
         ['03 Build', 'Build', 'Your dashboard, with the widgets your staff actually check: followers, win rates, clips shipped, deliverables.'],
-        ['04 Keep true', 'Keep true', 'Automations keep numbers fresh. Esports pros check the entries that need judgement — sponsors, finance, calendar.'],
+        ['04 Keep true', 'Keep true', 'Automations keep numbers fresh. Esports pros check the entries that need judgement: sponsors, finance, calendar.'],
         ['05 Remind', 'Remind', "Sponsor deliverables, contracts and payouts surface before they're due, not after."],
       ],
     },
@@ -129,10 +129,10 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
     workflow: {
       automation: ['Syncs socials, match data and calendars', 'Refreshes every tile on schedule', 'Flags anything that stops syncing'],
       insiders: ['Check sponsor, finance and calendar entries', 'Tidy the databases as the org grows', 'Flag what needs a decision this week'],
-      time: ['Setup', '2–4 weeks', "then it's live and maintained."],
+      time: ['Setup', '2 to 4 weeks', "then it's live and maintained."],
     },
     faq: [
-      ['What can we connect?', 'Socials, match data, calendars, your sponsor tracker, finance sheets and Discord — whatever your org already runs on.'],
+      ['What can we connect?', 'Socials, match data, calendars, your sponsor tracker, finance sheets and Discord: whatever your org already runs on.'],
       ['Do we have to switch tools?', 'No. Command links what you already use into clean databases and puts it on one screen.'],
       ['Who keeps the numbers accurate?', 'Two ways: automations keep synced sources fresh, and esports pros check the entries that need judgement.'],
       ['How long does setup take?', "Usually two to four weeks, depending on how many sources you have. Then it's live."],
@@ -141,14 +141,14 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
   },
 
   forge: {
-    title: 'Forge — Built to carry your name',
+    title: 'Forge: built to carry your name',
     description: 'Brand sites, tournament platforms, merch stores, campaign microsites and the internal tools your staff actually use.',
     tones: ['abyss', 'trench'],
     words: ['Our site still says Season 1.', 'Registrations run through a form.', 'The shop is a DM.'],
     how: {
       title: ['Blueprint first,', 'then live.'],
       steps: [
-        ['01 Blueprint', 'Blueprint', 'Every build starts as a wireframe you can read and approve — pages, flows and what each one is for.'],
+        ['01 Blueprint', 'Blueprint', 'Every build starts as a wireframe you can read and approve: pages, flows and what each one is for.'],
         ['02 Design', 'Design', 'Your brand, your rosters, your partners. Designed to look like your org, not a template.'],
         ['03 Build', 'Build', 'Brand sites, tournament platforms, merch stores, microsites and staff tools, with the backends behind them.'],
         ['04 Launch', 'Launch', 'Staff trained, docs handed over, so your team can update rosters and drops without us.'],
@@ -173,10 +173,10 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       time: ['Timeline', 'Scoped', 'per project, after the blueprint.'],
     },
     faq: [
-      ['What can you build?', 'Brand websites, tournament platforms, merch stores, campaign microsites and internal web apps — plus the backends behind them.'],
+      ['What can you build?', 'Brand websites, tournament platforms, merch stores, campaign microsites and internal web apps, plus the backends behind them.'],
       ['How is a project priced?', 'Scoped per project, once the blueprint tells us what you actually need.'],
       ['Can our staff update the site?', 'Yes. We train your team at launch and hand over docs, so rosters, matches and drops stay current without us.'],
-      ['Do you handle tournament registration?', 'Yes — registration, brackets, results and an admin view for your ops team.'],
+      ['Do you handle tournament registration?', 'Yes: registration, brackets, results and an admin view for your ops team.'],
       ['Why start with a blueprint?', "So you can see and approve the structure before anything is designed or built. It's the cheapest point to change your mind."],
     ],
   },
@@ -187,5 +187,5 @@ export const FORGE_FIVE: [string, string][] = [
   ['Tournaments', 'Registration, brackets, results, admin.'],
   ['Merch', 'Drops, sizes, checkout, inventory.'],
   ['Microsites', 'Season launches, player reveals, sponsor activations.'],
-  ['Web apps', 'Scrim schedulers, VOD queues, payouts — staff tools.'],
+  ['Web apps', 'Staff tools: scrim schedulers, VOD queues, payouts.'],
 ];

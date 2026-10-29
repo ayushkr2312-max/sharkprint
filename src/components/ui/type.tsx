@@ -20,7 +20,7 @@ export { Accent } from './Accent';
 
 export function Lead({ className, children, reveal = true, ...rest }: ComponentPropsWithoutRef<'p'> & Reveal) {
   return (
-    <p data-reveal={reveal ? '' : undefined} className={cn('max-w-[34em] text-lead text-ink-60 on-dark:text-fog', className)} {...rest}>
+    <p data-reveal={reveal ? '' : undefined} className={cn('max-w-[34em] text-pretty text-lead text-ink-60 on-dark:text-fog', className)} {...rest}>
       {children}
     </p>
   );

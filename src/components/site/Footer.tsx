@@ -19,7 +19,7 @@ export function Footer() {
         <span className="label">© 2026 Finishers Sharkprint</span>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-1">
           {NAV.map(([label, href]) => (
-            <Link key={href} href={href} className="label py-2.5 tracking-[.14em] no-underline hover:text-strike">
+            <Link key={href} href={href} className="label py-2.5 no-underline hover:text-strike">
               {label}
             </Link>
           ))}

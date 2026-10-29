@@ -5,7 +5,7 @@ import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { iconBtn } from '@/components/ui/buttons';
 import { SHARK } from '@/components/ui/Icon';
-import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
+import { Heading, Lead, Accent } from '@/components/ui/type';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { svgPoint } from '@/lib/env';
 import { getLenis, lockScroll } from '@/lib/scroll';
@@ -235,8 +235,7 @@ export function Orbit() {
     <Room ref={ref} tone="creme" room="orbit" id="orbit" pad={false} labelledBy="orbit-title" className="overflow-hidden">
       <div data-orbit-stage="" className="relative py-[72px] md:py-[clamp(88px,12vh,150px)] lg:h-svh lg:py-0">
         <div data-orbit-statement="" className="wrap pointer-events-none lg:absolute lg:inset-x-0 lg:top-[max(104px,13vh)] lg:z-[3]">
-          <Eyebrow>Around the core</Eyebrow>
-          <p className="orbit-say mt-8 font-display text-[clamp(44px,6vw,104px)] leading-[.98] font-bold tracking-[-0.03em]">
+          <p data-line="in" className="orbit-say font-display text-[clamp(44px,6vw,104px)] leading-[.98] font-bold tracking-[-0.03em]">
             {STATEMENT.map(([text, em], s) => {
               const words = text.split(' ').map((w, i) => (
                 <Fragment key={i}>
@@ -260,6 +259,9 @@ export function Orbit() {
             <Heading data-orbit-in="" id="orbit-title" size="h2" reveal={false}>
               Everything else, <Accent touch="orbit">in orbit.</Accent>
             </Heading>
+            <Lead data-orbit-in="" reveal={false}>
+              The jobs between the pillars, done by the same team: bots for your Discord, sponsor decks, spend audits, merch and market reads.
+            </Lead>
             <ul>
               {ROWS.map(([title, tag, sats]) => {
                 const on = () => { spin.current?.pause(); highlight.current(sats); };
@@ -272,17 +274,17 @@ export function Orbit() {
                       onPointerLeave={off}
                       onFocus={on}
                       onBlur={off}
-                      className="relative flex min-h-14 w-full items-center justify-between gap-4 border-b border-hairline py-3 text-left text-[17px] font-semibold transition-[color,padding] duration-[450ms] ease-out-expo before:absolute before:left-0 before:opacity-0 before:transition-opacity before:content-['→'] hover:pl-[22px] hover:text-strike hover:before:opacity-100 focus-visible:pl-[22px] focus-visible:text-strike focus-visible:before:opacity-100"
+                      className="relative flex min-h-12 w-full items-center justify-between gap-4 border-b border-hairline py-3 text-left text-[17px] font-semibold transition-colors duration-300 hover:text-strike focus-visible:text-strike"
                     >
                       <span>{title}</span>
-                      <span className="label text-[11px] text-muted">{tag}</span>
+                      <span className="text-right text-[14px] font-normal text-muted">{tag}</span>
                     </button>
                   </li>
                 );
               })}
             </ul>
             <button data-orbit-in="" type="button" onClick={openSheet} aria-haspopup="dialog" className="inline-flex min-h-11 items-center gap-2 self-start justify-self-start border-b-[1.5px] border-current pb-0.5 font-semibold text-strike hover:text-ink">
-              See all services →
+              See all services
             </button>
           </div>
 
@@ -311,7 +313,6 @@ export function Orbit() {
       >
         <div className="relative grid max-h-[88vh] gap-5 overflow-auto rounded-[28px_28px_20px_20px] bg-paper p-[clamp(24px,4vw,44px)] text-ink shadow-2">
           <button type="button" aria-label="Close" onClick={() => sheet.current?.close()} className={`${iconBtn} absolute top-[18px] right-[18px]`}>✕</button>
-          <Eyebrow>The automation core</Eyebrow>
           <h3 id="core-title" className="text-balance font-display text-h2 font-bold">
             One engine room <Accent>under every pillar.</Accent>
           </h3>
@@ -319,7 +320,7 @@ export function Orbit() {
           <dl className="border-t border-hairline">
             {LANDING.map(([k, v]) => (
               <div key={k} className="grid grid-cols-[110px_1fr] gap-4 border-b border-hairline py-3">
-                <dt className="label pt-0.5 font-bold tracking-[.14em] text-strike">{k}</dt>
+                <dt className="pt-0.5 text-[15px] font-semibold text-strike">{k}</dt>
                 <dd className="text-[15px] text-ink-60">{v}</dd>
               </div>
             ))}

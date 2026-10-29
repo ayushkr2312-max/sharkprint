@@ -18,7 +18,7 @@ export function SampleRail({ items, label, className }: { items: Sample[]; label
       {items.map((s) => (
         <figure key={s.src} className={cn('grid gap-3', WIDTH[s.size ?? 'default'])}>
           <Asset src={s.src} label={s.label} className={s.size === 'tall' ? '' : 'overflow-hidden rounded-[18px]'} />
-          <figcaption className="label text-[11px] font-semibold text-muted on-dark:text-mist">{s.caption}</figcaption>
+          <figcaption className="label text-[12px] font-semibold text-muted on-dark:text-mist">{s.caption}</figcaption>
         </figure>
       ))}
     </DragRail>

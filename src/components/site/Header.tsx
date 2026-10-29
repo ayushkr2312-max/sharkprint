@@ -39,15 +39,16 @@ export function Header() {
     return () => io.disconnect();
   }, [home]);
 
-  // The marker slides under the active link.
+  // The marker slides under the active link: a pill cut out of a bar the list's width, so
+  // only its clip moves.
   useEffect(() => {
     const m = marker.current;
     const a = active ? list.current?.querySelector<HTMLElement>(`[data-id="${active}"]`) : null;
     if (!m) return;
     m.style.opacity = a ? '1' : '0';
     if (a) {
-      m.style.width = a.offsetWidth + 'px';
-      m.style.transform = `translateX(${a.offsetLeft}px)`;
+      const right = m.offsetWidth - a.offsetLeft - a.offsetWidth;
+      m.style.clipPath = `inset(0 ${right}px 0 ${a.offsetLeft}px round 999px)`;
     }
   }, [active]);
 
@@ -72,7 +73,7 @@ export function Header() {
 
   return (
     <>
-      <a href="#main" className="fixed -top-16 left-4 z-[200] rounded-[10px] bg-ink px-4 py-2.5 font-semibold text-paper no-underline transition-[top] focus:top-4">
+      <a href="#main" className="fixed top-4 left-4 z-[200] -translate-y-24 rounded-[10px] bg-ink px-4 py-2.5 font-semibold text-paper no-underline transition-transform focus:translate-y-0">
         Skip to content
       </a>
       <header
@@ -84,11 +85,11 @@ export function Header() {
       >
         <nav
           aria-label="Primary"
-          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper/80 pr-2 pl-5 shadow-[inset_0_1px_0_rgba(255,255,255,.9),0_18px_40px_-24px_rgba(7,18,43,.45)] backdrop-blur-[14px] backdrop-saturate-[1.4] md:w-auto md:gap-6 lg:gap-10"
+          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-6 lg:gap-10"
         >
           <Link
             href={home ? '#top' : '/'}
-            aria-label="Finishers Sharkprint — home"
+            aria-label="Finishers Sharkprint, home"
             className="flex min-h-11 items-center gap-3 text-ink no-underline"
           >
             <SharkMark className="h-6 w-auto text-ink [--dot:var(--color-strike)]" />
@@ -98,7 +99,7 @@ export function Header() {
           </Link>
 
           <div ref={list} className="relative hidden md:block">
-            <span ref={marker} aria-hidden="true" className="absolute top-0 left-0 h-10 rounded-full bg-ink opacity-0 transition-[transform,width,opacity] duration-500 ease-out-expo" />
+            <span ref={marker} aria-hidden="true" className="absolute inset-x-0 top-0 h-10 bg-ink opacity-0 transition-[clip-path,opacity] duration-500 ease-out-expo [clip-path:inset(0_100%_0_0_round_999px)]" />
             <ul className="flex items-center">
               {NAV.map(([label, id]) => (
                 <li key={id}>
@@ -143,7 +144,6 @@ export function Header() {
                   className="flex items-center justify-between rounded-[20px] px-4 py-3 font-display text-[44px] leading-none font-extrabold tracking-[-0.01em] text-ink no-underline [font-stretch:58%] hover:bg-creme"
                 >
                   {label}
-                  <span aria-hidden="true" className="text-[22px] text-strike">→</span>
                 </Link>
               </li>
             ))}
