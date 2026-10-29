@@ -113,8 +113,12 @@ export function Hero() {
                   </span>
                 </span>
                 <span aria-hidden="true" className="hx-tile-go"><Arrow dir="down" className="size-[14px]" /></span>
-                <span data-art="" className="hx-tile-art">
-                  <Asset src={d.src} eager label={d.label} />
+                {/* The stylesheet places the art and lifts it on hover; the scroll climb moves
+                    the inner span, so the two never overwrite each other. */}
+                <span className="hx-tile-art">
+                  <span data-art="" className="block">
+                    <Asset src={d.src} eager label={d.label} />
+                  </span>
                 </span>
               </a>
             ))}
