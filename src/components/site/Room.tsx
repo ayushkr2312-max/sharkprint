@@ -39,7 +39,7 @@ export function Room({ tone = 'creme', room, id, className, pad = true, labelled
       aria-label={label}
       className={cn('relative overflow-x-clip', pad && 'py-[72px] md:py-[clamp(88px,12vh,150px)]', TONES[tone], className)}
     >
-      <LineSvg />
+      <LineSvg announce={Tag !== 'footer'} />
       {children}
     </Tag>
   );
