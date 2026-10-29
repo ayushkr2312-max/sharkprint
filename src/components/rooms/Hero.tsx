@@ -97,7 +97,7 @@ export function Hero() {
           </p>
           {/* The Lateral Line is born under the button. */}
           <div data-rest="" data-line="foot" className="hx-cta-row">
-            <a href="#engine" className="hx-cta">
+            <a href="#stack" className="hx-cta">
               See the stack
               <span aria-hidden="true" className="hx-cta__ring"><Arrow dir="down" className="size-[18px]" /></span>
             </a>

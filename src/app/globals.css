@@ -420,6 +420,24 @@ html[data-js] [data-on="true"] > .acc-route { clip-path: inset(0); }
 html[data-js] .acc-dot { transform: translateX(-100%); opacity: 0; transition: transform 1.1s var(--ease-in-out-expo) .4s, opacity .2s .4s; }
 html[data-js] [data-on="true"] > .acc-dot { transform: none; opacity: 1; }
 
+/* Stack: four blocks, one per pillar, drop into a row under the words. */
+.acc-stack { position: absolute; left: 0; right: 0; bottom: -.36em; display: flex; gap: .16em; height: .12em; }
+.acc-stack i { flex: 1; background: var(--acc); }
+html[data-js] .acc-stack i { opacity: 0; transform: translateY(-.7em); transition: opacity .2s, transform .5s var(--ease-out-expo); }
+html[data-js] .acc-stack i:nth-child(1) { transition-delay: .45s; }
+html[data-js] .acc-stack i:nth-child(2) { transition-delay: .57s; }
+html[data-js] .acc-stack i:nth-child(3) { transition-delay: .69s; }
+html[data-js] .acc-stack i:nth-child(4) { transition-delay: .81s; }
+html[data-js] [data-on="true"] > .acc-stack i { opacity: 1; transform: none; }
+
+/* Week: seven day-marks under the word fill in one after another, Monday to Sunday. */
+.acc-week {
+  position: absolute; left: 0; right: 0; bottom: -.34em; height: .1em;
+  background: repeating-linear-gradient(90deg, var(--acc) 0 calc((100% - 6 * .14em) / 7), transparent 0 calc((100% - 6 * .14em) / 7 + .14em));
+}
+html[data-js] .acc-week { clip-path: inset(0 100% 0 0); transition: clip-path .9s steps(7, end) .45s; }
+html[data-js] [data-on="true"] > .acc-week { clip-path: inset(0); }
+
 /* The hero's ENGINEERED.: drafting corners and a dimension line, after its letters land. */
 .hx-mark { position: relative; display: inline-block; }
 .hx-corners {
@@ -486,43 +504,153 @@ html[data-js] [data-on="true"] > .acc-dot { transform: none; opacity: 1; }
   .step[data-on] { translate: 6px 0; }
 }
 
-/* --------------------------------------------------------------- Compare, the alternatives
-   Three ways an org could go instead, each read the same way: what it does well, where it
-   runs out, and what changes with us. */
+/* --------------------------------------------------------------- Week, the match week
+   The four pillars as lanes across seven days. A playhead (--p, 0 to 1) runs through the
+   week with scroll; each item turns from queued (dashed) to out (solid, ticked) as its
+   day passes. Without script every item shows as out. Phones read it as a list of days. */
 
-.rivals { display: grid; border-top: 2px solid var(--color-ink); }
-.rival { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 3fr); gap: clamp(20px, 3vw, 48px); padding: clamp(28px, 4vh, 44px) 0; border-bottom: 1px solid var(--color-hairline); }
-.rival-name { font: 700 clamp(28px, 2.6vw, 40px)/1 var(--font-saira), sans-serif; letter-spacing: -.02em; color: var(--color-ink); }
-.rival dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
-.rival dt { margin-bottom: 8px; font-size: 14px; font-weight: 500; color: var(--color-muted); }
-.rival dd { font-size: 17px; line-height: 1.5; color: var(--color-ink-60); }
-.rival-us dt { color: var(--color-strike); }
-.rival-us dd { color: var(--color-ink); font-weight: 500; }
+.week { --p: 0; position: relative; padding: clamp(18px, 2.6vw, 32px); border: 1px solid var(--color-hairline); border-radius: 28px; background: rgb(251 249 243 / .72); }
+.week-grid { position: relative; display: grid; grid-template-columns: clamp(118px, 11vw, 150px) repeat(7, minmax(0, 1fr)); grid-template-rows: auto repeat(4, minmax(88px, auto)); column-gap: 8px; }
+.week-col { grid-column: calc(var(--d) + 2); grid-row: 1 / -1; border-left: 1px dashed var(--color-hairline); }
+.week-col[data-match] { border-left-style: solid; border-radius: 14px; background: rgb(36 87 245 / .06); }
+.week-rule { grid-column: 1 / -1; grid-row: calc(var(--l) + 2); border-top: 1px solid var(--color-hairline); }
+.week-now { position: relative; z-index: 1; grid-column: 2 / -1; grid-row: 1 / -1; pointer-events: none; }
+.week-now i { position: absolute; inset: 0; transform: translateX(calc(var(--p) * 100%)); }
+.week-now i::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--color-strike); box-shadow: 0 0 12px rgb(36 87 245 / .55); }
+.week-now i::after { content: ""; position: absolute; top: -4px; left: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-strike); box-shadow: 0 0 0 4px rgb(36 87 245 / .18); }
+
+.week-day { position: relative; z-index: 2; grid-row: 1; grid-column: calc(var(--d) + 2); padding: 4px 10px 16px; font-size: 15px; font-weight: 600; color: var(--color-muted); transition: color .3s; }
+.week-day small { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--color-strike); }
+.week-day[data-past] { color: var(--color-ink); }
+.week-day[data-now] { color: var(--color-strike); }
+.week-lane { position: relative; z-index: 2; grid-column: 1; grid-row: calc(var(--l) + 2); display: flex; align-items: center; gap: 10px; font: 700 19px/1 var(--font-saira), sans-serif; color: var(--color-ink); }
+.week-lane svg { flex: none; width: 22px; height: 22px; color: var(--color-strike); }
+
+.week-item {
+  position: relative; z-index: 2; grid-column: calc(var(--d) + 2); grid-row: calc(var(--l) + 2); align-self: center;
+  margin: 10px 2px; padding: 10px 30px 10px 12px; border: 1px solid var(--color-hairline); border-radius: 12px;
+  background: var(--color-paper); box-shadow: var(--shadow-1);
+  font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--color-ink);
+  transition: background-color .35s, border-color .35s, color .35s, box-shadow .35s;
+}
+.week-check { position: absolute; top: 11px; right: 10px; width: 15px; height: 15px; color: var(--color-strike); transition: opacity .3s, transform .45s var(--ease-out-expo); }
+.week-tag { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html[data-js] .week-item:not([data-on]) { border-style: dashed; background: transparent; box-shadow: none; color: var(--color-muted); }
+html[data-js] .week-item:not([data-on]) .week-check { opacity: 0; transform: scale(.3); }
+.week-item[data-on] { animation: week-land .5s var(--ease-out-expo); }
+@keyframes week-land { from { transform: translateY(6px) scale(.96); } }
+
+.week-foot { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--color-hairline); font-size: 15px; color: var(--color-ink-60); }
+.week-count { font-weight: 600; color: var(--color-ink); }
+.week-count b { font: 800 22px/1 var(--font-saira), sans-serif; font-variant-numeric: tabular-nums; color: var(--color-strike); }
+
 @media (max-width: 899px) {
-  .rival { grid-template-columns: 1fr; gap: 18px; }
-  .rival dl { grid-template-columns: 1fr; gap: 16px; }
+  .week-grid { display: flex; flex-direction: column; gap: 8px; }
+  .week-col, .week-rule, .week-lane, .week-now { display: none; }
+  .week-day { order: calc(var(--d) * 100); display: flex; align-items: baseline; gap: 10px; margin-top: 10px; padding: 14px 0 2px; border-top: 1px solid var(--color-hairline); }
+  .week-day small { margin: 0; }
+  .week-day:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+  .week-item { order: calc(var(--d) * 100 + var(--l) + 1); align-self: stretch; margin: 0; }
+  .week-tag { position: static; display: block; width: auto; height: auto; margin-bottom: 2px; clip-path: none; font-size: 13px; font-weight: 500; color: var(--color-strike); }
 }
 
-/* --------------------------------------------------------------- Humans, the reps and the calls
-   Read across: what the machine does, then the call an insider makes on it. The call
-   writes itself in a beat after its row arrives. */
+/* --------------------------------------------------------------- Stack, peel off the tape
+   One row per pillar. Each answer starts taped over with the notes it replaces; the tape
+   peels away with scroll (--q, 0 to 1, per row) and the answer comes through. Without
+   script there is no tape. */
 
-.pairs { display: grid; margin-top: clamp(48px, 7vh, 80px); }
-.pairs-head, .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); }
-.pairs-head { padding-bottom: 14px; border-bottom: 1px solid var(--color-rule-dark); font-size: 15px; font-weight: 500; color: var(--color-mist); }
-.pair { align-items: start; padding: clamp(22px, 3vh, 30px) 0; border-bottom: 1px solid var(--color-rule-dark); }
-.pair-tag { display: none; margin-bottom: 6px; font-size: 14px; font-weight: 500; color: var(--color-mist); }
-.pair-m { font-size: clamp(17px, 1.3vw, 19px); line-height: 1.45; color: var(--color-fog); }
-.pair-h { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 14px; font-size: clamp(18px, 1.45vw, 21px); font-weight: 600; line-height: 1.35; color: #fff; }
-.pair-h svg { width: 22px; height: 22px; margin-top: .18em; color: var(--color-current-blue); }
-html[data-js] .pair .pair-h { opacity: 0; transform: translateX(-10px); }
-html[data-js] .pair.is-in .pair-h { opacity: 1; transform: none; transition: opacity .6s .45s, transform .8s var(--ease-out-expo) .45s; }
-.pairs-by { margin-top: clamp(28px, 4vh, 40px); max-width: 44em; font-size: 17px; line-height: 1.55; color: var(--color-fog); }
-.pairs-by b { font-weight: 600; color: #fff; }
-@media (max-width: 767px) {
-  .pairs-head { display: none; }
-  .pair { grid-template-columns: 1fr; gap: 14px; }
-  .pair-tag { display: block; }
+.swap { display: grid; border-top: 1px solid var(--color-rule-dark); }
+.swap-row { --q: 1; display: grid; grid-template-columns: minmax(200px, .55fr) minmax(0, 1.45fr); align-items: center; gap: clamp(20px, 4vw, 64px); padding: clamp(28px, 4.5vh, 44px) 0; border-bottom: 1px solid var(--color-rule-dark); }
+html[data-js] .swap-row { --q: 0; }
+.swap-pillar { display: flex; align-items: center; gap: 16px; font-size: 15px; color: var(--color-fog); }
+.swap-pillar svg { flex: none; width: 34px; height: 34px; color: var(--color-mist); transition: color .4s; }
+.swap-pillar span { display: grid; gap: 6px; }
+.swap-pillar b { font: 700 clamp(26px, 2.4vw, 34px)/1 var(--font-saira), sans-serif; color: #fff; }
+html[data-js] .swap-row:not([data-on]) .swap-pillar svg { color: rgb(175 198 255 / .45); }
+.swap-row[data-on] .swap-pillar svg { color: var(--color-current-blue); }
+.swap-fix { position: relative; max-width: 640px; }
+.swap-get { text-wrap: pretty; font-size: clamp(19px, 1.7vw, 25px); font-weight: 600; line-height: 1.35; color: #fff; }
+html[data-js] .swap-get { opacity: calc(.3 + .7 * var(--q)); }
+.swap-tapes { display: none; }
+html[data-js] .swap-tapes { position: absolute; inset: 0; display: block; pointer-events: none; }
+.swap-tape {
+  position: absolute; padding: 13px 28px; white-space: nowrap; transform-origin: 0 50%; will-change: transform, opacity;
+  font: 600 16px/1 var(--font-dm-sans), sans-serif; font-style: normal; color: var(--color-ink);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / .6), transparent 45%),
+    repeating-linear-gradient(90deg, rgb(10 12 17 / .05) 0 2px, transparent 2px 5px),
+    #C8CCD5;
+  clip-path: polygon(1% 0, 99% 0, 100% 14%, 98% 30%, 100% 48%, 97.5% 66%, 100% 84%, 99% 100%, 1% 100%, 0 86%, 2% 70%, 0 52%, 2.5% 34%, 0 16%);
+}
+@media (max-width: 899px) {
+  .swap-row { grid-template-columns: 1fr; gap: 18px; }
+  .swap-tape { padding: 11px 20px; font-size: 14px; }
+  .swap-tape:nth-child(2) { left: 18% !important; top: 42% !important; }
+  .swap-tape:nth-child(3) { left: auto !important; right: -2%; top: 70% !important; }
+}
+
+/* --------------------------------------------------------------- Humans, the review line
+   Drafts travel left to right with scroll: drafted, stopped at the insider's desk (where
+   each takes a correction and a signature), then out to you. JS places each card; without
+   it the four sit in a row, signed. Phones read them as a list that signs off in turn. */
+
+.review { position: relative; padding: clamp(18px, 2.6vw, 32px); border: 1px solid var(--color-rule-dark); border-radius: 28px; background: rgb(255 255 255 / .03); }
+.review-stage { position: relative; }
+.review-heads, .review-track, .review-stop, .review-desk { display: none; }
+.review-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.review-card {
+  display: grid; grid-template-areas: "kind" "title" "note" "by"; gap: 10px; padding: 18px 18px 16px;
+  border: 1px solid var(--color-hairline); border-radius: 18px; background: var(--color-paper); color: var(--color-ink);
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / .8); transition: background-color .35s, border-color .35s, color .35s;
+}
+.review-kind { grid-area: kind; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 500; color: var(--color-muted); transition: color .35s; }
+.review-state { display: grid; }
+.review-state em { grid-area: 1 / 1; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-style: normal; font-weight: 600; text-align: center; white-space: nowrap; transition: opacity .3s; }
+.review-draft { background: rgb(175 198 255 / .14); color: var(--color-mist); opacity: 0; }
+.review-done { background: var(--color-ice); color: var(--color-strike); }
+.review-title { grid-area: title; font: 700 19px/1.15 var(--font-saira), sans-serif; }
+.review-note, .review-wait { grid-area: note; }
+.review-note { padding: 10px 12px; border-radius: 10px; background: var(--color-ice); font-size: 14.5px; font-weight: 600; line-height: 1.35; color: var(--color-strike); transition: opacity .35s, transform .5s var(--ease-out-expo); }
+.review-wait { align-self: center; font-size: 14px; color: var(--color-fog); opacity: 0; transition: opacity .3s; }
+.review-by, .review-auto { grid-area: by; }
+.review-by { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--color-ink-60); transition: opacity .35s; }
+.review-by i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-strike); font: 700 12px/1 var(--font-saira), sans-serif; font-style: normal; color: #fff; }
+.review-auto { align-self: center; font-size: 13.5px; color: var(--color-fog); opacity: 0; transition: opacity .3s; }
+
+/* Not signed yet: a dark, dashed draft, waiting for its insider. */
+html[data-js] .review-card:not([data-signed]) { border-style: dashed; border-color: rgb(175 198 255 / .35); background: #161922; color: #fff; }
+html[data-js] .review-card:not([data-signed]) .review-kind { color: rgb(175 198 255 / .85); }
+html[data-js] .review-card:not([data-signed]) :is(.review-note, .review-by, .review-done) { opacity: 0; }
+html[data-js] .review-card:not([data-signed]) .review-note { transform: translateY(6px) scale(.97); }
+html[data-js] .review-card:not([data-signed]) :is(.review-wait, .review-auto, .review-draft) { opacity: 1; }
+
+.review-foot { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--color-rule-dark); font-size: 15px; color: var(--color-fog); }
+.review-count { font-weight: 600; color: #fff; }
+.review-count b { font: 800 22px/1 var(--font-saira), sans-serif; font-variant-numeric: tabular-nums; color: var(--color-current-blue); }
+
+@media (min-width: 900px) {
+  html[data-js] .review-stage { height: 440px; }
+  html[data-js] .review-heads { position: absolute; inset: 0 0 auto; display: block; height: 20px; }
+  html[data-js] .review-heads span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font-size: 15px; font-weight: 500; color: var(--color-mist); }
+  html[data-js] .review-heads span:nth-child(1) { left: 14%; }
+  html[data-js] .review-heads span:nth-child(2) { left: 50%; }
+  html[data-js] .review-heads span:nth-child(3) { left: 86%; }
+  html[data-js] .review-track { position: absolute; top: 55%; left: 3%; right: 3%; display: block; height: 2px; background: repeating-linear-gradient(90deg, rgb(175 198 255 / .35) 0 6px, transparent 6px 12px); }
+  html[data-js] .review-stop { position: absolute; top: 55%; left: calc(var(--at) * 100%); display: block; width: 10px; height: 10px; margin: -4px 0 0 -5px; border-radius: 50%; background: rgb(175 198 255 / .5); }
+  html[data-js] .review-desk {
+    position: absolute; top: 55%; left: 50%; display: block; width: 296px; height: 300px; transform: translate(-50%, -50%);
+    border: 1.5px solid rgb(94 139 255 / .35); border-radius: 28px; transition: border-color .35s, box-shadow .35s;
+  }
+  html[data-js] .review-desk svg { position: absolute; top: -17px; left: 50%; width: 34px; height: 34px; margin-left: -17px; padding: 8px; border-radius: 50%; background: var(--color-strike); color: #fff; }
+  html[data-js] .review-desk[data-busy] { border-color: var(--color-current-blue); box-shadow: 0 0 0 6px rgb(36 87 245 / .12), 0 0 40px -8px rgb(36 87 245 / .6); }
+  html[data-js] .review-cards { position: absolute; inset: 0; display: block; }
+  html[data-js] .review-card { position: absolute; top: 55%; left: 0; width: 250px; will-change: transform; }
+}
+@media (max-width: 899px) {
+  .review-cards { grid-template-columns: 1fr; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .review-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* --------------------------------------------------------------- Flows
