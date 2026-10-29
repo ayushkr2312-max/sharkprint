@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { share } from '@/lib/share';
 import Link from 'next/link';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
@@ -9,7 +10,7 @@ import { CASES } from '@/content/cases';
 
 const title = 'Work';
 const description = 'Case studies and the artefacts behind the four pillars: clips, scouting reports, dashboards and sites, filterable by pillar.';
-export const metadata: Metadata = { title, description, openGraph: { title, description } };
+export const metadata: Metadata = { title, description, ...share(title, description) };
 
 export default function WorkPage() {
   return (

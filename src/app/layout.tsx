@@ -6,6 +6,8 @@ import { Header } from '@/components/site/Header';
 import { FLAGS_SCRIPT, HtmlFlags } from '@/components/site/HtmlFlags';
 import { LateralLine } from '@/components/site/LateralLine';
 import { SmoothScroll } from '@/components/site/SmoothScroll';
+import { share } from '@/lib/share';
+import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
 // Variable, with its width axis: the homepage hero sets it condensed.
@@ -14,15 +16,15 @@ const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', axes: [
 const jetbrains = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-jetbrains' });
 const michroma = Michroma({ subsets: ['latin'], weight: '400', variable: '--font-michroma' });
 
+const title = "Finishers Sharkprint: your org's edge, engineered";
+const description = 'Clips, scouting, a live command centre and the sites that carry your name. One partner, built for esports orgs.';
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3000'),
-  title: {
-    default: "Finishers Sharkprint: your org's edge, engineered",
-    template: '%s · Finishers Sharkprint',
-  },
-  description: 'Clips, scouting, a live command centre and the sites that carry your name. One partner, built for esports orgs.',
-  openGraph: { type: 'website', siteName: 'Finishers Sharkprint' },
-  twitter: { card: 'summary_large_image' },
+  // Share cards need an absolute address.
+  metadataBase: new URL(SITE_URL),
+  title: { default: title, template: '%s · Finishers Sharkprint' },
+  description,
+  ...share(title, description),
 };
 
 export const viewport: Viewport = {

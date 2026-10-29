@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
+import { share } from '@/lib/share';
 import { Room } from '@/components/site/Room';
 import { Humans } from '@/components/rooms/Humans';
 import { Icon, type Pillar } from '@/components/ui/Icon';
 import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
 
 const title = 'Insiders: who reviews what';
-const description = 'Machines do the reps. Insiders make the calls: every clip, report, dashboard and build is reviewed by people who’ve worked inside esports orgs.';
-export const metadata: Metadata = { title, description, openGraph: { title, description } };
+const description = 'Drafted by machines, signed by insiders: every clip, report, dashboard and build is checked by people who’ve worked inside esports orgs.';
+export const metadata: Metadata = { title, description, ...share(title, description) };
 
 // The human layer (concept pp.09, 22): which insider signs off which output.
 const ROLES: { role: string; reviews: string; pillars: Pillar[] }[] = [

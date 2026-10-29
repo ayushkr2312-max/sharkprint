@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { share } from '@/lib/share';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SectionHead } from '@/components/pillar/PillarPage';
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<'/work/[slug]'>): P
   return {
     title,
     description: c.summary,
-    openGraph: { title, description: c.summary },
+    ...share(title, c.summary),
     // Samples show the template; they shouldn't be indexed as real client work.
     robots: c.sample ? { index: false, follow: true } : undefined,
   };

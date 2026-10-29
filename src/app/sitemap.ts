@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 import { CASES } from '@/content/cases';
 
-const BASE = process.env.SITE_URL ?? 'http://localhost:3000';
+const BASE = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = ['', '/engine', '/intel', '/command', '/forge', '/work', '/insiders'];
