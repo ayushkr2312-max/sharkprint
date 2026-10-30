@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { Gets } from '@/components/ui/Gets';
+import { Glance } from '@/components/ui/Glance';
 import { Icon } from '@/components/ui/Icon';
 import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
 import { Draggable, gsap, useGSAP } from '@/lib/gsap';
@@ -248,6 +249,7 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
         <div data-line="foot" data-reveal="" className="mt-[clamp(56px,8vh,88px)]">
           <Gets items={OFFER} cols="md:grid-cols-3" />
         </div>
+        {H === 'h2' && <Glance pillar="command" />}
       </div>
     </Room>
   );

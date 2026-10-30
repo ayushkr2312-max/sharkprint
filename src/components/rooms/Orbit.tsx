@@ -23,12 +23,13 @@ const STATEMENT: [string, boolean?][] = [
   ['moves in orbit around it.', true],
 ];
 
-const ROWS: [string, string, string[]][] = [
-  ['Discord bots', 'Community', ['Discord bots']],
-  ['Sponsor sourcing & pitch decks', 'Revenue', ['Sponsor sourcing', 'Pitch decks']],
-  ['Spend reports & cost audits', 'Money out', ['Cost audits', 'Growth tracking']],
-  ['Merch store setup', 'Revenue', ['Merch setup']],
-  ['Market & competitor intel', 'Data', ['Market intel']],
+// Each service: its name, what it touches, its satellites in the orbit, and what you get.
+const ROWS: [string, string, string[], string][] = [
+  ['Discord bots', 'Community', ['Discord bots'], 'Match alerts, roles, tickets and stats in your server.'],
+  ['Sponsor sourcing & pitch decks', 'Revenue', ['Sponsor sourcing', 'Pitch decks'], 'Brands that fit your fans, pitched with your own numbers.'],
+  ['Spend reports & cost audits', 'Money out', ['Cost audits', 'Growth tracking'], 'Where the money goes each month, and what to cut.'],
+  ['Merch store setup', 'Revenue', ['Merch setup'], 'A store ready for your first drop, linked to your site.'],
+  ['Market & competitor intel', 'Data', ['Market intel'], 'What rival orgs post, sign and launch, read every month.'],
 ];
 
 // Which pillar each satellite pairs with, and where the pillars sit in orbit-services.svg.
@@ -255,15 +256,15 @@ export function Orbit() {
         </div>
 
         <div className="wrap grid grid-cols-1 items-center gap-12 pt-16 lg:h-full lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] lg:gap-[clamp(32px,5vw,88px)]">
-          <div data-orbit-copy="" data-line="foot" className="grid content-start gap-6" onFocusCapture={showList}>
+          <div data-orbit-copy="" data-line="foot" className="grid content-start gap-6 [@media(min-width:1024px)_and_(max-height:800px)]:gap-4" onFocusCapture={showList}>
             <Heading data-orbit-in="" id="orbit-title" size="h2" reveal={false}>
               Everything else, <Accent touch="orbit">in orbit.</Accent>
             </Heading>
             <Lead data-orbit-in="" reveal={false}>
-              The jobs between the pillars, done by the same team: bots for your Discord, sponsor decks, spend audits, merch and market reads.
+              The jobs between the pillars, done by the same team.
             </Lead>
             <ul>
-              {ROWS.map(([title, tag, sats]) => {
+              {ROWS.map(([title, tag, sats, line]) => {
                 const on = () => { spin.current?.pause(); highlight.current(sats); };
                 const off = () => { spin.current?.play(); highlight.current([]); };
                 return (
@@ -274,10 +275,11 @@ export function Orbit() {
                       onPointerLeave={off}
                       onFocus={on}
                       onBlur={off}
-                      className="relative flex min-h-12 w-full items-center justify-between gap-4 border-b border-hairline py-3 text-left text-[17px] font-semibold transition-colors duration-300 hover:text-strike focus-visible:text-strike"
+                      className="group relative grid min-h-12 w-full grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1 border-b border-hairline py-3 text-left [@media(min-width:1024px)_and_(max-height:800px)]:py-2"
                     >
-                      <span>{title}</span>
-                      <span className="text-right text-[14px] font-normal text-muted">{tag}</span>
+                      <span className="text-[17px] font-semibold transition-colors duration-300 group-hover:text-strike group-focus-visible:text-strike">{title}</span>
+                      <span className="text-right text-[14px] text-muted">{tag}</span>
+                      <span className="col-span-2 text-[15px] text-ink-60">{line}</span>
                     </button>
                   </li>
                 );

@@ -2,6 +2,7 @@ import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { IntelFunnel } from '@/components/flows/IntelFunnel';
 import { Gets } from '@/components/ui/Gets';
+import { Glance } from '@/components/ui/Glance';
 import { Eyebrow, Heading, Lead, Micro, Accent } from '@/components/ui/type';
 
 // The desk's two jobs, and what each hands back.
@@ -49,6 +50,7 @@ export function IntelRoom({ headingLevel = 'h2' }: Props) {
             <Gets items={SCOUT} />
           </section>
         </div>
+        {H === 'h2' && <Glance pillar="intel" />}
       </div>
     </Room>
   );

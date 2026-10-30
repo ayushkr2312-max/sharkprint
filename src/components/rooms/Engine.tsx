@@ -5,6 +5,7 @@ import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { EngineCut } from '@/components/flows/EngineCut';
 import { Gets } from '@/components/ui/Gets';
+import { Glance } from '@/components/ui/Glance';
 import { Eyebrow, Heading, Lead, Micro, Accent } from '@/components/ui/type';
 import { useRoving } from '@/components/ui/useRoving';
 import { gsap, useGSAP } from '@/lib/gsap';
@@ -84,6 +85,8 @@ export function EngineRoom({ headingLevel = 'h2' }: Props) {
       <div data-line="foot" data-reveal="" className="wrap mt-[clamp(48px,7vh,72px)]">
         <Gets items={OFFER} cols="sm:grid-cols-2 lg:grid-cols-4" />
       </div>
+      {/* On the homepage only: the pillar's own page is the way through. */}
+      {H === 'h2' && <div className="wrap"><Glance pillar="engine" /></div>}
     </Room>
   );
 }

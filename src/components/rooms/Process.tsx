@@ -14,13 +14,34 @@ const STEPS: [string, string][] = [
   ['Optimise', 'A report every month, and changes based on what it shows.'],
 ];
 
-// Outcome copy straight from the deck: no invented stats.
+// The deck's four outcomes, said in the terms the page opened with: each one answers a
+// problem from the Grind. No invented stats.
 const OUTCOMES = [
-  { big: 'Hours back', sub: 'every week', body: 'Automations take repetitive admin off your staff.', tone: 'strike' },
-  { big: 'Lower', sub: 'running costs', body: 'Leaner tooling, clear spend reports.', tone: 'paper' },
-  { big: 'Sharper', sub: 'decisions', body: 'Scouting, sponsor and content calls backed by data.', tone: 'paper' },
-  { big: 'Faster', sub: 'growth', body: 'Steady content, stronger pitches, sharper brand.', tone: 'trench' },
+  { big: 'Hours back', sub: 'every week', body: 'The clip queue, the scrim sheet and the sponsor report stop landing on the same three people.', tone: 'strike' },
+  { big: 'Lower', sub: 'running costs', body: 'One partner in place of an agency, freelancers and a pile of seats, and a monthly report on where the money goes.', tone: 'paper' },
+  { big: 'Sharper', sub: 'decisions', body: 'Signings made on scout notes, not one highlight reel. Sponsor renewals argued with real numbers, not a weekend of screenshots.', tone: 'paper' },
+  { big: 'Faster', sub: 'growth', body: "Clips out while the moment's still hot, pitches built on your own numbers, and a site and Discord that keep up with your roster.", tone: 'trench' },
 ];
+
+/** One outcome card. */
+function Outcome({ o, i }: { o: (typeof OUTCOMES)[number]; i: number }) {
+  const soft = o.tone === 'paper' ? 'text-ink-60' : 'text-white/80';
+  return (
+    <article
+      style={{ '--i': i } as CSSProperties}
+      className={cn(
+        'ocard sticky mb-[12vh] grid grid-cols-1 items-end gap-x-8 gap-y-2 rounded-[24px] border px-[clamp(24px,3.5vw,44px)] py-7 shadow-2 last:mb-0 md:mb-[18vh] md:min-h-[200px] md:grid-cols-2 md:content-end',
+        o.tone === 'strike' && 'border-strike bg-strike text-white',
+        o.tone === 'trench' && 'border-trench bg-trench text-white',
+        o.tone === 'paper' && 'border-hairline bg-paper',
+      )}
+    >
+      <h3 className="font-display text-[clamp(40px,5vw,72px)] leading-[.95] font-bold tracking-[-0.028em]">{o.big}</h3>
+      <p className={cn('text-[17px] md:col-start-1', soft)}>{o.sub}</p>
+      <p className={cn('max-w-[26em] self-end text-[17px] text-pretty max-md:mt-3 md:col-start-2 md:row-span-2 md:row-start-1', soft)}>{o.body}</p>
+    </article>
+  );
+}
 
 /** 10 Process (concept p.23): five steps as cards on one track. A bar fills along it as you
  *  scroll, each step completes as the bar reaches it, and the last one switches autopilot
@@ -82,22 +103,7 @@ export function Process() {
         </div>
 
         <div data-line="foot" className="mx-auto mt-[clamp(56px,8vh,96px)] grid max-w-[980px]">
-          {OUTCOMES.map((o, i) => (
-            <article
-              key={o.big}
-              style={{ '--i': i } as CSSProperties}
-              className={cn(
-                'ocard sticky mb-[12vh] grid grid-cols-1 items-end gap-x-8 gap-y-2 rounded-[24px] border px-[clamp(24px,3.5vw,44px)] py-7 shadow-2 last:mb-0 md:mb-[18vh] md:min-h-[200px] md:grid-cols-2 md:content-end',
-                o.tone === 'strike' && 'border-strike bg-strike text-white',
-                o.tone === 'trench' && 'border-trench bg-trench text-white',
-                o.tone === 'paper' && 'border-hairline bg-paper',
-              )}
-            >
-              <h3 className="font-display text-[clamp(40px,5vw,72px)] leading-[.95] font-bold tracking-[-0.028em]">{o.big}</h3>
-              <p className={cn('text-[17px] md:col-start-1', o.tone === 'paper' ? 'text-ink-60' : 'text-white/80')}>{o.sub}</p>
-              <p className={cn('max-w-[26em] self-end text-[17px] md:col-start-2 md:row-span-2 md:row-start-1', o.tone === 'paper' ? 'text-ink-60' : 'text-white/80')}>{o.body}</p>
-            </article>
-          ))}
+          {OUTCOMES.map((o, i) => <Outcome key={o.big} o={o} i={i} />)}
         </div>
       </div>
     </Room>

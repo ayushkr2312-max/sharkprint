@@ -806,6 +806,54 @@ html[data-js] .review-card:not([data-signed]) :is(.review-wait, .review-auto, .r
   .fstack-scene { height: 340px; }
 }
 
+/* --------------------------------------------------------------- Glance
+   The foot of each pillar room on the homepage: three facts on one plate (what we need
+   from you, how long it takes, what stays yours) and the way through to the pillar's page. */
+
+.glance {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 22px clamp(24px, 3vw, 48px);
+  margin-top: clamp(40px, 6vh, 64px); padding: clamp(18px, 2vw, 24px) clamp(20px, 2.4vw, 30px);
+  border: 1px solid var(--color-hairline); border-radius: 22px; background: var(--color-paper);
+}
+[data-tone="dark"] .glance { border-color: var(--color-rule-dark); background: rgb(255 255 255 / .04); }
+.glance-facts { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; }
+.glance-fact { position: relative; display: grid; align-content: start; gap: 8px; padding: 2px clamp(16px, 2vw, 28px); }
+.glance-fact:first-child { padding-left: 0; }
+.glance-fact + .glance-fact::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: var(--color-hairline); transform-origin: top; }
+[data-tone="dark"] .glance-fact + .glance-fact::before { background: var(--color-rule-dark); }
+.glance-label { font-size: 13px; font-weight: 500; color: var(--color-muted); }
+[data-tone="dark"] .glance-label { color: var(--color-mist); }
+.glance-fact dd { display: grid; gap: 4px; }
+.glance-value { display: block; overflow: hidden; padding-block: .08em; margin-block: -.08em; }
+.glance-value > span { display: inline-block; font: 700 clamp(22px, 1.9vw, 28px)/1.05 var(--font-saira), sans-serif; letter-spacing: -.01em; }
+.glance-note { font-size: 14.5px; line-height: 1.4; color: var(--color-ink-60); text-wrap: pretty; }
+[data-tone="dark"] .glance-note { color: var(--color-fog); }
+.glance-go {
+  display: inline-flex; align-items: center; gap: 12px; height: 48px; padding: 0 5px 0 20px; border-radius: 999px;
+  background: var(--color-ink); color: var(--color-paper); font-size: 15px; font-weight: 600; white-space: nowrap; text-decoration: none;
+  transition: background-color .3s var(--ease-out-expo);
+}
+.glance-go:hover { background: #1c2030; }
+[data-tone="dark"] .glance-go { background: #fff; color: var(--color-ink); }
+[data-tone="dark"] .glance-go:hover { background: var(--color-ice); }
+.glance-go:focus-visible { outline: 2px solid var(--color-strike); outline-offset: 3px; }
+.glance-ring { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--color-strike); color: #fff; }
+
+/* Arrival: the dividers draw, then each value rises out of its baseline, one after another. */
+html[data-js] .glance-value > span { transform: translateY(110%); transition: transform .9s var(--ease-out-expo) calc(.15s + var(--i) * .12s); }
+html[data-js] .glance-fact + .glance-fact::before { transform: scaleY(0); transition: transform .7s var(--ease-out-expo) calc(var(--i) * .12s); }
+html[data-js] .glance[data-on] .glance-value > span, html[data-js] .glance[data-on] .glance-fact::before { transform: none; }
+
+@media (max-width: 899px) {
+  .glance { grid-template-columns: minmax(0, 1fr); }
+  .glance-facts { grid-auto-flow: row; }
+  .glance-fact { padding: 14px 0; }
+  .glance-fact:first-child { padding-top: 0; }
+  .glance-fact + .glance-fact::before { right: 0; bottom: auto; width: auto; height: 1px; transform-origin: left; }
+  html[data-js] .glance-fact + .glance-fact::before { transform: scaleX(0); }
+  .glance-go { justify-self: start; }
+}
+
 /* --------------------------------------------------------------- Edge texture
    A fine halftone in the margins of every room, under its content: densest at the page
    edges, fading out toward the centre. Strike blue on light rooms, white on dark ones. */

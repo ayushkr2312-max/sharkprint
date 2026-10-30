@@ -17,6 +17,9 @@ export type PillarContent = {
   getsTitle?: [string, string];
   samples: { title: [string, string]; items: Sample[]; fineprint?: string };
   workflow: { automation: string[]; insiders: string[]; time: [string, string, string] };
+  /** The homepage room's foot: what we need from you and what stays yours, either side of
+   *  workflow.time (`time: false` leaves the timing out). */
+  glance: { from: [string, string]; yours: [string, string]; time?: false };
   faq: [string, string][];
 };
 
@@ -52,6 +55,7 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       insiders: ['Pick the moments that ship', 'Write the hooks, tune the edit', 'Approve every clip before it posts'],
       time: ['Turnaround', '48 to 72h', 'per batch, at a monthly volume you set.'],
     },
+    glance: { from: ['VOD links', 'wherever your streams and matches already live.'], yours: ['Every clip', 'you can veto anything before it posts.'], time: false },
     faq: [
       ['What do you need from us to start?', 'Links to your stream VODs and match recordings, wherever they already live. We log and timestamp from there.'],
       ['Which formats do you deliver?', '9:16 for Shorts, Reels and TikTok, and 1:1 for feeds. Subtitles are burned in and match your brand.'],
@@ -92,6 +96,7 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       insiders: ['Watch the shortlist and write scout notes', 'Decide who makes the report', 'Brief your coaches before matches'],
       time: ['Cadence', 'Weekly', 'scene reports, plus a prep pack per match.'],
     },
+    glance: { from: ['Games & regions', 'and what each roster needs next.'], yours: ['Every signing', 'we shortlist and recommend, your staff decide.'] },
     faq: [
       ["What's in a scouting report?", 'Players, staff or creators shortlisted by fit, each with a fit score, the stats that matter for the role and a written scout note.'],
       ['How does opponent prep work?', 'Each roster gets a pack before a match: map tendencies, comps, habits, pistol and clutch patterns from recent maps.'],
@@ -131,6 +136,7 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       insiders: ['Check sponsor, finance and calendar entries', 'Tidy the databases as the org grows', 'Flag what needs a decision this week'],
       time: ['Setup', '2 to 4 weeks', "then it's live and maintained."],
     },
+    glance: { from: ['Access', 'to the tools you already run on, no switching.'], yours: ['Who sees what', 'staff, coaches and partners each get their own view.'] },
     faq: [
       ['What can we connect?', 'Socials, match data, calendars, your sponsor tracker, finance sheets and Discord: whatever your org already runs on.'],
       ['Do we have to switch tools?', 'No. Command links what you already use into clean databases and puts it on one screen.'],
@@ -172,6 +178,7 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       insiders: ['Blueprint and design every screen', 'Review the build before launch', 'Train your staff and hand over docs'],
       time: ['Timeline', 'Scoped', 'per project, after the blueprint.'],
     },
+    glance: { from: ['Your brand', 'plus rosters, results and merch, entered once.'], yours: ['Every update', 'your staff are trained at launch and get the docs.'] },
     faq: [
       ['What can you build?', 'Brand websites, tournament platforms, merch stores, campaign microsites and internal web apps, plus the backends behind them.'],
       ['How is a project priced?', 'Scoped per project, once the blueprint tells us what you actually need.'],

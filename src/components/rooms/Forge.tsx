@@ -4,6 +4,7 @@ import { useRef, useState, type CSSProperties } from 'react';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
 import { ForgeStack } from '@/components/flows/ForgeStack';
+import { Glance } from '@/components/ui/Glance';
 import { Heading, Lead, Accent } from '@/components/ui/type';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { clamp } from '@/lib/env';
@@ -183,9 +184,10 @@ export function ForgeRoom({ headingLevel = 'h2' }: Props) {
       </div>
 
       {/* Under the pinned stage: it scrolls in once the last card is built. The Lateral
-          Line leaves the room from under it. */}
+          Line leaves the room from under it, or from under the glance on the homepage. */}
       <div className="wrap pb-[clamp(88px,12vh,150px)] md:pt-4">
         <ForgeStack />
+        {H === 'h2' && <Glance pillar="forge" />}
       </div>
     </Room>
   );
