@@ -8,10 +8,11 @@ import { IntelRoom } from '@/components/rooms/Intel';
 import { Orbit } from '@/components/rooms/Orbit';
 import { Process } from '@/components/rooms/Process';
 import { Stack } from '@/components/rooms/Stack';
+import { StudioRoom } from '@/components/rooms/Studio';
 import { Week } from '@/components/rooms/Week';
 import { Preloader } from '@/components/site/Preloader';
 
-/** The tour (concept p.09), on one page: the four product rooms, then the proof.
+/** The tour (concept p.09), on one page: the five product rooms, then the proof.
  *  Never two dark rooms in a row. */
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
         <IntelRoom />
         <CommandRoom />
         <ForgeRoom />
+        <StudioRoom />
         <Orbit />
         <Humans />
         <Week />

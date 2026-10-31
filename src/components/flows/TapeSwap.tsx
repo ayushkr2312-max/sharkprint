@@ -11,6 +11,7 @@ const ROWS: { p: Pillar; name: string; kind: string; get: string; tape: string[]
   { p: 'intel', name: 'Intel', kind: 'Prep & scouting', get: 'Opponent prep before every match, and a shortlist for every hire.', tape: ['Scrim sheet (old)', 'roster_final_v7.xlsx'] },
   { p: 'command', name: 'Command', kind: 'Live dashboard', get: 'One screen for socials, stats, sponsors and money, kept up to date.', tape: ['Sponsor DMs (43)', 'Who paid for this?', 'Invoices / misc'] },
   { p: 'forge', name: 'Forge', kind: 'Sites & tools', get: 'A website and staff tools on one base, built to carry your name.', tape: ['Bot broke again', 'Canva, 3 seats'] },
+  { p: 'studio', name: 'Studio', kind: 'Creator programs', get: 'Creators worth signing, everything they make in one library, every stream on one schedule.', tape: ['Who’s live tonight?', 'creator_links.doc'] },
 ];
 // Where each strip of tape sits over its row's answer, and its tilt.
 const SPOTS = [

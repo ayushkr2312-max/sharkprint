@@ -3,14 +3,15 @@ import { CommandDeep, CommandRoom } from '@/components/rooms/Command';
 import { EngineDeep, EngineRoom } from '@/components/rooms/Engine';
 import { ForgeRoom } from '@/components/rooms/Forge';
 import { IntelDeep, IntelRoom } from '@/components/rooms/Intel';
+import { StudioDeep, StudioRoom } from '@/components/rooms/Studio';
 import { SampleRail } from '@/components/ui/SampleRail';
 import type { Pillar } from '@/components/ui/Icon';
 import { Eyebrow, Heading, Accent } from '@/components/ui/type';
 import { FORGE_FIVE, PILLAR_CONTENT } from '@/content/pillars';
 import { Stepper } from './Stepper';
 
-const ROOMS = { engine: EngineRoom, intel: IntelRoom, command: CommandRoom, forge: ForgeRoom };
-const NAMES: Record<Pillar, string> = { engine: 'Engine', intel: 'Intel', command: 'Command', forge: 'Forge' };
+const ROOMS = { engine: EngineRoom, intel: IntelRoom, command: CommandRoom, forge: ForgeRoom, studio: StudioRoom };
+const NAMES: Record<Pillar, string> = { engine: 'Engine', intel: 'Intel', command: 'Command', forge: 'Forge', studio: 'Studio' };
 
 export function SectionHead({ eyebrow, title, id }: { eyebrow: string; title: [string, string]; id: string }) {
   return (
@@ -23,7 +24,7 @@ export function SectionHead({ eyebrow, title, id }: { eyebrow: string; title: [s
   );
 }
 
-/** One template, four rooms (concept p.26). Each page keeps its room's background
+/** One template, five rooms (concept p.26). Each page keeps its room's background
  *  so clicking through from the homepage feels continuous. */
 export function PillarPage({ pillar }: { pillar: Pillar }) {
   const c = PILLAR_CONTENT[pillar];
@@ -56,6 +57,7 @@ export function PillarPage({ pillar }: { pillar: Pillar }) {
         {pillar === 'engine' && <EngineDeep />}
         {pillar === 'intel' && <IntelDeep />}
         {pillar === 'command' && <CommandDeep />}
+        {pillar === 'studio' && <StudioDeep />}
         {pillar === 'forge' && (
           <div className="wrap">
             <SectionHead eyebrow="What you get" title={c.getsTitle!} id="gets-title" />

@@ -12,6 +12,7 @@ const NAV = [
   ['Intel', 'intel'],
   ['Command', 'command'],
   ['Forge', 'forge'],
+  ['Studio', 'studio'],
   ['Insiders', 'insiders'],
 ] as const;
 
@@ -85,7 +86,7 @@ export function Header() {
       >
         <nav
           aria-label="Primary"
-          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-6 lg:gap-10"
+          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-4 lg:gap-8 xl:gap-10"
         >
           <Link
             href={home ? '#top' : '/'}
@@ -108,7 +109,7 @@ export function Header() {
                     data-id={id}
                     aria-current={active === id ? 'location' : undefined}
                     className={cn(
-                      'relative flex h-10 items-center rounded-full px-3 text-[14.5px] font-medium no-underline transition-colors duration-300 lg:px-4',
+                      'relative flex h-10 items-center rounded-full px-2.5 text-[14.5px] font-medium no-underline transition-colors duration-300 lg:px-4',
                       active === id ? 'text-paper' : 'text-ink-60 hover:text-ink',
                     )}
                   >
@@ -118,6 +119,14 @@ export function Header() {
               ))}
             </ul>
           </div>
+
+          <Link
+            href="/creators"
+            aria-current={pathname === '/creators' ? 'page' : undefined}
+            className="hidden h-10 items-center rounded-full border border-hairline px-4 text-[14.5px] font-semibold whitespace-nowrap text-ink no-underline transition-colors duration-300 hover:border-strike hover:text-strike aria-[current=page]:border-strike aria-[current=page]:bg-strike aria-[current=page]:text-paper lg:flex"
+          >
+            For creators
+          </Link>
 
           <button
             type="button"
@@ -147,6 +156,15 @@ export function Header() {
                 </Link>
               </li>
             ))}
+            <li className="mt-1 border-t border-hairline pt-1">
+              <Link
+                href="/creators"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between rounded-[20px] px-4 py-3 font-display text-[44px] leading-none font-extrabold tracking-[-0.01em] text-strike no-underline [font-stretch:58%] hover:bg-creme"
+              >
+                For creators
+              </Link>
+            </li>
           </ul>
         </div>
       </header>

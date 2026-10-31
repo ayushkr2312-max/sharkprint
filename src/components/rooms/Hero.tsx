@@ -7,13 +7,14 @@ import { Arrow } from '@/components/ui/buttons';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { onIntro } from '@/lib/intro';
 
-// The dock: the four pillars side by side, each with one real output rising out of it,
+// The dock: the five pillars side by side, each with one real output rising out of it,
 // and each a way into its room.
 const DOCK = [
   { id: 'engine', name: 'Engine', kind: 'Clips & content', src: 'engine/clip-tactical.svg', label: 'Engine: a clutch clip, cut for Shorts' },
   { id: 'intel', name: 'Intel', kind: 'Prep & scouting', src: 'intel/scouting-report.svg', label: 'Intel: a scouting report' },
   { id: 'command', name: 'Command', kind: 'Live dashboard', src: 'command/widget-winrate.svg', label: 'Command: the win-rate widget' },
   { id: 'forge', name: 'Forge', kind: 'Sites & tools', src: 'forge/brand-site.svg', label: 'Forge: a brand website' },
+  { id: 'studio', name: 'Studio', kind: 'Creator programs', src: 'studio/week-card.svg', label: 'Studio: the creator roster’s stream week' },
 ];
 
 /** A word whose letters rise out of its own baseline. */
@@ -25,7 +26,7 @@ function Word({ children }: { children: string }) {
   );
 }
 
-/** 01 Hero: the line, set big and condensed, and the four pillars docked along the bottom
+/** 01 Hero: the line, set big and condensed, and the five pillars docked along the bottom
  *  edge of the screen, each with its real output rising out of it. */
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -103,7 +104,7 @@ export function Hero() {
             </a>
           </div>
 
-          <nav aria-label="The four pillars" className="hx-dock">
+          <nav aria-label="The five pillars" className="hx-dock">
             {DOCK.map((d) => (
               <a key={d.id} href={'#' + d.id} data-tile="" className={`hx-tile hx-tile--${d.id}`}>
                 <span className="hx-tile-head">

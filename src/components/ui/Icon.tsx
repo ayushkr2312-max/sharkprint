@@ -38,6 +38,13 @@ const PATHS = {
       <path d="M38 44 L28 54 L38 64M58 44 L68 54 L58 64M52 42 L44 66" />
     </>
   ),
+  studio: (
+    <>
+      <circle cx="38" cy="36" r="15" />
+      <path d="M12 82c3-17 13-26 26-26s23 9 26 26" />
+      <path d="M68 28a17 17 0 0 1 0 22M77 19a30 30 0 0 1 0 40" />
+    </>
+  ),
   scout: (<><circle cx="42" cy="42" r="24" /><path d="M60 60 L80 80" /></>),
   prep: (<><rect x="14" y="14" width="68" height="68" rx="8" /><path d="M14 37h68M14 60h68M37 14v68M60 14v68" /></>),
   market: (<><polyline points="12,72 34,48 50,60 82,24" /><path d="M64 24h18v18" /></>),
@@ -49,7 +56,7 @@ const PATHS = {
 } as const;
 
 export type IconName = keyof typeof PATHS;
-export const PILLARS = ['engine', 'intel', 'command', 'forge'] as const;
+export const PILLARS = ['engine', 'intel', 'command', 'forge', 'studio'] as const;
 export type Pillar = (typeof PILLARS)[number];
 
 export function Icon({ name, strokeWidth = 6, ...rest }: { name: IconName } & SVGProps<SVGSVGElement>) {

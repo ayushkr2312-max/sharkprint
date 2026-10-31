@@ -17,7 +17,7 @@ export default function NotFound() {
             <Heading as="h1" id="nf-title" size="h1" reveal={false}>
               This page is <Accent>off the map.</Accent>
             </Heading>
-            <Lead>The link may be old, or the page moved. The four pillars are a tap away in the menu above.</Lead>
+            <Lead>The link may be old, or the page moved. The five pillars are a tap away in the menu above.</Lead>
             <div className="flex flex-wrap gap-3">
               <Link href="/" className={btn('ink', 'lg')}><span className="pointer-events-none inline-block">Back to the start</span></Link>
             </div>

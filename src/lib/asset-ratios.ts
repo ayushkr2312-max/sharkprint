@@ -45,6 +45,12 @@ export const ASSET_RATIOS: Record<string, string> = {
   'sections/orbit-services.svg': '900 / 900',
   'sections/process-path.svg': '1300 / 320',
   'social/og-image.svg': '1200 / 630',
+  'studio/creator-card.svg': '520 / 612',
+  'studio/library.svg': '1200 / 760',
+  'studio/media-kit.svg': '640 / 470',
+  'studio/offer.svg': '520 / 660',
+  'studio/schedule.svg': '1200 / 700',
+  'studio/week-card.svg': '360 / 480',
   'texture/blueprint-grid.svg': '640 / 640',
   'texture/halftone-print.svg': '800 / 500',
 };

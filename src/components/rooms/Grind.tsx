@@ -15,12 +15,12 @@ const TOOLS: { label: string; to: Pillar; x: string; y: string; r: number }[] = 
   { label: 'Clip ideas.txt', to: 'engine', x: '0%', y: '48%', r: -3 },
   { label: 'Scrim sheet (old)', to: 'intel', x: '48%', y: '46%', r: 8 },
   { label: 'Bot broke again', to: 'forge', x: '10%', y: '66%', r: 6 },
-  { label: 'Notion?', to: 'command', x: '62%', y: '64%', r: -5 },
+  { label: 'Who’s live tonight?', to: 'studio', x: '58%', y: '64%', r: -5 },
   { label: 'Invoices / misc', to: 'command', x: '2%', y: '84%', r: -4 },
   { label: 'VODs to cut: 19', to: 'engine', x: '50%', y: '82%', r: 3 },
 ];
 
-const SYS_BG: Record<Pillar, string> = { engine: 'bg-strike', intel: 'bg-navy', command: 'bg-trench', forge: 'bg-abyss' };
+const SYS_BG: Record<Pillar, string> = { engine: 'bg-strike', intel: 'bg-navy', command: 'bg-trench', forge: 'bg-abyss', studio: 'bg-ink' };
 
 /** 02 The Grind (concept p.12): pins for ~150vh; scroll magnetises each tool into the
  *  pillar that fixes it and the status dots light up in sequence. */
@@ -106,7 +106,7 @@ export function Grind() {
 
           <Asset
             src="sections/chaos-to-order.svg"
-            label="Scattered tools collapse into one system: Engine, Intel, Command, Forge"
+            label="Scattered tools collapse into one system: Engine, Intel, Command, Forge, Studio"
             className="mt-4 md:hidden"
           />
         </div>

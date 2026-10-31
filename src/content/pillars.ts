@@ -187,7 +187,64 @@ export const PILLAR_CONTENT: Record<Pillar, PillarContent> = {
       ['Why start with a blueprint?', "So you can see and approve the structure before anything is designed or built. It's the cheapest point to change your mind."],
     ],
   },
+
+  studio: {
+    title: 'Studio: creators sign where they grow',
+    description: 'Scout creators worth signing, keep everything they make in one library, line up every stream, and offer a perks package that makes your org the one to join.',
+    tones: ['creme', 'deep'],
+    words: ['Our creators post when they feel like it.', 'Nobody knows who’s live tonight.', 'They join for the jersey, then drift.'],
+    how: {
+      title: ['Scout, sign,', 'then back them.'],
+      steps: [
+        ['01 Scout', 'Scout', 'Data finds creators whose audience looks like your fans. People who know the scene watch their streams before anyone reaches out.'],
+        ['02 Offer', 'Offer', 'You pick the perks: clips, a schedule page, a media kit, brand deals. We package them as your org’s offer, under your name.'],
+        ['03 Onboard', 'Onboard', 'Channels connected, overlays and brand kit delivered, and rights agreed up front: who can repost what, and when.'],
+        ['04 Library', 'Library', 'Every clip, VOD, thumbnail and post lands in one library, tagged by creator, game and platform.'],
+        ['05 Schedule', 'Schedule', 'Stream times lined up across the roster, clear of match days, with go-live alerts in your Discord.'],
+        ['06 Report', 'Report', 'Each month, every creator and your staff get the growth, the top clips and what to try next.'],
+      ],
+    },
+    samples: {
+      title: ['What your', 'creators see.'],
+      items: [
+        { src: 'studio/offer.svg', caption: 'Perks offer', label: 'Perks offer: what a creator gets for joining', size: 'report' },
+        { src: 'studio/schedule.svg', caption: 'Roster stream week', label: 'Stream schedule for the whole creator roster', size: 'wide' },
+        { src: 'studio/creator-card.svg', caption: 'Creator scouting card', label: 'Creator scouting card: Pixelle, audience match 81', size: 'report' },
+        { src: 'studio/library.svg', caption: 'Content library', label: 'Every creator’s content in one library', size: 'wide' },
+        { src: 'studio/media-kit.svg', caption: 'Creator media kit', label: 'A creator media kit that keeps its own numbers current' },
+      ],
+      fineprint: 'Creators, brands and numbers shown are fictional examples.',
+    },
+    workflow: {
+      automation: ['Finds creators whose audience matches yours', 'Pulls every upload into one library', 'Posts go-live alerts and schedule changes', 'Tracks deliverables and payouts'],
+      insiders: ['Watch creators before anyone reaches out', 'Shape each creator’s perks and plan', 'Go through the monthly report with each creator'],
+      time: ['Rhythm', 'Weekly', 'schedules every Sunday, a report each month.'],
+    },
+    glance: { from: ['Your creators', 'plus the games and regions you want to grow in.'], yours: ['Every offer', 'you choose the perks; creators see your name on them.'] },
+    faq: [
+      ['Who owns the creators’ channels?', 'They do. Studio connects to their accounts with their permission, and the channels, audiences and rights stay with the creator.'],
+      ['Can we offer Studio as a perk for joining?', 'That’s what it’s built for. Studio runs under your org’s name, so clips, a schedule page, a media kit and brand deals become part of your offer when you sign someone.'],
+      ['How do you scout creators?', 'Data shortlists creators whose audience overlaps with your fans. People who know the scene watch their streams and write a note before you reach out.'],
+      ['Which platforms do you cover?', 'Twitch, YouTube, Kick, TikTok, Instagram and X: wherever your creators already stream and post.'],
+      ['What happens when a creator leaves?', 'Their channels and audience go with them. The library keeps only what your org is licensed to use, as agreed when they joined.'],
+      ['Can a creator use this without an org?', 'Yes. Sharkprint for creators offers clips, schedules, a media kit and brand deal tracking to independent streamers.'],
+    ],
+  },
 };
+
+/** Studio's full program: what an org can offer every creator it signs. */
+export const STUDIO_PROGRAM: [string, string][] = [
+  ['Creator scouting', 'Creators whose audience looks like your fans, found by data and watched by people.'],
+  ['One library', 'Every clip, VOD, thumbnail and post from every creator, tagged and searchable.'],
+  ['Schedules that line up', 'Stream times across the roster, clear of match days, with go-live alerts.'],
+  ['Clips from every stream', 'Engine cuts each creator’s streams into Shorts, Reels and TikToks.'],
+  ['Brand deals, routed', 'Sponsor briefs go to the creators who fit, with deliverables and payouts tracked.'],
+  ['Rights and approvals', 'Who can repost what, and when, agreed once and kept on record.'],
+  ['A media kit each', 'Live numbers, audience and past partners, ready to send to a brand.'],
+  ['Co-streams and collabs', 'Creators paired up when their audiences overlap, so each grows the other.'],
+  ['Day-one kit', 'Overlays, alerts, panels and your brand guide, delivered before their first stream.'],
+  ['A report each month', 'Growth, top clips and what to try next, for each creator and for your staff.'],
+];
 
 export const FORGE_FIVE: [string, string][] = [
   ['Brand', "The org's home: rosters, matches, partners, shop."],

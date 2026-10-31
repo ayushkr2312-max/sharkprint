@@ -9,7 +9,7 @@ import { WorkGrid } from '@/components/work/WorkGrid';
 import { CASES } from '@/content/cases';
 
 const title = 'Work';
-const description = 'Case studies and the artefacts behind the four pillars: clips, scouting reports, dashboards and sites, filterable by pillar.';
+const description = 'Case studies and the artefacts behind the pillars: clips, scouting reports, dashboards and sites, filterable by pillar.';
 export const metadata: Metadata = { title, description, ...share(title, description) };
 
 export default function WorkPage() {

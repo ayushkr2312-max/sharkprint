@@ -16,7 +16,7 @@ const NS = 'http://www.w3.org/2000/svg';
 
 // The statement you read your way through, word by word. `true` marks the serif phrases.
 const STATEMENT: [string, boolean?][] = [
-  ['Four pillars on'],
+  ['Five pillars on'],
   ['one automation core.', true],
   ['Everything else'],
   ['your org needs'],
@@ -38,13 +38,14 @@ const PAIRS: Record<string, keyof typeof PILLAR_AT> = {
   'Sponsor sourcing': 'command', 'Cost audits': 'command', 'Growth tracking': 'command', 'Org reports': 'command',
   'Pitch decks': 'intel', 'Market intel': 'intel', 'Auto-captions': 'engine', 'Content scouting': 'engine',
 };
-const PILLAR_AT = { engine: [556, 344], intel: [556, 556], command: [344, 556], forge: [344, 344] } as const;
+const PILLAR_AT = { engine: [592.7, 403.6], intel: [538.2, 571.4], command: [361.8, 571.4], forge: [307.3, 403.6], studio: [450, 300] } as const;
 
 const LANDING: [string, string][] = [
   ['Engine', 'Auto + manual clipping, subtitles, auto posts & captions, trend scouting'],
   ['Intel', 'Player, team & staff scouting, opponent analytics, market intel'],
   ['Command', 'Org reports & databases, dashboards, growth tracking'],
   ['Forge', 'Backends, websites, tournament platforms, merch'],
+  ['Studio', 'Creator scouting, content library, stream schedules, creator perks'],
   ['Orbit', 'Discord bots, sponsor sourcing, pitch decks, spend reports'],
 ];
 
@@ -55,7 +56,7 @@ const HOLD = 0.25; // a beat with everything in place before the room lets go
 
 /** 07 Orbit (concept p.21): first you read it — the statement lights up word by word
  *  while the orbit lies edge-on beneath it, like a ring seen from the side. Then the
- *  words clear and the orbit swings up to face you: the services orbiting the four
+ *  words clear and the orbit swings up to face you: the services orbiting the five
  *  pillars around one automation core. The ring turns once every 120s; hover pauses it. */
 export function Orbit() {
   const ref = useRef<HTMLElement>(null);
@@ -298,7 +299,7 @@ export function Orbit() {
               onPointerLeave={() => spin.current?.play()}
             >
               <div data-orbit-tilt="" className="relative size-full will-change-transform">
-                <Asset src="sections/orbit-services.svg" label="Twelve services orbiting four pillars around one automation core" className="size-full [&>svg]:overflow-visible" onReady={onOrbit} />
+                <Asset src="sections/orbit-services.svg" label="Twelve services orbiting five pillars around one automation core" className="size-full [&>svg]:overflow-visible" onReady={onOrbit} />
                 <button type="button" onClick={openSheet} aria-haspopup="dialog" aria-label="Open: how the automation core works" className="absolute top-1/2 left-1/2 z-[3] aspect-square w-[22%] -translate-x-1/2 -translate-y-1/2 rounded-full" />
               </div>
             </div>

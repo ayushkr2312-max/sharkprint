@@ -6,7 +6,7 @@ import { gsap, useGSAP } from '@/lib/gsap';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const MATCH_DAY = 5;
-const LANES: Record<Pillar, string> = { engine: 'Engine', intel: 'Intel', command: 'Command', forge: 'Forge' };
+const LANES: Record<Pillar, string> = { engine: 'Engine', intel: 'Intel', command: 'Command', forge: 'Forge', studio: 'Studio' };
 
 // A sample week for an org with a final on Saturday: what each pillar hands over, and when.
 const ITEMS: { lane: Pillar; day: number; what: string }[] = [
@@ -24,9 +24,12 @@ const ITEMS: { lane: Pillar; day: number; what: string }[] = [
   { lane: 'forge', day: 1, what: 'Roster page updated' },
   { lane: 'forge', day: 3, what: 'Match page live' },
   { lane: 'forge', day: 6, what: 'Results on the site' },
+  { lane: 'studio', day: 0, what: 'Creator schedules out' },
+  { lane: 'studio', day: 4, what: 'Watch party booked' },
+  { lane: 'studio', day: 6, what: 'Creator clips filed' },
 ];
 
-/** The week's flow, "Match week, handled": the four pillars as lanes across seven days. As
+/** The week's flow, "Match week, handled": the five pillars as lanes across seven days. As
  *  you scroll, a playhead runs through the week and each piece of work lands on its day,
  *  from queued (dashed) to out (solid, ticked). On phones the week reads as a list of days. */
 export function MatchWeek() {
@@ -70,7 +73,7 @@ export function MatchWeek() {
     <figure
       ref={ref}
       data-line="foot"
-      aria-label="A sample match week: each day, what Engine, Intel, Command and Forge hand over, from logged VODs and the opponent pack to the match-day dashboard and results on the site."
+      aria-label="A sample match week: each day, what Engine, Intel, Command, Forge and Studio hand over, from logged VODs and the opponent pack to the match-day dashboard, results on the site and a creator watch party."
       className="week"
     >
       <div className="week-grid">

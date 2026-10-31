@@ -17,7 +17,7 @@ const jetbrains = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '6
 const michroma = Michroma({ subsets: ['latin'], weight: '400', variable: '--font-michroma' });
 
 const title = "Finishers Sharkprint: your org's edge, engineered";
-const description = 'Clips, scouting, a live command centre and the sites that carry your name. One partner, built for esports orgs.';
+const description = 'Clips, scouting, a live command centre, the sites that carry your name and a creator program. One partner, built for esports orgs.';
 
 export const metadata: Metadata = {
   // Share cards need an absolute address.

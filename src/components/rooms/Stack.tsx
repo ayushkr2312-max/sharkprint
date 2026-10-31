@@ -3,7 +3,7 @@ import { TapeSwap } from '@/components/flows/TapeSwap';
 import { Heading, Lead, Accent } from '@/components/ui/type';
 
 /** 02b The stack: the bridge from the grind to the pillars. The answer to the duct tape,
- *  in one screen: four pillars, each peeling away the notes it replaces, before each one
+ *  in one screen: five pillars, each peeling away the notes it replaces, before each one
  *  gets its own room below. */
 export function Stack() {
   return (
@@ -14,7 +14,7 @@ export function Stack() {
             Swap the tape<br />for <Accent touch="stack">one system.</Accent>
           </Heading>
           <Lead className="lg:max-w-[25em] lg:pb-2">
-            Sharkprint replaces the patchwork with four pillars, run by one team on one automation core. Each one takes a pile of tape off your staff.
+            Sharkprint replaces the patchwork with five pillars, run by one team on one automation core. Each one takes a pile of tape off your staff.
           </Lead>
         </div>
 

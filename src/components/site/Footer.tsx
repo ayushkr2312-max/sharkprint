@@ -8,7 +8,9 @@ const NAV = [
   ['Intel', '/#intel'],
   ['Command', '/#command'],
   ['Forge', '/#forge'],
+  ['Studio', '/#studio'],
   ['Insiders', '/#insiders'],
+  ['For creators', '/creators'],
 ];
 
 /** The Lateral Line ends by underlining a giant SHARKPRINT wordmark. */

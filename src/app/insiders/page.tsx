@@ -14,8 +14,8 @@ const ROLES: { role: string; reviews: string; pillars: Pillar[] }[] = [
   { role: 'Ex-org managers', reviews: 'Dashboards, sponsor deliverables and finance entries in Command; the blueprint of every Forge build.', pillars: ['command', 'forge'] },
   { role: 'Analysts', reviews: 'Scene shortlists, fit scores and opponent packs in Intel; roster stats in Command.', pillars: ['intel', 'command'] },
   { role: 'Coaches', reviews: 'Prep packs before they reach your rosters, and the scout notes behind every recommendation.', pillars: ['intel'] },
-  { role: 'Editors', reviews: 'Which moments ship, the hook, the subtitles and the final cut of every Engine clip.', pillars: ['engine'] },
-  { role: 'Partnerships leads', reviews: 'Sponsor sourcing and pitch decks, and the deliverables you owe partners.', pillars: ['command'] },
+  { role: 'Editors', reviews: 'Which moments ship, the hook, the subtitles and the final cut of every Engine clip, your creators’ clips included.', pillars: ['engine', 'studio'] },
+  { role: 'Partnerships leads', reviews: 'Sponsor sourcing and pitch decks, the deliverables you owe partners, and the brand deals Studio routes to your creators.', pillars: ['command', 'studio'] },
 ];
 
 const LOOP: [string, string][] = [

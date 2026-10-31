@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /** What a headline's accent does as it comes into view, each drawn from what it says. */
-export type Touch = 'tape' | 'clip' | 'scan' | 'screen' | 'forge' | 'orbit' | 'check' | 'pick' | 'route' | 'week' | 'stack';
+export type Touch = 'tape' | 'clip' | 'scan' | 'screen' | 'forge' | 'orbit' | 'check' | 'pick' | 'route' | 'week' | 'stack' | 'grow' | 'live';
 
 /** The second voice in a headline: set in Michroma, the wordmark's face, in Strike. With a
  *  touch it plays one small act as the heading scrolls in (globals.css, "Accents"). */
@@ -51,6 +51,8 @@ export function Accent({ touch, className, children }: { touch?: Touch; classNam
       )}
       {touch === 'week' && <span aria-hidden="true" className="acc-week" />}
       {touch === 'stack' && <span aria-hidden="true" className="acc-stack"><i /><i /><i /><i /></span>}
+      {touch === 'grow' && <span aria-hidden="true" className="acc-grow"><i /><i /><i /></span>}
+      {touch === 'live' && <span aria-hidden="true" className="acc-live"><i /></span>}
       {touch === 'route' && (
         <>
           <span aria-hidden="true" className="acc-route" />
