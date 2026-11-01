@@ -147,6 +147,9 @@ export function LateralLine() {
         if (!svg) return [];
         const w = host.offsetWidth, h = host.offsetHeight;
         const hostLeft = host.getBoundingClientRect().left;
+        // The furthest the scroll target can get into this room: at the very bottom of the
+        // page it sits at the bottom of the viewport (see draw's tail).
+        const reach = document.documentElement.scrollHeight - (host.getBoundingClientRect().top + scrollY) - 1;
         const X = lane - hostLeft;
         svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
         svg.replaceChildren();
@@ -237,9 +240,11 @@ export function LateralLine() {
             xs[i] = p.x; ys[i] = p.y;
             ks[i] = Math.max(p.y, ks[i - 1] + (p.y - ys[i - 1] > ds * 0.7 ? PACE_DOWN : PACE_ACROSS) * ds);
           }
-          // The footer can only scroll so far: make sure it finishes.
-          if (plan.ends && ks[n] > h - 1) {
-            const k0 = ks[0], scale = Math.max(0, h - 1 - k0) / (ks[n] - k0);
+          // Near the end of the page there's only so much scroll left: a piece that would need
+          // more (a long run sideways out of the last room, or the footer's turn into the
+          // wordmark) is squeezed to finish in time, so the line always reaches the underline.
+          if (ks[n] > reach) {
+            const k0 = Math.min(ks[0], reach), scale = Math.max(0, reach - k0) / (ks[n] - k0);
             for (let i = 0; i <= n; i++) ks[i] = k0 + (ks[i] - k0) * scale;
           }
           last = ks[n];

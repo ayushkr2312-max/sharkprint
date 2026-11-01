@@ -2,9 +2,11 @@
 
 import type { CSSProperties } from 'react';
 import { Room } from '@/components/site/Room';
+import { ClipFan, OldClips } from '@/components/flows/ClipFan';
 import { StudioDesk } from '@/components/flows/StudioDesk';
 import { Gets } from '@/components/ui/Gets';
 import { Glance } from '@/components/ui/Glance';
+import { OldNew } from '@/components/ui/OldNew';
 import { useSeen } from '@/components/ui/useSeen';
 import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
 import { STUDIO_PROGRAM } from '@/content/pillars';
@@ -82,6 +84,21 @@ export function StudioRoom({ headingLevel = 'h2' }: Props) {
           <StudioDesk />
         </div>
 
+        {/* One match, every channel: the org's and each player's, from the same final. */}
+        <section aria-labelledby="fan-title" className="mt-[clamp(72px,10vh,120px)]">
+          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+            <Heading as={H === 'h1' ? 'h2' : 'h3'} id="fan-title" size="h2">
+              One match,<br /><Accent>fifteen clips.</Accent>
+            </Heading>
+            <p data-reveal="" className="max-w-[28em] text-[17px] text-pretty text-ink-60 lg:pb-1.5">
+              A final becomes clips for the org’s channels and every player’s own, cut to each feed and approved by the player whose channel it’s on.
+            </p>
+          </div>
+          <div data-reveal="" className="mt-8">
+            <OldNew label="One match, every channel" old={<OldClips />} next={<ClipFan />} />
+          </div>
+        </section>
+
         <div data-line="foot" className="mt-[clamp(64px,9vh,112px)] grid items-center gap-[clamp(40px,5vw,88px)] lg:grid-cols-[.95fr_1.05fr]">
           <div className="grid content-start gap-6">
             <Heading as={H === 'h1' ? 'h2' : 'h3'} size="h2">
@@ -94,7 +111,8 @@ export function StudioRoom({ headingLevel = 'h2' }: Props) {
           </div>
           <Offer />
         </div>
-        {H === 'h2' && <Glance pillar="studio" />}
+        {/* /studio is only sent to people, so the homepage doesn't link to it. */}
+        {H === 'h2' && <Glance pillar="studio" link={false} />}
       </div>
     </Room>
   );

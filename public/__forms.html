@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Form definitions</title>
+</head>
+<body>
+<!-- Read by Netlify at deploy time so it accepts the enquiry form posted from /business and
+     /schools (src/components/offer/Enquiry.tsx). Field names here must match that form. -->
+<form name="enquiry" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="enquiry">
+  <input name="bot-field">
+  <input name="page">
+  <input name="name">
+  <input name="email" type="email">
+  <input name="organisation">
+  <input name="interest">
+  <input name="plan">
+  <textarea name="message"></textarea>
+</form>
+</body>
+</html>

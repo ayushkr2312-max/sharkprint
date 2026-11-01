@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { share } from '@/lib/share';
+import card from '@/app/cards/creators.png';
+import { share, UNLISTED } from '@/lib/share';
 import { Room } from '@/components/site/Room';
 import { Stepper } from '@/components/pillar/Stepper';
 import { Approve } from '@/components/creators/Approve';
@@ -9,50 +9,53 @@ import { Hub } from '@/components/creators/Hub';
 import { Rhythm } from '@/components/creators/Rhythm';
 import { Zones } from '@/components/creators/Zones';
 import { Asset } from '@/components/ui/Asset';
-import { Arrow, btn } from '@/components/ui/buttons';
+import { DockHero } from '@/components/offer/DockHero';
 import { Heading, Lead, Accent } from '@/components/ui/type';
 import { CREATOR_FAQ, CREATOR_STEPS, CREATORS_META, PIPELINE, PLANS } from '@/content/creators';
 
 const { title, description } = CREATORS_META;
-export const metadata: Metadata = { title, description, ...share(title, description) };
+export const metadata: Metadata = { title, description, ...share(title, description, { image: card, alt: 'Sharkprint for creators: stream once, post all week. Clips, a posting plan, your schedule and a media kit.' }), ...UNLISTED };
 
 /** Sharkprint for creators: the same team and tools, sold to independent streamers.
- *  Hero (streams in, a week of posts out) → the clip pipeline and the approval queue →
+ *  The promise over what you get, docked → a week of posts from the week's streams → the clip pipeline and the approval queue →
  *  everything else in one hub → the schedule seen from anywhere → brand deals → how it
  *  starts → three ways in → questions, and the door to Studio for creators in an org.
  *  Never two dark rooms in a row. */
 export default function CreatorsPage() {
   return (
     <main id="main">
-      <Room tone="creme" room="c-hero" id="creators" labelledBy="creators-title" pad={false} className="pt-[124px] pb-[72px] md:pt-[150px] md:pb-[clamp(88px,12vh,150px)]">
+      <DockHero
+        id="creators"
+        title="Stream once. Post all week."
+        lines={['STREAM ONCE.', 'POST ALL WEEK.']}
+        lead="Sharkprint for creators turns your streams into Shorts, Reels and TikToks, and keeps your schedule, brand deals and numbers in one place."
+        cta={{ label: 'See how it starts', href: '#how', down: true }}
+        label="What you get"
+        tiles={[
+          { id: 'clips', name: 'Clips', kind: 'From every stream', href: '#pipeline', tone: 'strike', art: <Asset src="engine/clip-tactical.svg" eager label="A clip cut for Shorts" />, w: '46%', sink: '26%' },
+          { id: 'plan', name: 'Posting plan', kind: 'On your rhythm', href: '#rhythm', tone: 'paper', art: <Asset src="engine/clip-calendar.svg" eager label="A month of posts" />, w: '118%', sink: '12%', left: '58%' },
+          { id: 'schedule', name: 'Schedule', kind: 'Every timezone', href: '#schedule', tone: 'trench', art: <Asset src="studio/week-card.svg" eager label="This week’s streams" />, w: '78%', sink: '18%' },
+          { id: 'kit', name: 'Media kit', kind: 'Brands find you ready', href: '#deals', tone: 'mist', art: <Asset src="studio/media-kit.svg" eager label="A media kit" />, w: '124%', sink: '12%', left: '60%' },
+        ]}
+      />
+
+      <Room tone="deep" room="c-rhythm" id="rhythm" labelledBy="rhythm-title">
         <div className="wrap">
-          <div className="grid gap-7 lg:grid-cols-[1.1fr_.9fr] lg:items-end lg:gap-16">
-            <Heading data-line="in" as="h1" id="creators-title" size="h1">
-              Stream once.<br /><Accent touch="live">Post all week.</Accent>
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <Heading data-line="in" id="rhythm-title" size="h1">
+              One stream in,<br /><Accent touch="live">a week out.</Accent>
             </Heading>
-            <div className="grid gap-7 lg:pb-3">
-              <Lead>
-                <b className="font-semibold text-ink">Sharkprint for creators</b> turns your streams into Shorts, Reels and TikToks, and keeps your schedule, brand deals and numbers in one place. You stay consistent without editing all night.
-              </Lead>
-              <p data-reveal="" className="flex flex-wrap items-center gap-x-6 gap-y-4">
-                <a href="#how" className={btn('ink', 'lg')}>
-                  See how it starts
-                  <Arrow dir="down" />
-                </a>
-                <Link href="/studio" className="group inline-flex items-center gap-2 text-[15.5px] font-semibold text-strike no-underline">
-                  Run an org? See Studio
-                  <Arrow />
-                </Link>
-              </p>
-            </div>
+            <Lead className="lg:max-w-[24em] lg:pb-2">
+              Pick how often you want to post. We pick the moments from your streams and fill next week’s calendar, and you stay consistent without editing all night.
+            </Lead>
           </div>
-          <div data-line="foot" className="mt-[clamp(40px,6vh,72px)]">
+          <div data-line="foot" className="mt-[clamp(40px,6vh,64px)]">
             <Rhythm />
           </div>
         </div>
       </Room>
 
-      <Room tone="abyss" room="c-pipeline" labelledBy="pipeline-title" className="overflow-hidden">
+      <Room tone="abyss" room="c-pipeline" id="pipeline" labelledBy="pipeline-title" className="overflow-hidden">
         <div className="wrap">
           <div className="grid gap-6">
             <Heading data-line="in" id="pipeline-title" size="h1">
@@ -93,7 +96,7 @@ export default function CreatorsPage() {
         </div>
       </Room>
 
-      <Room tone="trench" room="c-schedule" labelledBy="schedule-title" className="overflow-hidden">
+      <Room tone="trench" room="c-schedule" id="schedule" labelledBy="schedule-title" className="overflow-hidden">
         <div className="wrap grid grid-cols-1 items-center gap-[clamp(40px,6vw,96px)] lg:grid-cols-[1fr_minmax(0,500px)]">
           <div className="grid content-start gap-6">
             <Heading data-line="in" id="schedule-title" size="h1">
@@ -118,7 +121,7 @@ export default function CreatorsPage() {
         </div>
       </Room>
 
-      <Room tone="deep" room="c-deals" labelledBy="deals-title">
+      <Room tone="deep" room="c-deals" id="deals" labelledBy="deals-title">
         <div className="wrap">
           <div className="grid grid-cols-1 items-center gap-[clamp(40px,5vw,88px)] lg:grid-cols-[.95fr_1.05fr]">
             <div className="grid content-start gap-6">
@@ -187,11 +190,7 @@ export default function CreatorsPage() {
             </Heading>
             <aside data-reveal="" className="grid gap-3 rounded-[22px] bg-ink p-7 text-white">
               <p className="font-display text-[24px] leading-tight font-bold">Signed to an org?</p>
-              <p className="text-[15.5px] text-fog">Orgs that run Sharkprint Studio can offer all of this to the creators they sign, under the org’s name. Ask yours, or send them this.</p>
-              <Link href="/studio" className="group mt-2 inline-flex items-center gap-2 justify-self-start text-[15.5px] font-semibold text-mist no-underline">
-                How Studio works
-                <Arrow />
-              </Link>
+              <p className="text-[15.5px] text-fog">Orgs that run Sharkprint Studio can offer all of this to the creators they sign, under the org’s name. Ask yours whether it’s part of your deal.</p>
             </aside>
           </div>
           <div data-line="foot" className="faq border-t border-hairline">

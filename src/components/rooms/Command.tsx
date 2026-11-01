@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Room } from '@/components/site/Room';
 import { Asset } from '@/components/ui/Asset';
+import { OldMatchDay, RunSheet } from '@/components/flows/MatchDay';
 import { Gets } from '@/components/ui/Gets';
 import { Glance } from '@/components/ui/Glance';
 import { Icon } from '@/components/ui/Icon';
+import { OldNew } from '@/components/ui/OldNew';
 import { Eyebrow, Heading, Lead, Accent } from '@/components/ui/type';
 import { Draggable, gsap, useGSAP } from '@/lib/gsap';
 import { isFinePointer, isMobile } from '@/lib/env';
@@ -245,6 +247,22 @@ export function CommandRoom({ headingLevel = 'h2' }: Props) {
             <Widget key={w.src} {...w} />
           ))}
         </div>
+
+        {/* The same screen on a real night: match day for a roster in four timezones, with the
+            sponsor deliverables due the same evening. */}
+        <section aria-labelledby="matchday-title" className="mt-[clamp(72px,10vh,120px)]">
+          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+            <Heading as={H === 'h1' ? 'h2' : 'h3'} id="matchday-title" size="h2">
+              Match day,<br /><Accent>one run-sheet.</Accent>
+            </Heading>
+            <p data-reveal="" className="max-w-[28em] text-[17px] text-pretty text-ink-60 lg:pb-1.5">
+              Every player’s times in their own timezone, and every sponsor deliverable due tonight, in the same place.
+            </p>
+          </div>
+          <div data-reveal="" className="mt-8">
+            <OldNew label="Match day" old={<OldMatchDay />} next={<RunSheet />} />
+          </div>
+        </section>
 
         <div data-line="foot" data-reveal="" className="mt-[clamp(56px,8vh,88px)]">
           <Gets items={OFFER} cols="md:grid-cols-3" />

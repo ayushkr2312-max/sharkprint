@@ -16,29 +16,40 @@ const NAV = [
   ['Insiders', 'insiders'],
 ] as const;
 
+// Pages sent to people directly keep their visitors on the page: their own sections, and a
+// way to get in touch that's always one tap away.
+const PAGE_NAV: Record<string, { links: readonly (readonly [string, string])[]; cta: string }> = {
+  '/business': { links: [['Services', 'services'], ['How we work', 'process'], ['Ways to start', 'start'], ['FAQ', 'faq']], cta: 'Book a free call' },
+  '/schools': { links: [['Program', 'program'], ['Safeguarding', 'safeguarding'], ['A term', 'term'], ['FAQ', 'faq']], cta: 'Book a free call' },
+};
+
 /** One floating capsule: the mark, and the homepage's rooms with a marker that slides to
  *  the one you're in. It steps aside while you scroll down and comes back as soon as you
- *  scroll up. Phones fold the rooms into a sheet. */
+ *  scroll up. Phones fold the rooms into a sheet. On a page we send, it carries that page's
+ *  sections and a button to the enquiry form instead. */
 export function Header() {
   const pathname = usePathname();
   const home = pathname === '/';
+  const page = PAGE_NAV[pathname];
+  const links = page ? page.links : NAV;
+  const local = home || !!page;
   const [inView, setInView] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const list = useRef<HTMLDivElement>(null);
   const marker = useRef<HTMLSpanElement>(null);
-  const active = home ? inView : null;
+  const active = local ? inView : null;
 
   // The room in the middle of the screen (pinned rooms sit inside their pin spacers).
   useEffect(() => {
-    if (!home) return;
-    const ids = new Set<string>(NAV.map(([, id]) => id));
+    if (!local) return;
+    const ids = new Set<string>(links.map(([, id]) => id));
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) setInView(ids.has(e.target.id) ? e.target.id : null); });
     }, { rootMargin: '-48% 0px -48% 0px' });
     document.querySelectorAll('main [data-room][id]').forEach((s) => io.observe(s));
     return () => io.disconnect();
-  }, [home]);
+  }, [local, links]);
 
   // The marker slides under the active link: a pill cut out of a bar the list's width, so
   // only its clip moves.
@@ -70,7 +81,7 @@ export function Header() {
     };
   }, []);
 
-  const href = (id: string) => (home ? '#' : '/#') + id;
+  const href = (id: string) => (local ? '#' : '/#') + id;
 
   return (
     <>
@@ -86,7 +97,7 @@ export function Header() {
       >
         <nav
           aria-label="Primary"
-          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-4 lg:gap-8 xl:gap-10"
+          className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-4 lg:gap-10"
         >
           <Link
             href={home ? '#top' : '/'}
@@ -102,7 +113,7 @@ export function Header() {
           <div ref={list} className="relative hidden md:block">
             <span ref={marker} aria-hidden="true" className="absolute inset-x-0 top-0 h-10 bg-ink opacity-0 transition-[clip-path,opacity] duration-500 ease-out-expo [clip-path:inset(0_100%_0_0_round_999px)]" />
             <ul className="flex items-center">
-              {NAV.map(([label, id]) => (
+              {links.map(([label, id]) => (
                 <li key={id}>
                   <Link
                     href={href(id)}
@@ -120,26 +131,25 @@ export function Header() {
             </ul>
           </div>
 
-          <Link
-            href="/creators"
-            aria-current={pathname === '/creators' ? 'page' : undefined}
-            className="hidden h-10 items-center rounded-full border border-hairline px-4 text-[14.5px] font-semibold whitespace-nowrap text-ink no-underline transition-colors duration-300 hover:border-strike hover:text-strike aria-[current=page]:border-strike aria-[current=page]:bg-strike aria-[current=page]:text-paper lg:flex"
-          >
-            For creators
-          </Link>
-
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-controls="site-menu"
-            onClick={() => setOpen(!open)}
-            className="flex h-10 items-center rounded-full bg-ink px-4 text-[14px] font-semibold text-paper md:hidden"
-          >
-            {open ? 'Close' : 'Menu'}
-          </button>
+          {page ? (
+            <a href="#contact" className="flex h-10 items-center rounded-full bg-strike px-4 text-[14px] font-semibold whitespace-nowrap text-white no-underline transition-colors duration-300 hover:bg-strike-hover md:px-5 md:text-[14.5px]">
+              <span className="lg:hidden">Free call</span>
+              <span className="max-lg:hidden">{page.cta}</span>
+            </a>
+          ) : (
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={() => setOpen(!open)}
+              className="flex h-10 items-center rounded-full bg-ink px-4 text-[14px] font-semibold text-paper md:hidden"
+            >
+              {open ? 'Close' : 'Menu'}
+            </button>
+          )}
         </nav>
 
-        <div
+        {!page && <div
           id="site-menu"
           hidden={!open}
           className="absolute inset-x-3 top-[calc(100%+8px)] rounded-[28px] border border-hairline bg-paper p-2 shadow-2 md:hidden"
@@ -156,17 +166,8 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li className="mt-1 border-t border-hairline pt-1">
-              <Link
-                href="/creators"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-[20px] px-4 py-3 font-display text-[44px] leading-none font-extrabold tracking-[-0.01em] text-strike no-underline [font-stretch:58%] hover:bg-creme"
-              >
-                For creators
-              </Link>
-            </li>
           </ul>
-        </div>
+        </div>}
       </header>
     </>
   );

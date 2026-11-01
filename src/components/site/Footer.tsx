@@ -10,7 +10,6 @@ const NAV = [
   ['Forge', '/#forge'],
   ['Studio', '/#studio'],
   ['Insiders', '/#insiders'],
-  ['For creators', '/creators'],
 ];
 
 /** The Lateral Line ends by underlining a giant SHARKPRINT wordmark. */

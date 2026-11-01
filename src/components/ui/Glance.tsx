@@ -9,8 +9,9 @@ import { PILLAR_CONTENT } from '@/content/pillars';
 
 /** The foot of a pillar room on the homepage: what we need from you, how long it takes and
  *  what stays yours, taken from the pillar's own page, with the way through to it. The
- *  values rise out of their baselines one after another as it scrolls into view. */
-export function Glance({ pillar }: { pillar: Pillar }) {
+ *  values rise out of their baselines one after another as it scrolls into view. `link={false}`
+ *  leaves the way through out, for a pillar whose page is only sent to people. */
+export function Glance({ pillar, link = true }: { pillar: Pillar; link?: boolean }) {
   const c = PILLAR_CONTENT[pillar];
   const facts: [string, string, string][] = [
     ['From you', ...c.glance.from],
@@ -33,10 +34,12 @@ export function Glance({ pillar }: { pillar: Pillar }) {
           </div>
         ))}
       </dl>
-      <Link href={`/${pillar}`} className="glance-go group">
-        How {name} works
-        <span aria-hidden="true" className="glance-ring"><Arrow /></span>
-      </Link>
+      {link && (
+        <Link href={`/${pillar}`} className="glance-go group">
+          How {name} works
+          <span aria-hidden="true" className="glance-ring"><Arrow /></span>
+        </Link>
+      )}
     </div>
   );
 }

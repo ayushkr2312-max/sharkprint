@@ -279,6 +279,12 @@
 .hx-tile--command { background: var(--color-paper); color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-hairline); }
 .hx-tile--forge { background: var(--color-ink); }
 .hx-tile--studio { background: var(--color-mist); color: var(--color-ink); }
+/* The pages we send dock their own parts, coloured by tone; DockHero sizes their art inline. */
+.hx-tile--strike { background: var(--color-strike); }
+.hx-tile--trench { background: var(--color-trench); }
+.hx-tile--ink { background: var(--color-ink); }
+.hx-tile--paper { background: var(--color-paper); color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-hairline); }
+.hx-tile--mist { background: var(--color-mist); color: var(--color-ink); }
 .hx-tile-head { position: absolute; top: 20px; left: 22px; right: 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .hx-tile-name { display: block; font: 700 clamp(22px, 2cqw, 28px)/1 var(--font-saira), sans-serif; letter-spacing: -.01em; }
 .hx-tile-kind { display: block; margin-top: 8px; font: 500 14px/1.2 var(--font-dm-sans), sans-serif; opacity: .8; }
@@ -286,7 +292,7 @@
   position: absolute; top: 18px; right: 18px; z-index: 2; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
   background: #fff; color: var(--color-ink); opacity: 0; scale: .6; transition: opacity .3s, scale .45s var(--ease-out-expo);
 }
-:is(.hx-tile--command, .hx-tile--studio) .hx-tile-go { background: var(--color-ink); color: #fff; }
+:is(.hx-tile--command, .hx-tile--studio, .hx-tile--paper, .hx-tile--mist) .hx-tile-go { background: var(--color-ink); color: #fff; }
 .hx-tile:hover .hx-tile-go, .hx-tile:focus-visible .hx-tile-go { opacity: 1; scale: 1; }
 .hx-tile:focus-visible { outline: 2px solid var(--color-strike); outline-offset: 4px; }
 /* The art sizes with the tile's width but the tile's height follows the screen's, so on short,
@@ -304,6 +310,11 @@
 
 @media (min-width: 768px) {
   .hx { --f: 12.8cqw; }
+}
+/* DockHero passes its own sizes, fitted to its longest line (desktop) and word (phones). */
+.hx--fit { --f: var(--fm); }
+@media (min-width: 768px) {
+  .hx--fit { --f: var(--fd); }
 }
 @media (max-width: 767px) {
   /* Phones: one row along the bottom edge that slides sideways, the next tile peeking in. */
@@ -1101,6 +1112,199 @@ html[data-js] .deals:not([data-on]) .deals-card { opacity: 0; }
 .deals[data-on] .deals-card { animation: deals-in .65s var(--ease-out-expo) both; animation-delay: calc(.1s + var(--i) * .12s); }
 @media (max-width: 899px) { .deals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 479px) { .deals { grid-template-columns: minmax(0, 1fr); } }
+
+/* --------------------------------------------------------------- App fragments
+   Small, real-looking app screens (a staff dashboard, a business dashboard, a market note,
+   a spend audit): a frame, a bar, and tiles inside. */
+
+.app { overflow: hidden; border: 1px solid var(--color-hairline); border-radius: 24px; background: var(--color-paper); color: var(--color-ink); box-shadow: 0 40px 80px -52px rgb(7 18 43 / .55); }
+[data-tone="dark"] .app { box-shadow: 0 50px 90px -50px rgb(0 0 0 / .85); }
+.app-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 14px 18px; border-bottom: 1px solid var(--color-hairline); }
+.app-tile { padding: 16px 18px; border: 1px solid var(--color-hairline); border-radius: 16px; background: #fff; }
+.app-label { font-size: 13px; font-weight: 500; color: var(--color-muted); }
+
+/* --------------------------------------------------------------- Offer pages
+   The pages sent to schools and businesses: a layered product hero, a before-and-after table,
+   the service tour, a staged process, the student pathway and the access matrix. */
+
+.assure { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.assure li { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 500; color: var(--color-ink-60); }
+.assure svg { flex: none; width: 18px; height: 18px; padding: 3px; border-radius: 50%; background: var(--color-strike); color: #fff; }
+
+/* Before and after: today on the left, with Sharkprint on the right in its own tinted column. */
+.compare { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--color-hairline); border-radius: 22px; background: var(--color-paper); }
+.compare th, .compare td { padding: 18px 22px; border-top: 1px solid var(--color-hairline); text-align: left; vertical-align: top; }
+.compare thead th { padding-block: 14px; border-top: 0; font-size: 13px; font-weight: 600; color: var(--color-muted); }
+.compare thead th:last-child { color: var(--color-strike); }
+.compare tbody th { width: 22%; font: 700 19px/1.2 var(--font-saira), sans-serif; }
+.compare td:nth-child(2) { width: 36%; font-size: 15.5px; color: var(--color-ink-60); }
+.compare td:last-child { background: var(--color-ice); font-size: 15.5px; font-weight: 500; }
+.compare td:last-child span { display: flex; gap: 10px; }
+.compare td:last-child svg { flex: none; width: 16px; height: 16px; margin-top: 3px; color: var(--color-strike); }
+@media (max-width: 767px) {
+  .compare thead { display: none; }
+  .compare, .compare tbody, .compare tr, .compare th, .compare td, .compare tbody th, .compare td:nth-child(2) { display: block; width: auto; }
+  .compare tr + tr { border-top: 1px solid var(--color-hairline); }
+  .compare tbody th, .compare td { border-top: 0; padding: 0 18px 12px; }
+  .compare tbody th { padding-top: 18px; }
+  .compare td:nth-child(2)::before { content: "Today: "; font-weight: 600; }
+  .compare td:last-child { margin: 0 12px 14px; padding: 12px 14px; border-radius: 12px; }
+}
+
+/* The service tour: numbered tabs across the top, the service and its screen below. */
+.explorer-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.explorer-tab { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border: 1px solid var(--color-rule-dark); border-radius: 16px; color: var(--color-fog); text-align: left; transition: background-color .3s, border-color .3s, color .3s; }
+.explorer-tab:hover { border-color: var(--color-mist); color: #fff; }
+.explorer-tab b { font: 700 17px/1.15 var(--font-saira), sans-serif; }
+.explorer-tab small { font-size: 12.5px; opacity: .75; }
+.explorer-num { font: 700 14px/1.4 var(--font-saira), sans-serif; color: var(--color-current-blue); }
+.explorer-tab[aria-selected="true"] { border-color: #fff; background: #fff; color: var(--color-ink); }
+.explorer-tab[aria-selected="true"] .explorer-num { color: var(--color-strike); }
+.explorer-panel { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; gap: clamp(32px, 5vw, 80px); margin-top: clamp(28px, 4vh, 44px); animation: desk-in .6s var(--ease-out-expo) both; }
+.explorer-panel[hidden] { display: none; }
+.explorer-visual { min-width: 0; }
+@media (max-width: 1023px) {
+  .explorer-tabs { display: flex; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .explorer-tabs::-webkit-scrollbar { display: none; }
+  .explorer-tab { flex: 0 0 auto; min-width: 190px; scroll-snap-align: start; }
+  .explorer-panel { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* A staged process: dots on one line, each stage under its dot, the line drawing across. */
+.phases { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 32px); padding-top: 34px; }
+.phases::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: currentColor; opacity: .18; }
+.phases::after { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--color-strike); transform-origin: left; transition: transform 1.6s var(--ease-out-expo) .1s; }
+[data-tone="dark"] .phases::after { background: var(--color-current-blue); }
+html[data-js] .phases:not([data-on])::after { transform: scaleX(0); }
+.phases li { position: relative; display: grid; align-content: start; gap: 10px; }
+.phases-dot { position: absolute; top: -34px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--color-strike); box-shadow: 0 0 0 5px rgb(36 87 245 / .16); }
+[data-tone="dark"] .phases-dot { background: var(--color-current-blue); box-shadow: 0 0 0 5px rgb(94 139 255 / .2); }
+.phases-when { font-size: 13px; font-weight: 600; color: var(--color-strike); }
+[data-tone="dark"] .phases-when { color: var(--color-mist); }
+.phases-body { font-size: 15.5px; color: var(--color-ink-60); }
+[data-tone="dark"] .phases-body { color: var(--color-fog); }
+.phases-get { display: grid; gap: 2px; margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--color-hairline); font-size: 15px; font-weight: 600; }
+.phases-get span { font-size: 12.5px; font-weight: 500; color: var(--color-muted); }
+[data-tone="dark"] .phases-get { border-color: var(--color-rule-dark); color: #fff; }
+[data-tone="dark"] .phases-get span { color: var(--color-mist); }
+html[data-js] .phases li { transition: opacity .7s var(--ease-out-expo), transform .9s var(--ease-out-expo); transition-delay: calc(.2s + var(--i) * .14s); }
+html[data-js] .phases:not([data-on]) li { opacity: 0; transform: translateY(18px); }
+@media (max-width: 899px) {
+  .phases { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 0 0 0 34px; }
+  .phases::before, .phases::after { left: 7px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+  .phases::after { transform-origin: top; }
+  html[data-js] .phases:not([data-on])::after { transform: scaleY(0); }
+  .phases-dot { top: 2px; left: -34px; }
+}
+
+/* The student pathway: five stops on one line, the last where students leave with something. */
+.path { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); }
+.path::before { content: ""; position: absolute; left: 28px; right: 28px; top: 27px; height: 2px; background: repeating-linear-gradient(90deg, var(--color-strike) 0 8px, transparent 8px 14px); opacity: .5; }
+.path li { position: relative; display: grid; align-content: start; gap: 10px; }
+.path-dot { display: grid; place-items: center; width: 56px; height: 56px; border: 2px solid var(--color-strike); border-radius: 50%; background: var(--color-paper); font: 700 18px/1 var(--font-saira), sans-serif; color: var(--color-strike); }
+.path li:last-child .path-dot { background: var(--color-strike); color: #fff; }
+@media (max-width: 899px) {
+  .path { grid-template-columns: minmax(0, 1fr); }
+  .path::before { left: 27px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--color-strike) 0 8px, transparent 8px 14px); }
+  .path li { grid-template-columns: 56px minmax(0, 1fr); column-gap: 18px; }
+  .path li > :not(.path-dot) { grid-column: 2; }
+  .path-dot { grid-row: span 2; }
+}
+
+/* Who sees what: the safeguarding matrix, on paper inside the dark room. */
+.matrix-wrap { overflow-x: auto; border-radius: 22px; background: var(--color-paper); color: var(--color-ink); box-shadow: 0 50px 90px -50px rgb(0 0 0 / .85); }
+.matrix { width: 100%; min-width: 720px; border-collapse: collapse; }
+.matrix th, .matrix td { padding: 16px 18px; border-top: 1px solid var(--color-hairline); text-align: left; }
+.matrix thead th { border-top: 0; font-size: 13px; font-weight: 600; color: var(--color-muted); }
+.matrix tbody th { font: 700 17px/1.2 var(--font-saira), sans-serif; }
+.matrix td span { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--color-ice); font-size: 12.5px; font-weight: 600; color: var(--color-strike); white-space: nowrap; }
+.matrix td span[data-v="strong"] { background: var(--color-strike); color: #fff; }
+.matrix td span[data-v="none"] { padding-inline: 0; background: none; font-weight: 500; color: var(--color-muted); }
+
+/* The business hero: the tools a business already uses, wired into one dashboard, and a
+   booking confirmation going out on its own. */
+.flow { position: relative; display: grid; grid-template-columns: minmax(0, .62fr) 56px minmax(0, 1.38fr); align-items: stretch; padding-bottom: 78px; }
+.flow-src { display: grid; grid-auto-rows: 1fr; gap: 8px; }
+.flow-chip { display: grid; align-content: center; gap: 2px; padding: 8px 12px; border: 1px solid var(--color-hairline); border-radius: 12px; background: var(--color-paper); box-shadow: 0 10px 22px -18px rgb(7 18 43 / .5); }
+.flow-chip b { font: 700 14px/1.1 var(--font-saira), sans-serif; }
+.flow-chip span { overflow: hidden; font-size: 12px; color: var(--color-ink-60); white-space: nowrap; text-overflow: ellipsis; }
+/* Its viewBox is tall and thin: size containment keeps that from setting the row's height. */
+.flow-wires { align-self: stretch; width: 100%; height: auto; overflow: visible; contain: size; }
+.flow-wires path { fill: none; stroke: var(--color-strike); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: .6; }
+.flow-out { position: relative; align-self: center; }
+.flow-port { position: absolute; top: 50%; left: -6px; z-index: 1; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: var(--color-strike); }
+.flow-port::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--color-strike); animation: acc-live 1.8s var(--ease-out-expo) infinite; }
+@keyframes drift-y { 50% { transform: translateY(-9px); } }
+.flow-phone { position: absolute; right: -3%; bottom: -70px; width: min(64%, 280px); padding: 12px 14px; border-radius: 22px; background: var(--color-ink); box-shadow: 0 30px 60px -28px rgb(7 18 43 / .7); animation: drift-y 7s ease-in-out infinite; }
+@media (max-width: 639px) {
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-bottom: 0; }
+  .flow-src { display: flex; flex-wrap: wrap; gap: 6px; }
+  .flow-chip { padding: 6px 10px; }
+  .flow-chip span, .flow-wires, .flow-port { display: none; }
+  .flow-phone { position: relative; right: auto; bottom: auto; width: auto; margin: 12px 0 0 16%; }
+}
+
+/* All five services at once: the reporting card runs wide, the others share a row. */
+.bento { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.bento-card { display: grid; grid-column: span 2; grid-template-rows: auto 1fr; gap: 20px; padding: 18px; border: 1px solid var(--color-rule-dark); border-radius: 22px; background: rgb(255 255 255 / .04); }
+.bento-card[data-wide] { grid-column: span 4; grid-template-rows: none; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; }
+.bento-visual { display: grid; align-content: center; min-height: 200px; padding: 14px; border-radius: 16px; background: rgb(175 198 255 / .08); }
+@media (max-width: 1023px) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bento-card { grid-column: span 1; }
+  .bento-card[data-wide] { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .bento { grid-template-columns: minmax(0, 1fr); }
+  .bento-card[data-wide] { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* The enquiry form, on paper at the foot of the page. */
+.enquiry { padding: clamp(22px, 2.6vw, 34px); border-radius: 24px; background: var(--color-paper); color: var(--color-ink); box-shadow: 0 50px 90px -50px rgb(0 0 0 / .85); }
+.enquiry-field { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.enquiry-field > span, .enquiry-field legend { padding: 0; font-size: 14px; font-weight: 600; }
+.enquiry-field legend { margin-bottom: 8px; }
+.enquiry-field small { margin-left: 6px; font-size: 12.5px; font-weight: 500; color: var(--color-muted); }
+.enquiry-field input, .enquiry-field textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--color-hairline); border-radius: 12px; background: #fff; font: inherit; font-size: 16px; color: var(--color-ink); transition: border-color .2s, box-shadow .2s; }
+.enquiry-field textarea { resize: vertical; }
+.enquiry-field :is(input, textarea):focus { outline: none; border-color: var(--color-strike); box-shadow: 0 0 0 3px rgb(36 87 245 / .18); }
+.enquiry-chip { height: 36px; padding: 0 14px; border: 1px solid var(--color-hairline); border-radius: 999px; background: #fff; font-size: 14px; font-weight: 600; color: var(--color-ink-60); transition: background-color .25s, color .25s, border-color .25s; }
+.enquiry-chip:hover { border-color: var(--color-ink); color: var(--color-ink); }
+.enquiry-chip[aria-pressed="true"] { border-color: var(--color-strike); background: var(--color-strike); color: #fff; }
+
+/* --------------------------------------------------------------- Old way / Sharkprint way
+   One job shown two ways. The old way is the same screens with less of a system: they sit
+   a little askew, the way a pinned chat and a spreadsheet do. */
+
+.oldnew-tabs { display: inline-flex; gap: 4px; margin-bottom: 18px; padding: 4px; border: 1px solid var(--color-hairline); border-radius: 999px; background: var(--color-paper); }
+.oldnew-tab { height: 40px; padding: 0 18px; border-radius: 999px; font-size: 14.5px; font-weight: 600; color: var(--color-ink-60); white-space: nowrap; transition: background-color .3s, color .3s; }
+.oldnew-tab:hover { color: var(--color-ink); }
+.oldnew-tab[aria-selected="true"] { background: var(--color-ink); color: var(--color-paper); }
+.oldnew-tab:last-child[aria-selected="true"] { background: var(--color-strike); color: #fff; }
+.oldnew-panel { animation: desk-in .55s var(--ease-out-expo) both; }
+.oldnew-panel[hidden] { display: none; }
+.oldnew[data-way="old"] .app { background: var(--color-creme); }
+@media (min-width: 1024px) {
+  .oldnew[data-way="old"] .oldnew-panel > div > :first-child { rotate: -.8deg; }
+  .oldnew[data-way="old"] .oldnew-panel > div > :last-child { rotate: .7deg; translate: 0 10px; }
+}
+
+/* One match, every channel: the final on the left, wired out to each channel's clips. */
+.fan { display: grid; grid-template-columns: minmax(0, .8fr) 64px minmax(0, 1.5fr); align-items: stretch; }
+.fan-src { align-self: center; }
+/* Like the business hero's wires: size containment keeps the tall viewBox from sizing the row. */
+.fan-wires { align-self: stretch; width: 100%; height: auto; overflow: visible; contain: size; }
+.fan-wires path { fill: none; stroke: var(--color-strike); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: .6; }
+.fan-out { display: grid; grid-auto-rows: 1fr; gap: 8px; }
+.fan-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px; padding: 9px 14px; border: 1px solid var(--color-hairline); border-radius: 14px; background: var(--color-paper); animation: desk-in .5s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 60ms); }
+.fan-foot { grid-column: 1 / -1; margin-top: 16px; font-size: 14.5px; color: var(--color-ink-60); }
+.fan-foot b { font-weight: 600; color: var(--color-ink); }
+@media (max-width: 899px) {
+  .fan { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .fan-wires { display: none; }
+  .fan-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .fan-row > :last-child { grid-column: 2 / -1; justify-self: start; }
+}
 
 /* --------------------------------------------------------------- Creators: plans */
 
