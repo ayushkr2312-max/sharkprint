@@ -1,12 +1,12 @@
 import { CommandRoom } from '@/components/rooms/Command';
 import { EngineRoom } from '@/components/rooms/Engine';
 import { ForgeRoom } from '@/components/rooms/Forge';
-import { Grind } from '@/components/rooms/Grind';
 import { Hero } from '@/components/rooms/Hero';
 import { Humans } from '@/components/rooms/Humans';
 import { IntelRoom } from '@/components/rooms/Intel';
 import { Orbit } from '@/components/rooms/Orbit';
 import { Process } from '@/components/rooms/Process';
+import { Reach } from '@/components/rooms/Reach';
 import { Stack } from '@/components/rooms/Stack';
 import { StudioRoom } from '@/components/rooms/Studio';
 import { Week } from '@/components/rooms/Week';
@@ -20,7 +20,7 @@ export default function Home() {
       <Preloader />
       <main id="main">
         <Hero />
-        <Grind />
+        <Reach />
         <Stack />
         <EngineRoom />
         <IntelRoom />

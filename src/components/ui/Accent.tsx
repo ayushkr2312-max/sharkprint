@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /** What a headline's accent does as it comes into view, each drawn from what it says. */
-export type Touch = 'tape' | 'clip' | 'scan' | 'screen' | 'forge' | 'orbit' | 'check' | 'pick' | 'route' | 'week' | 'stack' | 'grow' | 'live';
+export type Touch = 'clip' | 'scan' | 'screen' | 'forge' | 'orbit' | 'check' | 'pick' | 'route' | 'week' | 'stack' | 'grow' | 'live';
 
 /** The second voice in a headline: set in Michroma, the wordmark's face, in Strike. With a
  *  touch it plays one small act as the heading scrolls in (globals.css, "Accents"). */

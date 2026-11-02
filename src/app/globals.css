@@ -342,19 +342,6 @@
 [data-tone="dark"] .acc { --acc: var(--color-mist); }
 .acc-txt { position: relative; }
 
-/* Tape: a strip of it slaps on behind the words, torn at both ends. */
-.acc[data-touch="tape"]::before {
-  content: ""; position: absolute; z-index: -1; inset: -.22em -.5em -.18em -.42em;
-  background:
-    linear-gradient(180deg, rgb(255 255 255 / .6), transparent 45%),
-    repeating-linear-gradient(90deg, rgb(10 12 17 / .05) 0 2px, transparent 2px 5px),
-    #C8CCD5;
-  clip-path: polygon(1% 0, 99% 0, 100% 14%, 98% 30%, 100% 48%, 97.5% 66%, 100% 84%, 99% 100%, 1% 100%, 0 86%, 2% 70%, 0 52%, 2.5% 34%, 0 16%);
-  rotate: -2.5deg; transform-origin: 0 50%; scale: 1 1;
-}
-html[data-js] .acc[data-touch="tape"]::before { scale: 0 1; transition: scale .42s cubic-bezier(.2, .9, .3, 1.15) .4s; }
-html[data-js] .acc[data-touch="tape"][data-on="true"]::before { scale: 1 1; }
-
 /* Clip: crop brackets snap in around the word, then it cuts in, in clicks. */
 .acc[data-touch="clip"] { padding-inline: .42em; }
 .acc-br { position: absolute; top: -.14em; bottom: -.14em; width: .3em; border: 2px solid var(--acc); }
@@ -598,13 +585,12 @@ html[data-js] .week-item:not([data-on]) .week-check { opacity: 0; transform: sca
   .week-tag { position: static; display: block; width: auto; height: auto; margin-bottom: 2px; clip-path: none; font-size: 13px; font-weight: 500; color: var(--color-strike); }
 }
 
-/* --------------------------------------------------------------- Stack, peel off the tape
-   One row per pillar. Each answer starts taped over with the notes it replaces; the tape
-   peels away with scroll (--q, 0 to 1, per row) and the answer comes through. Without
-   script there is no tape. */
+/* --------------------------------------------------------------- Stack, five pillars
+   One row per pillar: what it runs, and the numbers it feeds the live report. Each row
+   lights as the scroll reaches it (--q, 0 to 1) and its chips plug in one after another. */
 
 .swap { display: grid; border-top: 1px solid var(--color-rule-dark); }
-.swap-row { --q: 1; display: grid; grid-template-columns: minmax(200px, .55fr) minmax(0, 1.45fr); align-items: center; gap: clamp(20px, 4vw, 64px); padding: clamp(28px, 4.5vh, 44px) 0; border-bottom: 1px solid var(--color-rule-dark); }
+.swap-row { --q: 1; display: grid; grid-template-columns: minmax(200px, .5fr) minmax(0, 1.15fr) minmax(220px, .6fr); align-items: center; gap: clamp(20px, 4vw, 56px); padding: clamp(26px, 4vh, 40px) 0; border-bottom: 1px solid var(--color-rule-dark); }
 html[data-js] .swap-row { --q: 0; }
 .swap-pillar { display: flex; align-items: center; gap: 16px; font-size: 15px; color: var(--color-fog); }
 .swap-pillar svg { flex: none; width: 34px; height: 34px; color: var(--color-mist); transition: color .4s; }
@@ -612,25 +598,14 @@ html[data-js] .swap-row { --q: 0; }
 .swap-pillar b { font: 700 clamp(26px, 2.4vw, 34px)/1 var(--font-saira), sans-serif; color: #fff; }
 html[data-js] .swap-row:not([data-on]) .swap-pillar svg { color: rgb(175 198 255 / .45); }
 .swap-row[data-on] .swap-pillar svg { color: var(--color-current-blue); }
-.swap-fix { position: relative; max-width: 640px; }
-.swap-get { text-wrap: pretty; font-size: clamp(19px, 1.7vw, 25px); font-weight: 600; line-height: 1.35; color: #fff; }
+.swap-get { max-width: 34em; text-wrap: pretty; font-size: clamp(18px, 1.5vw, 22px); font-weight: 600; line-height: 1.35; color: #fff; }
 html[data-js] .swap-get { opacity: calc(.3 + .7 * var(--q)); }
-.swap-tapes { display: none; }
-html[data-js] .swap-tapes { position: absolute; inset: 0; display: block; pointer-events: none; }
-.swap-tape {
-  position: absolute; padding: 13px 28px; white-space: nowrap; transform-origin: 0 50%; will-change: transform, opacity;
-  font: 600 16px/1 var(--font-dm-sans), sans-serif; font-style: normal; color: var(--color-ink);
-  background:
-    linear-gradient(180deg, rgb(255 255 255 / .6), transparent 45%),
-    repeating-linear-gradient(90deg, rgb(10 12 17 / .05) 0 2px, transparent 2px 5px),
-    #C8CCD5;
-  clip-path: polygon(1% 0, 99% 0, 100% 14%, 98% 30%, 100% 48%, 97.5% 66%, 100% 84%, 99% 100%, 1% 100%, 0 86%, 2% 70%, 0 52%, 2.5% 34%, 0 16%);
-}
-@media (max-width: 899px) {
-  .swap-row { grid-template-columns: 1fr; gap: 18px; }
-  .swap-tape { padding: 11px 20px; font-size: 14px; }
-  .swap-tape:nth-child(2) { left: 18% !important; top: 42% !important; }
-  .swap-tape:nth-child(3) { left: auto !important; right: -2%; top: 70% !important; }
+.swap-feeds { display: grid; gap: 8px; }
+.swap-chip { padding: 6px 12px; border: 1px solid var(--color-rule-dark); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--color-ice); transition: opacity .45s var(--ease-out-expo), transform .6s var(--ease-out-expo), background-color .4s, border-color .4s; transition-delay: calc(var(--c) * .1s); }
+.swap-row[data-on] .swap-chip { border-color: var(--color-strike); background: var(--color-strike); color: #fff; }
+html[data-js] .swap-row:not([data-on]) .swap-chip { opacity: .25; transform: translateX(-10px); }
+@media (max-width: 1023px) {
+  .swap-row { grid-template-columns: minmax(0, 1fr); gap: 14px; }
 }
 
 /* --------------------------------------------------------------- Humans, the review line
@@ -1304,6 +1279,54 @@ html[data-js] .phases:not([data-on]) li { opacity: 0; transform: translateY(18px
   .fan-wires { display: none; }
   .fan-row { grid-template-columns: auto minmax(0, 1fr) auto; }
   .fan-row > :last-child { grid-column: 2 / -1; justify-self: start; }
+}
+
+/* --------------------------------------------------------------- Reach, the live report
+   What the org already makes, counted by its pillars, wired into a deck that keeps itself
+   current. Sources light and the numbers climb as it scrolls through. */
+
+.ldeck { display: grid; grid-template-columns: minmax(0, .55fr) 64px minmax(0, 1.7fr); align-items: stretch; row-gap: 18px; }
+.ldeck-pick { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 14px; }
+.ldeck-seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--color-hairline); border-radius: 999px; background: var(--color-paper); }
+.ldeck-seg button { height: 38px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--color-ink-60); white-space: nowrap; transition: background-color .25s, color .25s; }
+.ldeck-seg button:hover { color: var(--color-ink); }
+.ldeck-seg button[aria-checked="true"] { background: var(--color-ink); color: var(--color-paper); }
+.ldeck-src { display: grid; grid-auto-rows: 1fr; gap: 8px; }
+.ldeck-chip { display: grid; grid-template-columns: 24px minmax(0, 1fr) 8px; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--color-hairline); border-radius: 14px; background: var(--color-paper); transition: border-color .4s; }
+.ldeck-chip svg { width: 22px; height: 22px; color: var(--color-muted); transition: color .4s; }
+.ldeck-chip b { font: 700 16px/1.1 var(--font-saira), sans-serif; }
+.ldeck-chip span span { overflow: hidden; font-size: 12.5px; color: var(--color-ink-60); white-space: nowrap; text-overflow: ellipsis; }
+.ldeck-chip > i { width: 8px; height: 8px; border-radius: 50%; background: var(--color-hairline); transition: background-color .4s, box-shadow .4s; }
+.ldeck-chip[data-on] { border-color: rgb(36 87 245 / .35); }
+.ldeck-chip[data-on] svg { color: var(--color-strike); }
+.ldeck-chip[data-on] > i { background: var(--color-signal); box-shadow: 0 0 0 4px rgb(63 208 143 / .2); }
+/* Size containment keeps the tall viewBox from setting the row's height. */
+.ldeck-wires { align-self: stretch; width: 100%; height: auto; overflow: visible; contain: size; }
+.ldeck-wires path { fill: none; stroke: var(--color-hairline); stroke-width: 1.5; stroke-dasharray: 3 4; transition: stroke .4s; }
+.ldeck-wires path[data-on] { stroke: var(--color-strike); stroke-dasharray: none; }
+.ldeck-out { align-self: center; }
+.ldeck-kpi { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--color-hairline); border-radius: 14px; background: #fff; transition: background-color .45s var(--ease-out-expo), color .45s, border-color .45s; }
+.ldeck-kpi p { color: var(--color-muted); transition: color .45s; }
+.ldeck-kpi i { background: var(--color-mist); transition: background-color .45s; }
+.ldeck-kpi i:last-child { background: var(--color-strike); }
+.ldeck-kpi.is-lead { border-color: var(--color-strike); background: var(--color-strike); color: #fff; }
+.ldeck-kpi.is-lead p { color: var(--color-ice); }
+.ldeck-kpi.is-lead i { background: rgb(255 255 255 / .35); }
+.ldeck-kpi.is-lead i:last-child { background: #fff; }
+.ldeck-why { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border: 1px solid rgb(36 87 245 / .25); border-radius: 16px; background: var(--color-ice); animation: desk-in .5s var(--ease-out-expo) both; }
+.ldeck-why .app-label { color: var(--color-strike); font-weight: 600; }
+.ldeck-ready { padding: 5px 12px; border-radius: 999px; background: var(--color-creme-deep); font-size: 12.5px; font-weight: 600; color: var(--color-muted); transition: background-color .4s, color .4s, transform .5s var(--ease-out-expo); }
+.ldeck-ready[data-on] { background: var(--color-ink); color: var(--color-paper); transform: scale(1.04); }
+@media (max-width: 1023px) {
+  .ldeck { grid-template-columns: minmax(0, 1fr); }
+  .ldeck-pick { justify-content: flex-start; }
+  .ldeck-src { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ldeck-chip { grid-template-columns: 20px auto 8px; padding: 8px 12px; }
+  .ldeck-chip span span, .ldeck-wires { display: none; }
+}
+@media (max-width: 639px) {
+  .ldeck-seg { display: flex; width: 100%; }
+  .ldeck-seg button { flex: 1; padding: 0 8px; font-size: 13px; }
 }
 
 /* --------------------------------------------------------------- Creators: plans */

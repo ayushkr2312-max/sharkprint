@@ -14,8 +14,7 @@ const STEPS: [string, string][] = [
   ['Optimise', 'A report every month, and changes based on what it shows.'],
 ];
 
-// The deck's four outcomes, said in the terms the page opened with: each one answers a
-// problem from the Grind. No invented stats.
+// The four outcomes, said in the terms the page opened with. No invented stats.
 const OUTCOMES = [
   { big: 'Hours back', sub: 'every week', body: 'The clip queue, the scrim sheet and the sponsor report stop landing on the same three people.', tone: 'strike' },
   { big: 'Lower', sub: 'running costs', body: 'One partner in place of an agency, freelancers and a pile of seats, and a monthly report on where the money goes.', tone: 'paper' },
