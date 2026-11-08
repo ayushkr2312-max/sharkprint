@@ -3,7 +3,7 @@
 import Lenis from 'lenis';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap, ScrollTrigger } from '@/lib/gsap-core';
 import { findVisible, getLenis, scrollToTarget, setLenis } from '@/lib/scroll';
 
 /** Lenis smooth scroll (a 1.2s expo glide per wheel step) wired to ScrollTrigger, in-page

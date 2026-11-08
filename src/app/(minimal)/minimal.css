@@ -25,7 +25,10 @@
 .field, .invert { position: relative; isolation: isolate; clip-path: inset(0); }
 /* A section that moves as a whole carries its own ribs, laid on the section rather than the
    screen, so they travel with it and never jump. */
-.texture--own { position: absolute; will-change: auto; }
+.texture--own { position: absolute; }
+/* Every texture, and every section that moves in a transition, sits on a GPU layer of its own:
+   the vector texture is then drawn once and only moved, never redrawn mid-scroll. */
+.texture--own, .statement, #sources, .insiders__grid, .slats i, .field-bg { will-change: transform; }
 .field { --texture: 0.1; }
 .invert { --texture: 0.12; }
 [data-mode="dark"] :is(body, .sheet) > .texture { --texture: 0.09; }
@@ -430,34 +433,25 @@ html.js [data-reveal].is-in { opacity: 1; transform: none; }
 .f-rule { fill: var(--color-rule); }
 .f-paper { fill: var(--color-paper); }
 .s-ink { fill: none; stroke: var(--color-ink); stroke-width: 1.5; }
-.f-paper.s-ink, .f-ink.s-paper { stroke-width: 1.5; }
+.f-paper.s-ink { stroke-width: 1.5; }
 .f-paper.s-ink { fill: var(--color-paper); }
-.s-paper { stroke: var(--color-paper); stroke-width: 2.5; }
 .s-rule { fill: none; stroke: var(--color-rule); stroke-width: 1; }
-.s-dash { stroke-dasharray: 5 4; }
 .s-thick { stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
-.s-thin { stroke-width: 1; }
 .t { font-family: var(--font-body); font-size: 13px; fill: var(--color-muted); }
 .t-ink { fill: var(--color-ink); font-weight: 600; }
 .t-on-blue { fill: var(--color-accent-ink); font-weight: 600; }
 .t-on-ink { fill: var(--color-paper); font-weight: 600; }
-.t-small { font-size: 12px; }
-.t-big { font-family: var(--font-display); font-size: 34px; font-weight: 600; letter-spacing: -0.03em; fill: var(--color-ink); }
 
-.d-up, .d-grow, .d-bar, .d-drop, .d-span, .d-pop { transition: opacity 0.6s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: calc(var(--d, 0) * 1ms); }
-.d-grow, .d-bar, .d-drop, .d-span { transform-box: fill-box; }
+.d-up, .d-grow, .d-drop, .d-span { transition: opacity 0.6s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: calc(var(--d, 0) * 1ms); }
+.d-grow, .d-drop, .d-span { transform-box: fill-box; }
 .d-grow { transform-origin: center; }
-.d-bar { transform-origin: 50% 100%; }
 .d-drop { transform-origin: 50% 0; }
 .d-span { transform-origin: 0 50%; }
-.d-pop { transform-box: view-box; }
 .d-wipe { clip-path: inset(0 0 0 0); transition: clip-path 1.4s var(--ease-out); transition-delay: calc(var(--d, 0) * 1ms); }
 html.js [data-draw]:not(.is-drawn) .d-up { opacity: 0; transform: translateY(8px); }
 html.js [data-draw]:not(.is-drawn) .d-grow { transform: scale(0); }
-html.js [data-draw]:not(.is-drawn) .d-bar,
 html.js [data-draw]:not(.is-drawn) .d-drop { transform: scaleY(0); }
 html.js [data-draw]:not(.is-drawn) .d-span { transform: scaleX(0); }
-html.js [data-draw]:not(.is-drawn) .d-pop { opacity: 0; transform: scale(0.3); }
 html.js [data-draw]:not(.is-drawn) .d-wipe { clip-path: inset(0 100% 0 0); }
 
 @media (max-width: 60rem) {
@@ -467,7 +461,6 @@ html.js [data-draw]:not(.is-drawn) .d-wipe { clip-path: inset(0 100% 0 0); }
 /* Diagrams shrink on tablets and phones; their labels don't. */
 @media (max-width: 75rem) {
   .fig .t { font-size: 14px; }
-  .fig .t-small { font-size: 13px; }
 }
 
 /* --------------------------------------------------------------- Section transitions

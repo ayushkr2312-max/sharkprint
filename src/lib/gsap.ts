@@ -1,12 +1,10 @@
 'use client';
 
-import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap-core';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin);
-gsap.defaults({ ease: 'expo.out', duration: 0.8 });
+// The core, plus the drag plugins the main site's rails use.
+gsap.registerPlugin(Draggable, InertiaPlugin);
 
 export { gsap, Draggable, ScrollTrigger, useGSAP };

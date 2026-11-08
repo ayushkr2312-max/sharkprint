@@ -1,6 +1,6 @@
 'use client';
 
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap-core';
 import { clamp } from '@/lib/env';
 
 const $$ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) => Array.from(root.querySelectorAll<T>(s));
@@ -247,15 +247,21 @@ export function Motion() {
       const items = $$('.wk', week);
       const days = $$('thead th[data-day]', week);
       week.setAttribute('data-armed', '');
+      // Where the sweep starts and ends, in the table's own coordinates: read once per refresh.
+      let a = 0, b = 0;
+      const measure = () => {
+        const base = wrap.getBoundingClientRect().left - wrap.scrollLeft;
+        a = days[0].getBoundingClientRect().left - base;
+        b = days[6].getBoundingClientRect().right - base;
+      };
+      measure();
       ScrollTrigger.create({
         trigger: week, start: 'top 70%', end: 'bottom 55%', scrub: true,
+        onRefresh: measure,
         onUpdate: (s) => {
           const d = s.progress * 7;
           items.forEach((el) => el.toggleAttribute('data-on', +el.dataset.day! < d));
           days.forEach((el) => el.toggleAttribute('data-on', +el.dataset.day! < d));
-          const base = wrap.getBoundingClientRect().left - wrap.scrollLeft;
-          const a = days[0].getBoundingClientRect().left - base;
-          const b = days[6].getBoundingClientRect().right - base;
           now.style.transform = `translateX(${(a + (b - a) * s.progress).toFixed(1)}px)`;
           now.toggleAttribute('data-on', s.progress > 0.01 && s.progress < 0.99);
         },
@@ -285,7 +291,10 @@ export function Motion() {
     mm.add('(min-width: 1024px)', () => {
       if (!steps) return;
       const list = steps.querySelector<HTMLElement>('ol')!;
-      const dist = () => Math.max(list.scrollWidth - steps.clientWidth, 0);
+      // Exactly far enough to bring the last step in. Measured from layout: the steps' own
+      // transforms (their deal-in) would otherwise count as width and double the slide.
+      const last = list.lastElementChild as HTMLElement;
+      const dist = () => Math.max(last.offsetLeft + last.offsetWidth - steps.clientWidth, 0);
       gsap.to(list, {
         x: () => -dist(), ease: 'none',
         scrollTrigger: {
