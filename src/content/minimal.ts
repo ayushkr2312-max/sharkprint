@@ -23,7 +23,7 @@ export type PillarInfo = {
 // shop. Every option here is one the rest of the site already describes.
 export const PILLARS: PillarInfo[] = [
   {
-    id: 'intel', name: 'Intel', kind: 'Your personal data analyst',
+    id: 'intel', name: 'Analyst', kind: 'Scouting, prep and reviews',
     line: 'Scouting and prep before every match, reviews after it, a file on every opponent, and scouting for when you’re building, mostly from public match data.',
     caps: [
       { group: 'To compete', items: [
@@ -40,7 +40,7 @@ export const PILLARS: PillarInfo[] = [
     ],
   },
   {
-    id: 'command', name: 'Command', kind: 'Your org, live',
+    id: 'command', name: 'HQ', kind: 'Your org, live',
     line: 'Your public numbers, from socials, results and streams, on one screen, always current, with a report every month. Anything private joins only if you add it.',
     caps: [
       { group: 'Run the org', items: [
@@ -57,7 +57,7 @@ export const PILLARS: PillarInfo[] = [
     ],
   },
   {
-    id: 'engine', name: 'Engine', kind: 'Content and media',
+    id: 'engine', name: 'Content', kind: 'Video and posts for every channel',
     line: 'Every match and stream turned into content for every channel: found, made, captioned and posted on brand.',
     caps: [
       { group: 'Make', items: [
@@ -73,7 +73,7 @@ export const PILLARS: PillarInfo[] = [
     ],
   },
   {
-    id: 'forge', name: 'Forge', kind: 'Sites, stores and tools',
+    id: 'forge', name: 'Platforms', kind: 'Sites, stores and tools',
     line: 'Your website, store, tournaments and staff tools on one base, built to carry your name.',
     caps: [
       { group: 'For your fans', items: [
@@ -89,7 +89,7 @@ export const PILLARS: PillarInfo[] = [
     ],
   },
   {
-    id: 'studio', name: 'Studio', kind: 'Creator programs',
+    id: 'studio', name: 'Creators', kind: 'Your creator program',
     line: 'Creators worth signing, everything they make in one library, every stream on one schedule.',
     caps: [
       { group: 'Sign creators', items: [
@@ -109,19 +109,47 @@ export const PILLARS: PillarInfo[] = [
 
 export const CAP_COUNT = PILLARS.reduce((n, p) => n + p.caps.reduce((m, g) => m + g.items.length, 0), 0);
 
-// The live report (a sample month for a fictional org).
-export const KPIS = [
-  { id: 'reach', label: 'Impressions', to: 4.2, dec: 1, suf: 'M', bars: [40, 52, 48, 66, 74, 100] },
-  { id: 'hours', label: 'Stream hours', to: 1860, dec: 0, suf: '', bars: [58, 62, 70, 64, 82, 100] },
-  { id: 'clips', label: 'Clip views', to: 2.9, dec: 1, suf: 'M', bars: [30, 44, 58, 52, 80, 100] },
-  { id: 'eng', label: 'Engagement', to: 6.1, dec: 1, suf: '%', bars: [70, 66, 78, 84, 80, 100] },
-] as const;
+// What the work is built from. Most of it is public already; the last row only joins if the
+// org chooses to add it. Each source says what it becomes, pillar by pillar.
+export type Source = { id: string; name: string; line: string; optional?: boolean; feeds: Partial<Record<Pillar, string>> };
+export const SOURCES: Source[] = [
+  { id: 'results', name: 'Match results', line: 'Every official match, ladder and bracket', feeds: {
+    intel: 'A file on every opponent, and your own trends',
+    command: 'Results and form, live on one screen',
+    forge: 'Match pages and results that update themselves',
+  } },
+  { id: 'vods', name: 'Match VODs', line: 'Your games, and every opponent’s', feeds: {
+    intel: 'Prep for every opponent, and reviews after',
+    engine: 'Highlights and short-form video',
+  } },
+  { id: 'streams', name: 'Streams', line: 'Your players’ and creators’ broadcasts', feeds: {
+    engine: 'The best moments, found and cut',
+    studio: 'Stream schedules and watch parties',
+    command: 'Stream reach, counted as it happens',
+  } },
+  { id: 'socials', name: 'Socials', line: 'Every public post and profile', feeds: {
+    command: 'Reach and growth, kept current',
+    engine: 'What’s working in your scene right now',
+    studio: 'Creators whose audience looks like your fans',
+  } },
+  { id: 'scene', name: 'The scene', line: 'Rosters, transfers and rival orgs', feeds: {
+    intel: 'Player, staff and competitor scouting',
+    studio: 'Creators worth signing',
+  } },
+  { id: 'yours', name: 'Your private data', line: 'Scrims, partner details and costs, only if you add them', optional: true, feeds: {
+    intel: 'Scrim reviews',
+    command: 'Partner reporting and spend',
+  } },
+];
 
-export const READERS = [
-  { id: 'partner', label: 'A partner', lead: 'clips', title: 'What your partnership reached', note: 'Clips and late-night streams reach an audience where 58% are aged 18 to 24.', as: 'A one-page recap, with links to every clip' },
-  { id: 'staff', label: 'Your staff', lead: 'eng', title: 'What changed this month', note: 'Engagement held at 6.1% while stream hours grew, and clips brought in most new followers.', as: 'The monthly report, in Command' },
-  { id: 'signing', label: 'A new signing', lead: 'reach', title: 'What they’d be joining', note: 'Your reach and audience, ready to show the player or creator you want to sign.', as: 'A one-page sheet for your next signing' },
-] as const;
+// What each pillar hands back, in a few words.
+export const OUTPUTS: Record<Pillar, string> = {
+  intel: 'Prep, reviews and scouting',
+  command: 'Your org, live',
+  engine: 'Video and posts for every channel',
+  forge: 'Sites that keep themselves current',
+  studio: 'Signing and running creators',
+};
 
 // A sample match week: what each pillar hands over, by day (0 is Monday). Match on Saturday.
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -154,7 +182,7 @@ export const FAQ: { group: string; items: [string, string][] }[] = [
   {
     group: 'What it is',
     items: [
-      ['What does Sharkprint actually do?', 'It runs the work around your teams that most orgs never have enough people for. Intel is your data analyst: scouting, prep and reviews. Command keeps your numbers live on one screen. Engine turns every match and stream into content for every channel. Forge builds your site, store and staff tools. Studio runs your creator program. One partner, five pillars, all working from the same numbers.'],
+      ['What does Sharkprint actually do?', 'It runs the work around your teams that most orgs never have enough people for. Analyst scouts, preps and reviews for every match. HQ keeps your numbers live on one screen. Content turns every match and stream into posts for every channel. Platforms builds your site, store and staff tools. Creators runs your creator program. One partner, five pillars, all working from the same numbers.'],
       ['Do we need all five pillars?', 'No. Most orgs start with the one that would change the most this season and add others when they pay off. Each pillar works on its own, and they get sharper together, because each one feeds the same report.'],
       ['Is this just AI?', 'No. Automation does the repetitive part, like finding the moments in hours of VOD or keeping six social accounts in sync. People who have worked inside esports orgs choose the clips, check the reports and sign off every piece before it reaches you.'],
       ['How is this different from an agency or freelancers?', 'An agency or a freelancer usually covers one job, with its own tools and its own numbers. Sharkprint runs five jobs on one system, so your clips, scouting, numbers, site and creators all add up to one picture of the org, with one partner to talk to.'],
@@ -182,7 +210,7 @@ export const FAQ: { group: string; items: [string, string][] }[] = [
 
 export const NAV: [string, string][] = [
   ['Pillars', '#pillars'],
-  ['Report', '#report'],
+  ['Sources', '#sources'],
   ['Match week', '#week'],
   ['How we work', '#process'],
   ['Questions', '#faq'],

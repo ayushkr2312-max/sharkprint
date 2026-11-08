@@ -346,9 +346,9 @@ export function Motion() {
       });
     }
 
-    // 2. Pillars into the report: the report arrives tilted back like a screen on its hinge and
+    // 2. Pillars into the sources: the band arrives tilted back like a screen on its hinge and
     //    swings upright to face you as it lands.
-    const report = $('#report');
+    const report = $('#sources');
     if (report) {
       tie(report, 'top bottom', 'top 15%', (p) => {
         const a = (vw() < 768 ? 6 : 10) * (1 - out2(p));
@@ -356,7 +356,7 @@ export function Motion() {
       });
     }
 
-    // 3. Report into the week: the week's background is seven day columns that come up ahead of
+    // 3. Sources into the week: the week's background is seven day columns that come up ahead of
     //    it at different heights, like a chart, and settle flush one after another.
     const weekBand = $('#week'), slats = weekBand ? $$('.slats i', weekBand) : [];
     if (weekBand && slats.length) {

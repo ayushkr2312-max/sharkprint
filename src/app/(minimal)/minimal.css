@@ -1,5 +1,5 @@
 /* Hallmark · shape: lateral line, one page in nine bands · genre: modern-minimal · theme: custom · job: book · idea: "The shark's lateral line, the sense that feels every movement in the water, drawn as one light-blue line from the hero to the last form field" · vibe: "black and white, one blue line, quiet power"
- * paper: oklch(99.4% 0.002 240) or oklch(16.5% 0.012 250) by mode · accent: oklch(84% 0.085 236) · display: Rethink Sans · body: Rethink Sans · outlier: Michroma (wordmark only) · hero: type alone, the headline set to the full width with its second line to the right, one sentence beneath, no action (the owner wants no calls to action) · nav: sticky bar, logo, four anchors, mode switch · footer: logo and anchors, SHARKPRINT across the width, copyright · imagery: none; the product is built (live report, match week), over a sculpted-rib texture drawn as flat lines and tones · signature: the light-blue lateral line, running down the page as you read and ending under the footer's SHARKPRINT
+ * paper: oklch(99.4% 0.002 240) or oklch(16.5% 0.012 250) by mode · accent: oklch(84% 0.085 236) · display: Rethink Sans · body: Rethink Sans · outlier: Michroma (wordmark only) · hero: type alone, the headline centred at full width with its second line to the right, over a base row of the sentence and the five pillars, no action (the owner wants no calls to action) · nav: sticky bar, logo, four anchors, mode switch · footer: logo and anchors, SHARKPRINT across the width, copyright · imagery: none; the product is built (live report, match week), over a sculpted-rib texture drawn as flat lines and tones · signature: the light-blue lateral line, running down the page as you read and ending under the footer's SHARKPRINT
  * axes: light/grotesk-sans/cool · posture: committed (two light-blue bands, one inverted band) · modes: light+dark · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, a long options list could read as a wall, so each pillar trims to distinct points in a two-group spec sheet under one glance figure, and a finder lights the ones that match a need */
 /* waive 27, 62: the owner wants motion always on, with no reduced-motion mode (a standing instruction) */
@@ -108,7 +108,8 @@ html.js [data-rise]:not(.is-in) .rw > span { transform: translateY(115%); }
 
 /* --------------------------------------------------------------- Hero */
 .hero { position: relative; z-index: 2; display: grid; min-height: calc(100svh - var(--nav-h)); padding-block: var(--space-2xl); }
-.hero__in { position: relative; display: grid; align-content: space-between; gap: var(--space-3xl); container-type: inline-size; transform-origin: 0 0; }
+/* Two parts: the headline, centred (just above, optically) in the room above the base row. */
+.hero__in { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--space-2xl); container-type: inline-size; transform-origin: 0 0; }
 /* The portal: the light-blue window sits behind the "o" of the headline, sized to the middle
    of its stroke so the letter hides its edge. Motion.tsx measures the real glyph, places it,
    lights it up and zooms the headline through it into the next section. */
@@ -130,14 +131,28 @@ html.js .portal > * { grid-area: 1 / 1; }
 html.js .portal > .hero { align-self: start; }
 html.js .portal > .statement { opacity: 0; }
 .hero__base { display: inline-block; width: 0; height: 0; }
-.hero__title { position: relative; z-index: 1; font-family: var(--font-hero); font-size: calc(100cqi / 8.65); font-weight: 800; line-height: 1; letter-spacing: 0; text-transform: uppercase; max-width: none; }
+.hero__title { position: relative; z-index: 1; align-self: center; margin-bottom: clamp(0px, 4vh, 48px); font-family: var(--font-hero); font-size: calc(100cqi / 8.65); font-weight: 800; line-height: 1; letter-spacing: 0; text-transform: uppercase; max-width: none; }
 .hero__title .ln { display: block; overflow: clip; padding: 0 0.12em 0.24em; margin: 0 -0.12em -0.24em; }
 .hero__title .ln--2 { text-align: right; }
 .hero__title .ln > span { display: block; animation: hero-rise 1s var(--ease-out) backwards; animation-delay: calc(120ms + var(--i) * 110ms); }
-.hero__foot { animation: hero-fade 0.8s var(--ease-out) 0.55s backwards; }
+.hero__foot {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-lg) var(--gap-columns);
+  padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); animation: hero-fade 0.8s var(--ease-out) 0.55s backwards;
+}
+.hero__index { display: flex; gap: var(--space-xs) var(--space-xl); margin: 0; padding: 0; list-style: none; }
+.hero__index a {
+  display: inline-flex; align-items: baseline; gap: var(--space-xs); padding-block: var(--space-xs); color: var(--color-ink); font-weight: 600; text-decoration: none;
+  text-decoration-line: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: 0.35em; transition: text-decoration-color var(--dur-short) var(--ease-out);
+}
+.hero__index a:hover { text-decoration-color: var(--color-accent); }
+.hero__index a span { color: var(--color-muted); font-size: var(--text-xs); font-weight: 400; font-variant-numeric: tabular-nums; }
+@media (max-width: 60rem) {
+  .hero__foot { grid-template-columns: minmax(0, 1fr); }
+  .hero__index { flex-wrap: wrap; gap: var(--space-2xs) var(--space-lg); }
+}
 .hero__lead { max-width: 30ch; color: var(--color-ink-2); font-size: var(--text-lead); line-height: 1.4; }
 @media (max-width: 40rem) {
-  .hero__in { align-content: end; gap: var(--space-xl); }
+  .hero__in { gap: var(--space-xl); }
 }
 @keyframes shark-in { from { opacity: 0; transform: translateX(48px); } }
 @keyframes hero-rise { from { transform: translateY(105%); } }
@@ -235,49 +250,60 @@ html.js .portal > .statement { opacity: 0; }
 .finder__chip[aria-pressed="true"] { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); }
 .finder__status { min-height: 1lh; color: var(--color-muted); font-size: var(--text-xs); }
 
-/* --------------------------------------------------------------- The live report */
-.report { display: grid; gap: var(--space-xl); }
-.report__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
-.report__name { font-size: var(--text-title); font-weight: 600; letter-spacing: -0.02em; }
-.tag { padding: var(--space-3xs) var(--space-sm); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); color: var(--color-muted); font-size: var(--text-xs); }
-.seg { display: inline-flex; gap: var(--space-2xs); margin-left: auto; padding: var(--space-2xs); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); }
-.seg button {
-  min-height: 44px; padding: 0 var(--space-md); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-muted);
-  font-size: var(--text-sm); font-weight: 600; white-space: nowrap; cursor: pointer;
-  transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+/* --------------------------------------------------------------- Sources (inverted)
+   Public sources on the left, Sharkprint in the middle, the pillars on the right, joined by
+   lines that light up for whatever is picked. The readout below spells it out. */
+.flow { display: grid; gap: var(--space-2xl); margin: 0; }
+.flow__map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, 0.55fr) auto minmax(40px, 0.55fr) minmax(0, 1fr); grid-template-rows: auto 1fr; row-gap: var(--space-md); }
+.flow__head { grid-row: 1; color: var(--color-muted); font-size: var(--text-sm); }
+.flow__head--src { grid-column: 1; }
+.flow__head--out { grid-column: 5; }
+.flow__col { grid-row: 2; display: grid; grid-template-rows: repeat(var(--n), minmax(0, 1fr)); margin: 0; padding: 0; border-top: 1px solid var(--color-rule); list-style: none; }
+.flow__col--src { grid-column: 1; }
+.flow__col--out { grid-column: 5; }
+.flow__col li { display: grid; border-bottom: 1px solid var(--color-rule); }
+.flow__item {
+  position: relative; display: grid; align-content: center; gap: var(--space-3xs); width: 100%; min-height: 64px; padding: var(--space-sm) var(--space-xs) var(--space-sm) var(--space-md);
+  border: 0; background: transparent; color: var(--color-ink); text-align: left; cursor: pointer; transition: opacity var(--dur-short) var(--ease-out);
 }
-.seg button:hover { color: var(--color-ink); }
-.seg button[aria-checked="true"] { background: var(--color-ink); color: var(--color-paper); }
-.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; }
-.kpi { display: grid; align-content: start; gap: var(--space-sm); padding: var(--space-lg); border-left: 1px solid var(--color-rule); transition: background-color var(--dur-long) var(--ease-out), color var(--dur-long) var(--ease-out); }
-.kpi:first-child { border-left: 0; }
-.kpi dt { color: var(--color-muted); font-size: var(--text-sm); transition: color var(--dur-long) var(--ease-out); }
-.kpi dd { margin: 0; font-size: var(--text-figure); font-weight: 600; line-height: 1; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
-.kpi__bars { display: flex; align-items: end; gap: var(--space-2xs); height: 32px; }
-.kpi__bars i { flex: 1; height: var(--h); border-radius: 2px 2px 0 0; background: var(--color-rule); transform-origin: bottom; transition: background-color var(--dur-long) var(--ease-out), transform 0.8s var(--ease-out) calc(200ms + var(--b, 0) * 60ms); }
-html.js .report:not(.is-drawn) .kpi__bars i { transform: scaleY(0); }
-.kpi__bars i:last-child { background: var(--color-ink); }
-.kpi[data-lead] { border-color: transparent; border-radius: var(--radius-inner); background: var(--color-accent); color: var(--color-accent-ink); }
-.kpi[data-lead] + .kpi { border-color: transparent; }
-.kpi[data-lead] dt { color: var(--color-accent-ink); }
-.kpi[data-lead] .kpi__bars i { background: color-mix(in oklch, var(--color-accent-ink) 22%, var(--color-accent)); }
-.kpi[data-lead] .kpi__bars i:last-child { background: var(--color-accent-ink); }
-.report__note { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-sm) var(--gap-columns); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); }
-.report__note h3 { font-size: var(--text-title); font-weight: 600; letter-spacing: -0.02em; }
-.report__note > div { display: grid; gap: var(--space-sm); }
-.report__note p:first-child { font-size: var(--text-lead); line-height: 1.4; }
-.report__note [data-swap] { animation: swap-in var(--dur-long) var(--ease-out) both; }
+.flow__item::before { content: ""; position: absolute; left: 0; top: var(--space-sm); bottom: var(--space-sm); width: 3px; border-radius: 2px; background: var(--color-accent); transform: scaleY(0); transition: transform var(--dur-long) var(--ease-out); }
+.flow__item b { font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em; }
+.flow__item span { color: var(--color-muted); font-size: var(--text-sm); line-height: 1.35; }
+.flow__item:not([data-on]) { opacity: 0.42; }
+.flow__item:hover { opacity: 1; }
+.flow__item[data-on]::before { transform: none; }
+.flow__item[data-optional] b::after { content: "Optional"; margin-left: var(--space-xs); padding: 0 var(--space-xs); border: 1px dashed var(--color-muted); border-radius: var(--radius-pill); color: var(--color-muted); font-size: var(--text-xs); font-weight: 400; vertical-align: 0.15em; }
+.flow__wires { grid-row: 2; align-self: stretch; width: 100%; height: auto; overflow: visible; contain: size; }
+.flow__wires--src { grid-column: 2; }
+.flow__wires--out { grid-column: 4; }
+.flow__wires path { fill: none; stroke: var(--color-rule); stroke-width: 1.5; }
+.flow__wires path[data-optional] { stroke-dasharray: 4 5; }
+.flow__wires .flow__lit path { stroke: var(--color-accent); stroke-width: 2.5; }
+.flow__hub { grid-row: 2; grid-column: 3; align-self: center; display: grid; justify-items: center; gap: var(--space-xs); width: clamp(150px, 12vw, 184px); padding: var(--space-lg) var(--space-md); border-radius: var(--radius-card); background: var(--color-accent); color: var(--color-accent-ink); text-align: center; }
+.flow__shark { width: 64px; height: auto; color: var(--color-accent-ink); }
+.flow__hub b { font-family: var(--font-outlier); font-size: 11px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.1; }
+.flow__hub span { font-size: var(--text-xs); line-height: 1.35; }
+.flow__read { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-md) var(--gap-columns); padding-top: var(--space-lg); border-top: 1px solid var(--color-ink); }
+.flow__title { font-size: var(--text-section); font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; color: var(--color-muted); animation: swap-in var(--dur-long) var(--ease-out) both; }
+.flow__title b { display: block; color: var(--color-ink); font-weight: 600; }
+.flow__lines { display: grid; align-content: start; min-height: calc(3 * 3.25rem); margin: 0; padding: 0; list-style: none; }
+.flow__lines li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--space-md); padding-block: var(--space-sm); border-bottom: 1px solid var(--color-rule); animation: swap-in var(--dur-long) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.flow__lines b { font-weight: 600; }
+.flow__lines span { color: var(--color-ink-2); }
 @keyframes swap-in { from { opacity: 0; transform: translateY(6px); } }
 @media (max-width: 60rem) {
-  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kpi:nth-child(3) { border-left: 0; }
-  .report__note { grid-template-columns: minmax(0, 1fr); }
-  .seg { margin-left: 0; }
-}
-@media (max-width: 40rem) {
-  .seg { display: flex; width: 100%; }
-  .seg button { flex: 1; padding: 0 var(--space-xs); }
-  .kpi { padding: var(--space-md); }
+  .flow__map { display: flex; flex-direction: column; gap: var(--space-md); }
+  .flow__wires { display: none; }
+  .flow__head--src { order: 1; }
+  .flow__col--src { order: 2; }
+  .flow__hub { order: 3; grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; width: auto; padding: var(--space-md); text-align: left; }
+  .flow__hub span { grid-column: 2; }
+  .flow__shark { grid-row: span 2; width: 44px; }
+  .flow__head--out { order: 4; margin-top: var(--space-sm); }
+  .flow__col--out { order: 5; }
+  .flow__col { grid-template-rows: none; }
+  .flow__read { grid-template-columns: minmax(0, 1fr); }
+  .flow__lines li { grid-template-columns: minmax(0, 1fr); gap: var(--space-3xs); }
 }
 
 /* --------------------------------------------------------------- Match week */
@@ -452,9 +478,9 @@ html.js [data-draw]:not(.is-drawn) .d-wipe { clip-path: inset(0 100% 0 0); }
    sit above earlier ones so each can slide over, rise into or open across the one before. */
 main { position: relative; z-index: 1; }
 .portal { position: relative; z-index: 1; }
-#pillars, #report, #week, #insiders, #process, #faq { position: relative; }
+#pillars, #sources, #week, #insiders, #process, #faq { position: relative; }
 #pillars { z-index: 2; }
-#report { z-index: 3; transform-origin: 50% 100%; }
+#sources { z-index: 3; transform-origin: 50% 100%; }
 #week { z-index: 4; }
 #insiders { z-index: 5; }
 #process { z-index: 6; }

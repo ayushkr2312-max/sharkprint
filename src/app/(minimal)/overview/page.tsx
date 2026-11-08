@@ -6,12 +6,14 @@ import { Finder } from '@/components/minimal/Finder';
 import { Menu } from '@/components/minimal/Menu';
 import { ModeToggle } from '@/components/minimal/ModeToggle';
 import { Motion } from '@/components/minimal/Motion';
-import { Report } from '@/components/minimal/Report';
+import { Sources } from '@/components/minimal/Sources';
 import { SharkMark } from '@/components/ui/Icon';
 import { DAYS, FAQ, HERO, INSIDERS, MATCH_DAY, NAV, PILLARS, STATEMENT, STEPS, WEEK } from '@/content/minimal';
 
 const i = (n: number) => ({ '--i': n }) as CSSProperties;
 const count = (p: (typeof PILLARS)[number]) => p.caps.reduce((n, g) => n + g.items.length, 0);
+// A pillar's place on the page (#analyst, #hq…) follows its name; its id stays an internal key.
+const slug = (p: (typeof PILLARS)[number]) => p.name.toLowerCase();
 
 /** Sharkprint on one page: two colours, nine bands, over a sculpted-rib texture. A light-blue
  *  lateral line runs down the page as you read and ends under the footer's SHARKPRINT. */
@@ -42,8 +44,8 @@ export default function Home() {
             (blue, its ribs and the black Finishers shark), lands you there, lights the words up
             and only then lets the page move on (Motion.tsx). */}
         <div className="portal">
-        {/* Hero: type alone. The headline spans the full width, its second line set to the
-            right, and one sentence sits beneath it. */}
+        {/* Hero: the headline centred in the screen, its second line set to the right, over a
+            base row: one sentence, and the five pillars it names. */}
         <section id="top" className="hero band" aria-labelledby="hero-title">
           <div className="container hero__in">
             <span aria-hidden="true" className="hero__window">
@@ -65,8 +67,14 @@ export default function Home() {
                 );
               })}
             </h1>
+            {/* The base of the hero: the sentence, and the five pillars it names, in order. */}
             <div className="hero__foot">
               <p className="hero__lead">{HERO.lead}</p>
+              <ol className="hero__index" aria-label="The five pillars">
+                {PILLARS.map((p, n) => (
+                  <li key={p.id}><a href={'#' + slug(p)}><span>{String(n + 1).padStart(2, '0')}</span>{p.name}</a></li>
+                ))}
+              </ol>
             </div>
           </div>
         </section>
@@ -95,7 +103,7 @@ export default function Home() {
               <ol className="index">
                 {PILLARS.map((p) => (
                   <li key={p.id}>
-                    <a href={'#' + p.id}>
+                    <a href={'#' + slug(p)}>
                       {p.name}
                       <span className="index__n" data-count-for={p.id} data-total={count(p)} aria-label={`${count(p)} options`}>{count(p)}</span>
                     </a>
@@ -106,13 +114,13 @@ export default function Home() {
             </div>
             <div>
               {PILLARS.map((p, n) => (
-                <article key={p.id} id={p.id} className="pillar" aria-labelledby={`${p.id}-name`}>
+                <article key={p.id} id={slug(p)} className="pillar" aria-labelledby={`${p.id}-name`}>
                   <p className="pillar__kind"><span className="pillar__n">{String(n + 1).padStart(2, '0')}</span>{p.kind}</p>
                   <h3 id={`${p.id}-name`} className="pillar__name" data-parallax="0.18">{p.name}</h3>
                   <p className="pillar__line" data-reveal="">{p.line}</p>
                   <PillarFig id={p.id} />
                   <div className="caps">
-                    <p className="caps__title"><b>Everything {p.name} can run</b><span>{count(p)} options</span></p>
+                    <p className="caps__title"><b>What’s included</b><span>{count(p)} options</span></p>
                     <div className="caps__groups">
                       {p.caps.map((g, k) => (
                         <div key={g.group} className="caps__group" data-reveal="" style={i(k)}>
@@ -134,15 +142,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The live report. */}
-        <section id="report" className="section band invert" aria-labelledby="report-title">
+        {/* Where the work comes from: public sources, through Sharkprint, into the pillars. */}
+        <section id="sources" className="section band invert" aria-labelledby="sources-title">
           <span aria-hidden="true" className="texture texture--own" />
           <div className="container">
             <div className="head head--split">
-              <Rise id="report-title" className="display" text="Your reach, counted as it happens." />
-              <p className="lead" data-reveal="" style={i(1)}>Matches, streams, socials and your site feed one live report, shaped for whoever needs to read it.</p>
+              <Rise id="sources-title" className="display" text="Built from what’s already out there." />
+              <p className="lead" data-reveal="" style={i(1)}>Most of what we work from is public: results, VODs, streams and socials. We turn it into prep, numbers and content. Anything private joins only if you choose to add it.</p>
             </div>
-            <Report />
+            <Sources />
           </div>
         </section>
 

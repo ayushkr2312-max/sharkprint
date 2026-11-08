@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Michroma, Orbitron, Rethink_Sans } from 'next/font/google';
+import { Flags } from '@/components/minimal/Flags';
 import { SmoothScroll } from '@/components/site/SmoothScroll';
 import { share, UNLISTED } from '@/lib/share';
 import { SITE_URL } from '@/lib/site';
@@ -36,6 +37,7 @@ export default function MinimalLayout({ children }: { children: React.ReactNode 
         <script dangerouslySetInnerHTML={{ __html: MODE_SCRIPT }} />
       </head>
       <body className="band">
+        <Flags />
         {children}
         <SmoothScroll />
       </body>
