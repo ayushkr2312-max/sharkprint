@@ -1,0 +1,74 @@
+/* Two colours and nothing else: white and black (which one is the ground follows the page
+   mode) and one light blue. Every grey below is a mix of those two, never a third hue. */
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem; --text-3xl: 2.441rem;
+  --text-hero: clamp(3.75rem, 0.5rem + 8.6vw, 9rem);
+  --text-display: clamp(2.5rem, 1rem + 4vw, 5rem);
+  --text-pillar: clamp(3.5rem, 1rem + 6.4vw, 7.5rem);
+  --text-statement: clamp(2rem, 0.75rem + 3vw, 4rem);
+  --text-section: clamp(2rem, 1rem + 2.5vw, 3.25rem);
+  --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem);
+  --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);
+  --text-figure: clamp(2rem, 1rem + 2.4vw, 3.25rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 160px; --section-gap-l: 200px;
+  --nav-h: 72px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+
+  --white: oklch(99.4% 0.002 240);
+  --black: oklch(16.5% 0.012 250);
+  --blue: oklch(84% 0.085 236);
+
+  --color-paper: var(--white);
+  --color-ink: var(--black);
+  --color-accent: var(--blue);
+  --color-accent-ink: var(--black);
+  --color-focus: var(--color-ink);
+  --color-error: var(--color-ink); --color-success: var(--color-ink);
+  /* Inverted bands take the other end of the pair. */
+  --invert-paper: var(--black);
+  --invert-ink: var(--white);
+  /* Cards that sit on a coloured band keep the page's own pair. */
+  --surface-paper: var(--white);
+  --surface-ink: var(--black);
+
+  --font-display: var(--font-rethink), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-rethink), ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: var(--font-michroma), ui-sans-serif, system-ui, sans-serif;
+  --font-hero: var(--font-orbitron), var(--font-rethink), ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 20px; --radius-inner: 12px; --radius-pill: 999px; --rule-hair: 1px; --shadow-card: none;
+  --tracking-display: -0.04em;
+  color-scheme: light;
+}
+
+/* Greys, rules and wells, mixed from whatever paper and ink are where they're used. Declared on
+   every surface that swaps the pair, so they follow it. */
+:root, .invert, .field, .surface {
+  --color-paper-2: color-mix(in oklch, var(--color-ink) 5%, var(--color-paper));
+  --color-paper-3: color-mix(in oklch, var(--color-ink) 9%, var(--color-paper));
+  --color-ink-2: color-mix(in oklch, var(--color-ink) 82%, var(--color-paper));
+  --color-muted: color-mix(in oklch, var(--color-ink) 64%, var(--color-paper));
+  --color-rule: color-mix(in oklch, var(--color-ink) 15%, var(--color-paper));
+}
+
+[data-mode="dark"] {
+  color-scheme: dark;
+  --color-paper: var(--black); --color-ink: var(--white); --color-focus: var(--color-accent);
+  --invert-paper: var(--white); --invert-ink: var(--black);
+  --surface-paper: var(--black); --surface-ink: var(--white);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode]) {
+    color-scheme: dark;
+    --color-paper: var(--black); --color-ink: var(--white); --color-focus: var(--color-accent);
+    --invert-paper: var(--white); --invert-ink: var(--black);
+    --surface-paper: var(--black); --surface-ink: var(--white);
+  }
+}
+
+/* A band in the other colour of the pair, and a band in light blue. */
+.invert { --color-paper: var(--invert-paper); --color-ink: var(--invert-ink); --color-focus: var(--invert-ink); }
+.field { --color-paper: var(--blue); --color-ink: var(--black); --color-focus: var(--black); --color-accent: var(--black); --color-accent-ink: var(--blue); }
+.surface { --color-paper: var(--surface-paper); --color-ink: var(--surface-ink); --color-accent: var(--blue); --color-accent-ink: var(--black); --color-focus: var(--surface-ink); }

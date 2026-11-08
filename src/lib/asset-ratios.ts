@@ -40,6 +40,7 @@ export const ASSET_RATIOS: Record<string, string> = {
   'intel/scouting-report.svg': '520 / 660',
   'intel/world-map-dark.svg': '1200 / 560',
   'intel/world-map-light.svg': '1200 / 560',
+  'minimal/texture.svg': '1600 / 1000',
   'sections/chaos-to-order.svg': '1100 / 520',
   'sections/human-machine.svg': '1100 / 520',
   'sections/orbit-services.svg': '900 / 900',
