@@ -295,11 +295,20 @@ export function Motion() {
       // transforms (their deal-in) would otherwise count as width and double the slide.
       const last = list.lastElementChild as HTMLElement;
       const dist = () => Math.max(last.offsetLeft + last.offsetWidth - steps.clientWidth, 0);
+      // The pin is the slide, then a short hold once "Optimise" is in (42% of the screen's
+      // height), so the reader settles before the page moves on. `slid` is the share of the
+      // pin the slide takes; the ease finishes the slide there and holds after it.
+      let slid = 1;
       gsap.to(list, {
-        x: () => -dist(), ease: 'none',
+        x: () => -dist(), ease: (p: number) => Math.min(1, p / slid),
         scrollTrigger: {
-          trigger: steps, start: 'center 55%', end: () => '+=' + Math.max(dist() * 1.3, 500),
-          pin: true, scrub: 0.6, invalidateOnRefresh: true, onUpdate: (s) => markSteps(s.progress),
+          trigger: steps, start: 'center 55%',
+          end: () => {
+            const slide = Math.max(dist() * 1.3, 500), hold = innerHeight * 0.42;
+            slid = slide / (slide + hold);
+            return '+=' + (slide + hold);
+          },
+          pin: true, scrub: 0.6, invalidateOnRefresh: true, onUpdate: (s) => markSteps(Math.min(1, s.progress / slid)),
         },
       });
     });
