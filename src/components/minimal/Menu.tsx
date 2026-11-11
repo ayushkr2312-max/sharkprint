@@ -33,11 +33,12 @@ export function Menu({ links }: { links: [string, string][] }) {
     <div ref={root} className="menu">
       <button type="button" className="menu__btn" aria-expanded={open} aria-controls="menu-sheet" onClick={() => setOpen((o) => !o)}>
         {open ? 'Close' : 'Menu'}
+        <span aria-hidden="true" className="ticks"><i /><i /><i /><i /></span>
       </button>
       <nav id="menu-sheet" aria-label="Sections" className="menu__sheet" data-open={open ? '' : undefined} inert={!open}>
         <ul>
           {links.map(([label, href], n) => (
-            <li key={href} style={{ '--i': n } as React.CSSProperties}><a href={href}>{label}</a></li>
+            <li key={href} style={{ '--i': n } as React.CSSProperties}><a href={href}><span>{String(n + 1).padStart(2, '0')}</span>{label}</a></li>
           ))}
         </ul>
       </nav>

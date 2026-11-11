@@ -1,7 +1,7 @@
 /* Hallmark · shape: lateral line, one page in nine bands · genre: modern-minimal · theme: custom · job: book · idea: "The shark's lateral line, the sense that feels every movement in the water, drawn as one light-blue line from the hero to the last form field" · vibe: "black and white, one blue line, quiet power"
- * paper: oklch(99.4% 0.002 240) or oklch(16.5% 0.012 250) by mode · accent: oklch(84% 0.085 236) · display: Rethink Sans · body: Rethink Sans · outlier: Michroma (wordmark only) · hero: type alone, the headline centred at full width with its second line to the right, over a base row of the sentence and the five pillars, no action (the owner wants no calls to action) · nav: sticky bar, logo, four anchors, mode switch · footer: logo and anchors, SHARKPRINT across the width, copyright · imagery: none; the product is built (live report, match week), over a sculpted-rib texture drawn as flat lines and tones · signature: the light-blue lateral line, running down the page as you read and ending under the footer's SHARKPRINT
+ * paper: oklch(99.4% 0.002 240) or oklch(16.5% 0.012 250) by mode · accent: oklch(84% 0.085 236) · display: Rethink Sans · body: Rethink Sans · outlier: Michroma (wordmark only) · hero: type alone, the headline centred at full width with its second line to the right, over a base row of the sentence and the five pillars, no action (the owner wants no calls to action) · nav: a bar, logo, numbered chapters with four corner marks that lock onto the one you're in like a sight (light blue on black, ink on white), mode switch in the same corners · footer: logo and anchors, SHARKPRINT across the width, copyright · imagery: none; the product is built (live report, match week), over a sculpted-rib texture drawn as flat lines and tones · signature: the light-blue window in the headline's O, which the page zooms through, and a looping flow for each pillar
  * axes: light/grotesk-sans/cool · posture: committed (two light-blue bands, one inverted band) · modes: light+dark · contrast: pass · fold: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, a long options list could read as a wall, so each pillar trims to distinct points in a two-group spec sheet under one glance figure, and a finder lights the ones that match a need */
+/* Hallmark · pre-emit critique: P4 H4 E5 S4 R4 V4 · weakest: S, five pillars could read as a wall of options, so each opens with what it changes and a looping flow of how it works, and the options sit in a spec sheet the finder searches */
 /* waive 27, 62: the owner wants motion always on, with no reduced-motion mode (a standing instruction) */
 /* waive craft-5 parallax: the owner asked for controlled parallax; it moves display type and rules only, never body text, and only on wide screens */
 /* waive 58: the owner asked for every section of the full site on one page */
@@ -55,59 +55,81 @@ html.js [data-rise]:not(.is-in) .rw > span { transform: translateY(115%); }
 
 /* --------------------------------------------------------------- Controls */
 .mode {
-  display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0;
-  border: 1px solid var(--color-rule); border-radius: 50%; background: transparent; color: var(--color-ink); cursor: pointer;
-  transition: border-color var(--dur-short) var(--ease-out);
+  position: relative; display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0;
+  border: 0; background: transparent; color: var(--color-ink); cursor: pointer;
 }
-.mode:hover { border-color: var(--color-ink); }
 .mode svg { width: 18px; height: 18px; transition: transform var(--dur-long) var(--ease-out); }
 [data-mode="dark"] .mode svg { transform: rotate(180deg); }
 @media (prefers-color-scheme: dark) { :root:not([data-mode]) .mode svg { transform: rotate(180deg); } }
 
-/* --------------------------------------------------------------- Nav */
-.nav { position: sticky; top: 0; z-index: var(--z-sticky-nav); border-bottom: 1px solid transparent; transition: border-color var(--dur-short) var(--ease-out); }
-.nav[data-scrolled] { border-bottom-color: var(--color-rule); }
-.nav__inner { display: flex; align-items: center; gap: var(--space-xl); height: var(--nav-h); }
-.logo { display: inline-flex; align-items: center; gap: var(--space-sm); padding-block: var(--space-sm); color: var(--color-ink); text-decoration: none; white-space: nowrap; }
+/* --------------------------------------------------------------- Nav
+   A bar: the logo, the chapters with their numbers set in the wordmark's face, and the mode
+   switch. Four corner marks lock onto the chapter you're in like a sight (Motion.tsx): they
+   glide over, land a touch wide and close in. Hover or tab along the chapters and they follow.
+   The switch and the phone menu wear the same corners. A hairline under the bar once you move. */
+.nav { position: sticky; top: 0; z-index: var(--z-sticky-nav); }
+.nav::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--color-rule); opacity: 0; transition: opacity var(--dur-short) var(--ease-out); pointer-events: none; }
+.nav[data-scrolled]::after { opacity: 1; }
+.nav__inner { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-lg); height: var(--nav-h); }
+.logo { justify-self: start; display: inline-flex; align-items: center; gap: var(--space-sm); padding-block: var(--space-sm); color: var(--color-ink); text-decoration: none; white-space: nowrap; }
 .logo__mark { width: 34px; height: auto; flex-shrink: 0; --dot: var(--color-accent); transition: transform var(--dur-long) var(--ease-out); }
 .logo:hover .logo__mark { transform: translateX(-4px); }
 .logo__words { font-family: var(--font-outlier); font-size: 11px; line-height: 1.1; letter-spacing: 0.2em; text-transform: uppercase; }
 .logo__words span { color: var(--color-muted); }
-.nav__inner > nav { margin-left: auto; }
-.nav__links { display: flex; gap: var(--space-lg); margin: 0; padding: 0; list-style: none; }
-.nav__links a { display: block; padding-block: var(--space-sm); color: var(--color-muted); font-size: var(--text-sm); text-decoration: none; transition: color var(--dur-short) var(--ease-out); }
-.nav__links a { position: relative; }
-.nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; border-radius: 2px; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-long) var(--ease-out); }
-.nav__links a:hover, .nav__links a[aria-current] { color: var(--color-ink); }
-.nav__links a[aria-current]::after { transform: none; }
+
+.nav__deck { justify-self: center; position: relative; }
+.nav__lock { position: absolute; inset: 0; pointer-events: none; }
+.nav__lock i { position: absolute; top: 0; left: 0; width: 10px; height: 10px; border: 0 solid var(--color-hi); opacity: 0; will-change: transform; }
+.nav__lock i:nth-child(1) { border-width: 2px 0 0 2px; }
+.nav__lock i:nth-child(2) { border-width: 2px 2px 0 0; }
+.nav__lock i:nth-child(3) { border-width: 0 0 2px 2px; }
+.nav__lock i:nth-child(4) { border-width: 0 2px 2px 0; }
+.nav__links { position: relative; display: flex; gap: var(--space-2xs); margin: 0; padding: 0; list-style: none; }
+.nav__links a {
+  display: flex; align-items: center; gap: 9px; height: 42px; padding: 0 16px;
+  color: var(--color-muted); font-size: var(--text-sm); font-weight: 600; text-decoration: none; white-space: nowrap;
+  transition: color var(--dur-short) var(--ease-out);
+}
+.nav__links a span { font-family: var(--font-outlier); font-size: 9px; font-weight: 400; line-height: 1; color: var(--color-hi); }
+.nav__links a:hover, .nav__links a:focus-visible, .nav__links a[aria-current] { color: var(--color-ink); }
+html.js .nav__links a:focus-visible { outline: none; }
+.nav__end { justify-self: end; display: flex; align-items: center; gap: var(--space-sm); }
+
+/* Corner marks on the controls; on hover they close in on what they hold. */
+.ticks { position: absolute; inset: 0; pointer-events: none; }
+.ticks i { position: absolute; width: 8px; height: 8px; border: 0 solid var(--color-muted); transition: transform var(--dur-long) var(--ease-out); }
+.ticks i:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.ticks i:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.ticks i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.ticks i:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+:is(.mode, .menu__btn):is(:hover, :focus-visible, [aria-expanded="true"]) .ticks i { border-color: var(--color-ink); }
+:is(.mode, .menu__btn):hover .ticks i:nth-child(1) { transform: translate(3px, 3px); }
+:is(.mode, .menu__btn):hover .ticks i:nth-child(2) { transform: translate(-3px, 3px); }
+:is(.mode, .menu__btn):hover .ticks i:nth-child(3) { transform: translate(3px, -3px); }
+:is(.mode, .menu__btn):hover .ticks i:nth-child(4) { transform: translate(-3px, -3px); }
 
 .menu { display: none; }
 .menu__btn {
-  min-height: 44px; padding: 0 var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: transparent;
-  color: var(--color-ink); font-size: var(--text-sm); font-weight: 600; cursor: pointer; transition: border-color var(--dur-short) var(--ease-out);
+  position: relative; min-height: 44px; padding: 0 var(--space-md); border: 0; background: transparent;
+  color: var(--color-ink); font-size: var(--text-sm); font-weight: 600; cursor: pointer;
 }
-.menu__btn:hover, .menu__btn[aria-expanded="true"] { border-color: var(--color-ink); }
 .menu__sheet { position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: var(--z-dropdown); border-bottom: 1px solid var(--color-rule); background: var(--color-paper); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-long) var(--ease-out), visibility 0s linear var(--dur-long); }
 .menu__sheet[data-open] { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .menu__sheet ul { display: grid; margin: 0; padding: var(--space-xs) var(--gutter) var(--space-lg); list-style: none; }
 .menu__sheet li { border-bottom: 1px solid var(--color-rule); }
-.menu__sheet a { display: block; padding-block: var(--space-md); color: var(--color-ink); font-size: var(--text-title); font-weight: 600; letter-spacing: -0.02em; text-decoration: none; }
-.menu__sheet a[aria-current] { color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
-@media (max-width: 60rem) { .menu { display: block; } }
-.nav__end { display: flex; align-items: center; gap: var(--space-sm); }
-@media (max-width: 60rem) {
-  .nav__links { display: none; }
-  .nav__end { margin-left: auto; }
+.menu__sheet a { display: flex; align-items: baseline; gap: var(--space-sm); padding-block: var(--space-md); color: var(--color-ink); font-size: var(--text-title); font-weight: 600; letter-spacing: -0.02em; text-decoration: none; }
+.menu__sheet a span { color: var(--color-hi); font-family: var(--font-outlier); font-size: 11px; font-weight: 400; }
+.menu__sheet a[aria-current] { text-decoration: underline; text-decoration-color: var(--color-accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+@media (max-width: 64rem) {
+  .nav__deck { display: none; }
+  .menu { display: block; }
+  .nav__inner { grid-template-columns: minmax(0, 1fr) auto; }
+  .nav__end { grid-column: 2; }
 }
 @media (max-width: 40rem) {
   .nav__inner { gap: var(--space-md); }
   .nav .logo__words span { display: none; }
 }
-
-/* The lateral line's reading spine: a 2px rule at the left edge that fills as you scroll. */
-.spine { position: fixed; inset-block: 0; left: max(24px, calc((100% - var(--container)) / 2 + 24px)); z-index: var(--z-raised); width: 2px; background: var(--color-rule); pointer-events: none; }
-.spine i { position: absolute; inset: 0; background: var(--color-accent); transform-origin: top; transform: scaleY(0); }
-@media (max-width: 60rem) { .spine { display: none; } }
 
 /* --------------------------------------------------------------- Hero */
 .hero { position: relative; z-index: 2; display: grid; min-height: calc(100svh - var(--nav-h)); padding-block: var(--space-2xl); }
@@ -116,7 +138,7 @@ html.js [data-rise]:not(.is-in) .rw > span { transform: translateY(115%); }
 /* The portal: the light-blue window sits behind the "o" of the headline, sized to the middle
    of its stroke so the letter hides its edge. Motion.tsx measures the real glyph, places it,
    lights it up and zooms the headline through it into the next section. */
-.hero__window { position: absolute; z-index: 0; overflow: hidden; border-radius: 42%; background: var(--blue); opacity: 0; pointer-events: none; }
+.hero__window { position: absolute; z-index: 0; overflow: hidden; border-radius: 28%; background: var(--blue); opacity: 0; pointer-events: none; }
 /* What the window shows: the statement as it will look when you land, laid out on the screen
    below the nav and held still there while the letters zoom around it. */
 .portal__scene { position: absolute; overflow: hidden; }
@@ -136,19 +158,22 @@ html.js .portal > .statement { opacity: 0; }
 .hero__base { display: inline-block; width: 0; height: 0; }
 .hero__title { position: relative; z-index: 1; align-self: center; margin-bottom: clamp(0px, 4vh, 48px); font-family: var(--font-hero); font-size: calc(100cqi / 8.65); font-weight: 800; line-height: 1; letter-spacing: 0; text-transform: uppercase; max-width: none; }
 .hero__title .ln { display: block; overflow: clip; padding: 0 0.12em 0.24em; margin: 0 -0.12em -0.24em; }
-.hero__title .ln--2 { text-align: right; }
+.hero__title .ln--2 { text-align: right; color: var(--color-hi); }
 .hero__title .ln > span { display: block; animation: hero-rise 1s var(--ease-out) backwards; animation-delay: calc(120ms + var(--i) * 110ms); }
 .hero__foot {
   display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-lg) var(--gap-columns);
-  padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); animation: hero-fade 0.8s var(--ease-out) 0.55s backwards;
+  position: relative; padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); animation: hero-fade 0.8s var(--ease-out) 0.55s backwards;
 }
+/* The base rule draws itself in light blue, left to right, as the hero settles. */
+.hero__foot::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 2px; background: var(--color-accent); transform-origin: left; animation: hero-draw 1.6s var(--ease-out) 0.7s backwards; }
+@keyframes hero-draw { from { transform: scaleX(0); } }
 .hero__index { display: flex; gap: var(--space-xs) var(--space-xl); margin: 0; padding: 0; list-style: none; }
 .hero__index a {
   display: inline-flex; align-items: baseline; gap: var(--space-xs); padding-block: var(--space-xs); color: var(--color-ink); font-weight: 600; text-decoration: none;
   text-decoration-line: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: 0.35em; transition: text-decoration-color var(--dur-short) var(--ease-out);
 }
 .hero__index a:hover { text-decoration-color: var(--color-accent); }
-.hero__index a span { color: var(--color-muted); font-size: var(--text-xs); font-weight: 400; font-variant-numeric: tabular-nums; }
+.hero__index a span { color: var(--color-hi); font-size: var(--text-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
 @media (max-width: 60rem) {
   .hero__foot { grid-template-columns: minmax(0, 1fr); }
   .hero__index { flex-wrap: wrap; gap: var(--space-2xs) var(--space-lg); }
@@ -189,9 +214,13 @@ html.js .portal > .statement { opacity: 0; }
 .pillar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: var(--space-lg) var(--gap-columns); padding-block: var(--space-3xl); border-top: 1px solid var(--color-rule); scroll-margin-top: var(--nav-h); }
 .pillar:first-child { padding-top: 0; border-top: 0; }
 .pillar__kind { grid-column: 1 / -1; display: flex; gap: var(--space-sm); align-items: baseline; color: var(--color-muted); font-size: var(--text-md); }
-.pillar__n { color: var(--color-ink); font-size: var(--text-sm); font-weight: 600; font-variant-numeric: tabular-nums; }
+.pillar__n { color: var(--color-hi); font-size: var(--text-sm); font-weight: 600; font-variant-numeric: tabular-nums; }
 .pillar__name { grid-column: 1 / -1; font-size: var(--text-pillar); font-weight: 600; line-height: 0.9; letter-spacing: -0.05em; }
-.pillar__line { grid-column: 1; align-self: start; padding-top: var(--space-sm); font-size: var(--text-lead); line-height: 1.4; max-width: 30ch; }
+.pillar__about { grid-column: 1; align-self: start; display: grid; gap: var(--space-xl); padding-top: var(--space-sm); }
+.pillar__line { font-size: var(--text-lead); line-height: 1.4; max-width: 30ch; }
+.pillar__gains { display: grid; margin: 0; padding: 0; border-top: 1px solid var(--color-rule); list-style: none; }
+.pillar__gains li { position: relative; padding: var(--space-sm) 0 var(--space-sm) var(--space-lg); border-bottom: 1px solid var(--color-rule); font-weight: 600; }
+.pillar__gains li::before { content: ""; position: absolute; left: 0; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 3px; background: var(--color-accent); }
 
 /* Everything the pillar can run, as a spec sheet: each group a row, its name and count on the
    left, its options in an even two-column grid on the right, a title and one line each. */
@@ -222,7 +251,7 @@ html.js .portal > .statement { opacity: 0; }
 }
 @media (max-width: 48rem) {
   .pillar { grid-template-columns: minmax(0, 1fr); }
-  .pillar__line, .glance { grid-column: 1; }
+  .pillar__about, .loop { grid-column: 1; }
 }
 
 /* The finder: type a need, the options that match light up across the pillars. */
@@ -422,12 +451,8 @@ html.js .fmark:not(.is-drawn) .fmark__word::after { transform: scaleX(0); }
 html.js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
 html.js [data-reveal].is-in { opacity: 1; transform: none; }
 
-/* --------------------------------------------------------------- Figures
-   Two-colour diagrams: ink and light blue, with rules mixed from the pair. Each draws itself
-   once as it enters ([data-draw] gets .is-drawn); without a script they show finished. */
-.fig { display: grid; gap: var(--space-md); margin: 0; min-width: 0; }
-.fig svg { width: 100%; height: auto; overflow: visible; }
-.fig figcaption { color: var(--color-muted); font-size: var(--text-sm); }
+/* --------------------------------------------------------------- Diagram parts
+   Ink, paper and light blue, with rules mixed from the pair. */
 .f-ink { fill: var(--color-ink); }
 .f-blue { fill: var(--color-accent); }
 .f-rule { fill: var(--color-rule); }
@@ -437,47 +462,37 @@ html.js [data-reveal].is-in { opacity: 1; transform: none; }
 .f-paper.s-ink { fill: var(--color-paper); }
 .s-rule { fill: none; stroke: var(--color-rule); stroke-width: 1; }
 .s-thick { stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.s-blue { fill: none; stroke: var(--color-accent); stroke-width: 2; }
+.s-dash { stroke-dasharray: 5 4; }
 .t { font-family: var(--font-body); font-size: 13px; fill: var(--color-muted); }
 .t-ink { fill: var(--color-ink); font-weight: 600; }
 .t-on-blue { fill: var(--color-accent-ink); font-weight: 600; }
 .t-on-ink { fill: var(--color-paper); font-weight: 600; }
+.t-big { font-family: var(--font-display); font-size: 26px; font-weight: 600; letter-spacing: -0.03em; fill: var(--color-ink); }
 
-.d-up, .d-grow, .d-drop, .d-span { transition: opacity 0.6s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: calc(var(--d, 0) * 1ms); }
-.d-grow, .d-drop, .d-span { transform-box: fill-box; }
-.d-grow { transform-origin: center; }
-.d-drop { transform-origin: 50% 0; }
-.d-span { transform-origin: 0 50%; }
 .d-wipe { clip-path: inset(0 0 0 0); transition: clip-path 1.4s var(--ease-out); transition-delay: calc(var(--d, 0) * 1ms); }
-html.js [data-draw]:not(.is-drawn) .d-up { opacity: 0; transform: translateY(8px); }
-html.js [data-draw]:not(.is-drawn) .d-grow { transform: scale(0); }
-html.js [data-draw]:not(.is-drawn) .d-drop { transform: scaleY(0); }
-html.js [data-draw]:not(.is-drawn) .d-span { transform: scaleX(0); }
 html.js [data-draw]:not(.is-drawn) .d-wipe { clip-path: inset(0 100% 0 0); }
 
 @media (max-width: 60rem) {
   .statement__grid { grid-template-columns: minmax(0, 1fr); }
   .statement__mark { width: 90%; margin-right: -20%; }
 }
-/* Diagrams shrink on tablets and phones; their labels don't. */
-@media (max-width: 75rem) {
-  .fig .t { font-size: 14px; }
-}
-
 /* --------------------------------------------------------------- Section transitions
    Every boundary between sections moves in its own way (Motion.tsx): the statement shrinks
-   back under the pillars, the report swings up to face you, the week deals in its seven day
+   back under the walls, the walls fall as the pillars rise, the report swings up to face you, the week deals in its seven day
    columns, the insiders band scans up over its content, insiders swipes away as the steps are
    dealt in, the questions open from a line, and the page lifts off the footer. Later sections
    sit above earlier ones so each can slide over, rise into or open across the one before. */
 main { position: relative; z-index: 1; }
-.portal { position: relative; z-index: 1; }
-#pillars, #sources, #week, #insiders, #process, #faq { position: relative; }
-#pillars { z-index: 2; }
-#sources { z-index: 3; transform-origin: 50% 100%; }
-#week { z-index: 4; }
-#insiders { z-index: 5; }
-#process { z-index: 6; }
-#faq { z-index: 7; }
+.portal { position: relative; z-index: 1; overflow: clip; }
+#walls, #pillars, #sources, #week, #insiders, #process, #faq { position: relative; }
+#walls { z-index: 2; }
+#pillars { z-index: 3; }
+#sources { z-index: 4; transform-origin: 50% 100%; }
+#week { z-index: 5; }
+#insiders { z-index: 6; }
+#process { z-index: 7; }
+#faq { z-index: 8; }
 .footer { position: relative; z-index: 0; }
 
 /* The pillars are an opaque sheet with the page's own ribs, so the statement can sink beneath. */
@@ -504,14 +519,81 @@ main { position: relative; z-index: 1; }
 .opens.field { background: transparent; }
 .field-bg { position: absolute; inset: 0; z-index: -2; background: var(--blue); transform-origin: 50% 0; }
 
-/* --------------------------------------------------------------- A pillar at a glance
-   One figure, a line on what it means, a small chart and a caption, under a single rule. */
-.glance { grid-column: 2; align-self: start; display: grid; gap: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-ink); }
-.glance__read { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-md); }
-.glance__big { font-size: clamp(2.5rem, 1.75rem + 1.6vw, 3.5rem); font-weight: 600; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-.glance__what { max-width: 30ch; color: var(--color-ink-2); font-size: var(--text-sm); line-height: 1.4; }
-.glance svg { overflow: visible; }
-.glance .t { font-size: 11px; }
-.glance figcaption { font-size: var(--text-xs); }
-@media (max-width: 75rem) { .glance .t { font-size: 13px; } }
-@media (max-width: 48rem) { .glance { grid-column: 1; } }
+/* --------------------------------------------------------------- How each pillar works
+   A panel beside each pillar playing a short loop of how it works, with its four steps in a
+   strip below whose bars fill as it plays, like chapters. It sits on its own layer so its
+   frames never repaint the page around it. */
+.loop { grid-column: 2; align-self: start; display: grid; gap: var(--space-md); margin: 0; padding: var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); will-change: transform; }
+.loop__stage { width: 100%; height: auto; overflow: visible; }
+.loop .t { font-size: 14px; }
+.loop__shark { color: var(--black); --dot: var(--blue); }
+.loop__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xs); margin: 0; padding: 0; list-style: none; }
+.loop__step { position: relative; display: flex; align-items: baseline; gap: 6px; padding-top: var(--space-sm); color: var(--color-muted); font-size: var(--text-sm); font-weight: 600; transition: color var(--dur-short) var(--ease-out); }
+.loop__step span { font-size: var(--text-xs); font-weight: 400; font-variant-numeric: tabular-nums; }
+.loop__step::before, .loop__step i { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: 2px; background: var(--color-rule); }
+.loop__step i { background: var(--color-accent); transform-origin: left; }
+.loop__step[data-on] { color: var(--color-ink); }
+.loop__step[data-on] span { color: var(--color-hi); }
+.loop figcaption { color: var(--color-muted); font-size: var(--text-xs); }
+/* Below laptop width the loop sits under the text, at the column's full width, so its labels
+   stay readable. */
+@media (max-width: 75rem) {
+  .pillar { grid-template-columns: minmax(0, 1fr); }
+  .pillar__about, .loop { grid-column: 1; }
+  .loop { max-width: 640px; }
+}
+@media (max-width: 48rem) {
+  .loop { grid-column: 1; padding: var(--space-md); }
+  .loop .t { font-size: 16px; }
+  .loop__step { font-size: var(--text-xs); }
+}
+
+/* --------------------------------------------------------------- Walls (inverted)
+   One picture in a panel: an org's climb, a light-blue line that five walls hold back. As you
+   scroll, each wall splits open where the line meets it, the pillar under it lights up, and the
+   line climbs on (Climb.tsx). A readout below gives the wall you're at, or the one you point to
+   or tap: what it costs and what takes it down. Wide screens climb left to right; phones climb
+   up the screen. */
+.climb { display: grid; gap: var(--space-lg); padding: clamp(16px, 2.6vw, 36px); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); contain: layout paint; }
+.climb__stage { position: relative; }
+.climb__stage--v { display: none; width: 100%; max-width: 420px; margin-inline: auto; }
+.climb__svg { display: block; width: 100%; height: auto; }
+.climb__line { fill: none; stroke: var(--color-accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.climb__cover { fill: var(--color-paper); }
+html:not(.js) .climb__cover { display: none; }
+.climb__ground { fill: none; stroke: var(--color-rule); stroke-width: 2; }
+.climb__wall rect { fill: var(--color-ink); }
+
+.climb__name, .climb__chip, .climb__end { position: absolute; margin: 0; }
+.climb__name { transform: translateX(-50%); color: var(--color-ink); font-size: 14px; font-weight: 600; line-height: 1.25; text-align: center; transition: color var(--dur-short) var(--ease-out); }
+.climb__name span { display: block; margin-bottom: 3px; color: var(--color-hi); font-size: var(--text-xs); font-weight: 400; font-variant-numeric: tabular-nums; }
+.climb__name[data-on] { color: var(--color-muted); }
+.climb__chip {
+  transform: translateX(-50%); padding: 5px 14px; border: 1px solid var(--color-rule); border-radius: var(--radius-pill);
+  background: var(--color-paper); color: var(--color-muted); font: inherit; font-size: var(--text-sm); font-weight: 600; line-height: 1.3; white-space: nowrap; cursor: pointer;
+  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+}
+.climb__chip[data-on] { border-color: var(--blue); background: var(--blue); color: var(--black); }
+.climb__chip[aria-pressed="true"] { outline: 2px solid var(--color-hi); outline-offset: 3px; }
+.climb__end { transform: translateX(-100%); color: var(--color-hi); font-size: 14px; font-weight: 600; line-height: 1.25; text-align: right; transition: opacity var(--dur-long) var(--ease-out); }
+html.js .climb__end:not([data-on]) { opacity: 0.3; }
+
+.climb__read { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; gap: var(--space-md) var(--gap-columns); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); }
+.climb__read > * { animation: climb-read var(--dur-long) var(--ease-out) backwards; }
+.climb__read > * + * { animation-delay: 60ms; }
+@keyframes climb-read { from { opacity: 0; transform: translateY(6px); } }
+.climb__cost { display: flex; gap: var(--space-sm); max-width: 48ch; color: var(--color-ink); font-size: var(--text-lead); line-height: 1.4; }
+.climb__cost span { padding-top: 0.35em; color: var(--color-hi); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+.climb__fix { display: grid; justify-items: start; gap: var(--space-xs); color: var(--color-ink-2); font-size: var(--text-md); line-height: 1.4; }
+.climb__fix b { padding: 3px 12px; border-radius: var(--radius-pill); background: var(--blue); color: var(--black); font-size: var(--text-sm); font-weight: 600; }
+
+@media (max-width: 64rem) { .climb__name { font-size: 13px; } }
+@media (max-width: 48rem) {
+  .climb__stage--h { display: none; }
+  .climb__stage--v { display: block; }
+  .climb__stage--v .climb__name { transform: none; text-align: left; }
+  .climb__stage--v .climb__name span { display: inline; margin: 0 6px 0 0; }
+  .climb__stage--v .climb__chip { transform: translateX(-100%); }
+  .climb__stage--v .climb__end { transform: none; text-align: left; }
+  .climb__read { grid-template-columns: minmax(0, 1fr); }
+}

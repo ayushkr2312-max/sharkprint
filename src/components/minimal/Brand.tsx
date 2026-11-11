@@ -22,17 +22,26 @@ export function FooterMark() {
   );
 }
 
-/** A heading whose words rise into place, one after another, as it comes into view. */
+/** A heading whose words rise into place, one after another, as it comes into view. A "\n"
+ *  in the text starts a new line. */
 export function Rise({ as: Tag = 'h2', text, ...rest }: { as?: ElementType; text: string; id?: string; className?: string }) {
-  const words = text.split(' ');
+  let n = 0;
   return (
     <Tag data-rise="" {...rest}>
-      {words.map((w, n) => (
-        <span key={n}>
-          <span className="rw"><span style={{ '--i': n } as CSSProperties}>{w}</span></span>
-          {n < words.length - 1 && ' '}
-        </span>
-      ))}
+      {text.split('\n').map((line, l) => {
+        const words = line.split(' ');
+        return (
+          <span key={l}>
+            {l > 0 && <br />}
+            {words.map((w, k) => (
+              <span key={k}>
+                <span className="rw"><span style={{ '--i': n++ } as CSSProperties}>{w}</span></span>
+                {k < words.length - 1 && ' '}
+              </span>
+            ))}
+          </span>
+        );
+      })}
     </Tag>
   );
 }

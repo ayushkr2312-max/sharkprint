@@ -15,8 +15,8 @@ const michroma = Michroma({ subsets: ['latin'], weight: '400', variable: '--font
 // The hero headline's own face: wide, engineered letterforms.
 const orbitron = Orbitron({ subsets: ['latin'], weight: '800', variable: '--font-orbitron' });
 
-const title = "Finishers Sharkprint: your org's edge, engineered";
-const description = 'Analysis and scouting, live numbers, content, sites and creator programs. The team behind your team, built for esports orgs.';
+const title = 'Finishers Sharkprint: the team behind your team';
+const description = 'Player and opponent reports, live numbers, content, creator programs and sites for esports orgs, built mostly from public data.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

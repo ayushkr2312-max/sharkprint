@@ -14,6 +14,8 @@ const smooth = (x: number) => x * x * (3 - 2 * x);
 function measureO(stage: HTMLElement, o: HTMLElement, base: HTMLElement) {
   const cs = getComputedStyle(o);
   const size = parseFloat(cs.fontSize);
+  // Nothing to measure while the letter isn't laid out (detached mid re-render, or hidden).
+  if (!o.isConnected || !(size > 0)) return null;
   const pad = Math.ceil(size * 0.4);
   const c = document.createElement('canvas');
   c.width = c.height = Math.ceil(size * 1.2) + pad * 2;
@@ -61,7 +63,8 @@ function measureO(stage: HTMLElement, o: HTMLElement, base: HTMLElement) {
  *    screens only, display type only); the background texture drifts with the page.
  *  - Leaving the hero, you zoom through the "o" of its headline and land in the statement,
  *    whose words then light up before the page moves on.
- *  - The lateral line: the reading spine, and the rules that fill along the review and steps.
+ *  - In the nav, four corner marks lock onto the chapter you're in, or the one under the pointer.
+ *  - The walls of the climb split one by one as you scroll through them (Climb.tsx).
  *  - The match week plays out day by day under a sweeping line; the pillar index follows the
  *    pillar in view; on wide screens the five steps slide past while their row holds still.
  *  - Every boundary between sections has its own transition (see "Section transitions"). */
@@ -69,7 +72,8 @@ export function Motion() {
   useGSAP(() => {
     // The portal, first, so everything below is measured with its scroll room in place.
     // The hero and the statement are stacked and pinned together. Scrolling zooms the headline
-    // into the "o" of its first line. The hole is a window onto a scene held still on screen:
+    // into the "o" of its first line, whose hole shows light blue and the shark from the start.
+    // The hole is a window onto a scene held still on screen:
     // the statement's blue, its ribs (fading in early) and the black Finishers shark, which
     // grows and glides to the very spot the statement's own shark sits. When the hole fills the
     // screen the scene is the statement, pixel for pixel, so the hero simply lifts away. You
@@ -102,6 +106,7 @@ export function Motion() {
         const doc = document.documentElement;
         const navH = nav.offsetHeight, w = doc.clientWidth, vh = doc.clientHeight, h = vh - navH;
         const m = measureO(stage, o, base);
+        if (!m) return;
         // While pinned, the hero sits right under the nav: the stage's corner and the hole's
         // centre on screen.
         const sx = stage.offsetLeft, sy = navH + stage.offsetTop;
@@ -143,7 +148,7 @@ export function Motion() {
         const f = c01(q / 0.15);
         foot.style.opacity = (1 - f).toFixed(3);
         foot.style.transform = `translate3d(0, ${(f * 40).toFixed(1)}%, 0)`;
-        win.style.opacity = c01((q - 0.03) / 0.08).toFixed(3);
+        win.style.opacity = '1';
         // The next section's ribs come in early, through the window.
         ribs.style.opacity = (G.ribs * smooth(c01((q - 0.1) / 0.35))).toFixed(3);
         // The shark: small and centred in the hole, then growing and gliding to its place.
@@ -154,7 +159,7 @@ export function Motion() {
         const ccx = hcx + (G.lx + G.lw / 2 - hcx) * k, ccy = hcy + (G.ly + G.lh / 2 - hcy) * k;
         const sc = cw / G.lw;
         shark.style.transform = `translate3d(${(ccx - cw / 2 - G.lx).toFixed(2)}px, ${(ccy - (G.lh * sc) / 2 - G.ly).toFixed(2)}px, 0) scale(${sc.toFixed(4)})`;
-        shark.style.opacity = smooth(c01((q - 0.06) / 0.12)).toFixed(3);
+        shark.style.opacity = '1';
         // Through: the statement takes over from the identical scene, and the hero lifts away.
         const landed = p >= LAND;
         next.style.opacity = landed ? '1' : '0';
@@ -212,24 +217,76 @@ export function Motion() {
       });
     });
 
-    // The nav (and the phone menu) marks the section you're in.
+    // The nav (and the phone menu) marks the chapter you're in. In the nav, four corner marks
+    // lock onto it like a sight: they glide over, land a touch wide and close in. Hovering or
+    // tabbing along the chapters moves them too; leaving puts them back on the chapter.
     const navLinks = $$<HTMLAnchorElement>('.nav__links a, .menu__sheet a');
+    const deck = document.querySelector<HTMLElement>('.nav__deck');
+    const ticks = deck ? $$('.nav__lock i', deck) : [];
+    const TICK = 10, WIDE = 5;
+    let aimed: HTMLElement | null = null, lockTl: gsap.core.Timeline | null = null;
+    const corners = (a: HTMLElement, w: number) => {
+      const x0 = a.offsetLeft - w, y0 = a.offsetTop - w, x1 = a.offsetLeft + a.offsetWidth - TICK + w, y1 = a.offsetTop + a.offsetHeight - TICK + w;
+      return [[x0, y0], [x1, y0], [x0, y1], [x1, y1]];
+    };
+    const aim = (a: HTMLElement | null, snap = false) => {
+      if (ticks.length !== 4 || (a === aimed && !snap)) return;
+      const from = aimed;
+      aimed = a;
+      lockTl?.kill();
+      gsap.killTweensOf(ticks);
+      if (!a) { gsap.to(ticks, { opacity: 0, duration: 0.3, ease: 'power2.out' }); return; }
+      const at = corners(a, 0), wide = corners(a, WIDE);
+      if (snap) { gsap.set(ticks, { x: (i) => at[i][0], y: (i) => at[i][1], opacity: 1 }); return; }
+      if (!from) { const far = corners(a, WIDE * 3); gsap.set(ticks, { x: (i) => far[i][0], y: (i) => far[i][1] }); }
+      lockTl = gsap.timeline()
+        .to(ticks, { x: (i) => wide[i][0], y: (i) => wide[i][1], opacity: 1, duration: from ? 0.42 : 0.3, ease: 'power3.out' })
+        .to(ticks, { x: (i) => at[i][0], y: (i) => at[i][1], duration: 0.24, ease: 'power2.inOut' });
+    };
+    const current = () => deck?.querySelector<HTMLElement>('a[aria-current]') ?? null;
+    // Several chapters toggle in one scroll step (one leaves, the next arrives): aim once, after.
+    let aimFrame = 0;
+    const aimCurrent = () => {
+      cancelAnimationFrame(aimFrame);
+      aimFrame = requestAnimationFrame(() => { if (!deck?.matches(':hover, :focus-within')) aim(current()); });
+    };
     new Set(navLinks.map((a) => a.getAttribute('href')!)).forEach((href) => {
       const target = document.querySelector(href);
       if (!target) return;
       const mine = navLinks.filter((a) => a.getAttribute('href') === href);
       ScrollTrigger.create({
         trigger: target, start: 'top 45%', end: 'bottom 45%', refreshPriority: -1,
-        onToggle: (s) => mine.forEach((a) => { if (s.isActive) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); }),
+        onToggle: (s) => {
+          mine.forEach((a) => { if (s.isActive) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+          aimCurrent();
+        },
       });
     });
+    const onOver = (e: Event) => { const a = (e.target as Element).closest<HTMLElement>('a'); if (a) aim(a); };
+    const onOut = (e: FocusEvent) => { if (!deck?.contains(e.relatedTarget as Node | null)) aim(current()); };
+    const onLeave = () => { if (!deck?.matches(':focus-within')) aim(current()); };
+    const reaim = () => { if (aimed) aim(aimed, true); };
+    if (deck) {
+      deck.addEventListener('pointerover', onOver);
+      deck.addEventListener('focusin', onOver);
+      deck.addEventListener('focusout', onOut);
+      deck.addEventListener('pointerleave', onLeave);
+      ScrollTrigger.addEventListener('refresh', reaim);
+      document.fonts?.ready.then(reaim);
+    }
+    const unNav = () => {
+      cancelAnimationFrame(aimFrame);
+      lockTl?.kill();
+      if (!deck) return;
+      deck.removeEventListener('pointerover', onOver);
+      deck.removeEventListener('focusin', onOver);
+      deck.removeEventListener('focusout', onOut);
+      deck.removeEventListener('pointerleave', onLeave);
+      ScrollTrigger.removeEventListener('refresh', reaim);
+    };
 
-    // Nav rule once the page has moved
+    // A hairline under the nav once the page has moved.
     if (nav) ScrollTrigger.create({ start: 8, end: 'max', onToggle: (s) => nav.toggleAttribute('data-scrolled', s.isActive) });
-
-    // The reading spine
-    const spine = document.querySelector<HTMLElement>('.spine i');
-    if (spine) ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (s) => { spine.style.transform = `scaleY(${s.progress.toFixed(4)})`; } });
 
     // The review's rule fills as its steps scroll through
     $$('.review [data-fill]').forEach((track) => {
@@ -354,17 +411,30 @@ export function Motion() {
     };
     const $ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) => root.querySelector<T>(s);
 
-    // 1. Statement into pillars: the blue statement sinks back into the page, shrinking like a
-    //    card set down, while the pillars slide over it like a sheet.
-    const statement = $('.statement'), pillars = $('#pillars');
-    if (statement && pillars) {
-      tie(pillars, 'top bottom', () => `top ${navH()}px`, (p) => {
+    // 1. Statement into the walls: the blue statement sinks back into the page, shrinking like a
+    //    card set down, while the walls slide over it like a sheet.
+    const statement = $('.statement'), walls = $('#walls'), pillars = $('#pillars');
+    if (statement && walls) {
+      tie(walls, 'top bottom', () => `top ${navH()}px`, (p) => {
         const d = vh() - navH();
         statement.style.transform = p > 0 ? `translate3d(0, ${(p * d * 0.6).toFixed(1)}px, 0) scale(${(1 - 0.1 * smooth(p)).toFixed(4)})` : '';
       });
     }
 
-    // 2. Pillars into the sources: the band arrives tilted back like a screen on its hinge and
+    // 2. Walls into the pillars: as the pillars rise, the walls of the climb fall, one after
+    //    another from the left, and the line is left standing where it got to.
+    const fallen = walls ? $$<SVGGElement>('.climb__wall', walls) : [];
+    if (pillars && fallen.length) {
+      tie(pillars, 'top 88%', 'top 30%', (p) => {
+        fallen.forEach((el) => {
+          const e = in2(c01((p - Number(el.dataset.k) * 0.09) / 0.6));
+          el.style.transform = e > 0.001 ? `translate(0px, ${(e * 140).toFixed(1)}px)` : '';
+          el.style.opacity = (1 - e).toFixed(3);
+        });
+      });
+    }
+
+    // 3. Pillars into the sources: the band arrives tilted back like a screen on its hinge and
     //    swings upright to face you as it lands.
     const report = $('#sources');
     if (report) {
@@ -374,7 +444,7 @@ export function Motion() {
       });
     }
 
-    // 3. Sources into the week: the week's background is seven day columns that come up ahead of
+    // 4. Sources into the week: the week's background is seven day columns that come up ahead of
     //    it at different heights, like a chart, and settle flush one after another.
     const weekBand = $('#week'), slats = weekBand ? $$('.slats i', weekBand) : [];
     if (weekBand && slats.length) {
@@ -388,7 +458,7 @@ export function Motion() {
       });
     }
 
-    // 4. Week into insiders: the dark band rises with a light-blue scan line on its edge, over
+    // 5. Week into insiders: the dark band rises with a light-blue scan line on its edge, over
     //    content that holds still on screen, so the content is uncovered rather than moved.
     const insiders = $('#insiders'), insBody = insiders && $('.insiders__grid', insiders), scan = insiders && $('.scan', insiders);
     if (insiders && insBody && scan) {
@@ -399,7 +469,7 @@ export function Motion() {
       }, true);
     }
 
-    // 5. Insiders into the process: insiders drifts away to the left as the process arrives, and
+    // 6. Insiders into the process: insiders drifts away to the left as the process arrives, and
     //    its heading and five steps are dealt in from the right, each as it comes into view.
     const process = $('#process'), procHead = process && $('.head', process), procSteps = process ? $$('.steps li', process) : [];
     const procList = process && $('.steps', process);
@@ -421,7 +491,7 @@ export function Motion() {
       });
     }
 
-    // 6. Process into the questions: a light-blue line appears at the band's edge and opens
+    // 7. Process into the questions: a light-blue line appears at the band's edge and opens
     //    downward into the whole field; the questions and the ribs come in once it has.
     const faq = $('#faq'), fieldBg = faq && $('.field-bg', faq), faqBody = faq && $('.faq__grid', faq), faqRibs = faq && $(':scope > .texture', faq);
     if (faq && fieldBg && faqBody && faqRibs) {
@@ -438,7 +508,7 @@ export function Motion() {
       });
     }
 
-    // 7. Questions into the footer: the page lifts off a footer that was waiting underneath.
+    // 8. Questions into the footer: the page lifts off a footer that was waiting underneath.
     const footer = $('.footer'), footIn = footer && $(':scope > .container', footer);
     if (footer && footIn) {
       tie(footer, 'top bottom', 'bottom bottom', (p) => {
@@ -449,7 +519,7 @@ export function Motion() {
       }, true);
     }
 
-    return () => { io.disconnect(); drawIo.disconnect(); unPortal(); };
+    return () => { io.disconnect(); drawIo.disconnect(); unPortal(); unNav(); };
   });
   return null;
 }

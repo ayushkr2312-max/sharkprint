@@ -28,6 +28,10 @@
   /* Inverted bands take the other end of the pair. */
   --invert-paper: var(--black);
   --invert-ink: var(--white);
+  /* Text that should stand out: light blue wherever the ground is black (where it reads), the
+     ink itself wherever the ground is white (where light blue wouldn't). */
+  --color-hi: var(--black);
+  --invert-hi: var(--blue);
   /* Cards that sit on a coloured band keep the page's own pair. */
   --surface-paper: var(--white);
   --surface-ink: var(--black);
@@ -56,6 +60,7 @@
   --color-paper: var(--black); --color-ink: var(--white); --color-focus: var(--color-accent);
   --invert-paper: var(--white); --invert-ink: var(--black);
   --surface-paper: var(--black); --surface-ink: var(--white);
+  --color-hi: var(--blue); --invert-hi: var(--black);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-mode]) {
@@ -63,10 +68,11 @@
     --color-paper: var(--black); --color-ink: var(--white); --color-focus: var(--color-accent);
     --invert-paper: var(--white); --invert-ink: var(--black);
     --surface-paper: var(--black); --surface-ink: var(--white);
+    --color-hi: var(--blue); --invert-hi: var(--black);
   }
 }
 
 /* A band in the other colour of the pair, and a band in light blue. */
-.invert { --color-paper: var(--invert-paper); --color-ink: var(--invert-ink); --color-focus: var(--invert-ink); }
-.field { --color-paper: var(--blue); --color-ink: var(--black); --color-focus: var(--black); --color-accent: var(--black); --color-accent-ink: var(--blue); }
+.invert { --color-paper: var(--invert-paper); --color-ink: var(--invert-ink); --color-focus: var(--invert-ink); --color-hi: var(--invert-hi); }
+.field { --color-hi: var(--black); --color-paper: var(--blue); --color-ink: var(--black); --color-focus: var(--black); --color-accent: var(--black); --color-accent-ink: var(--blue); }
 .surface { --color-paper: var(--surface-paper); --color-ink: var(--surface-ink); --color-accent: var(--blue); --color-accent-ink: var(--black); --color-focus: var(--surface-ink); }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CAP_COUNT } from '@/content/minimal';
 import { getLenis } from '@/lib/scroll';
 
-const TRY = ['scouting', 'reports', 'store', 'schedule', 'Discord'];
+const TRY = ['player', 'investors', 'opponent', 'store', 'schedule'];
 
 /** Marks every option ([data-cap]) that holds all the typed words, dims the rest, and updates
  *  each pillar's count in the index. Returns how many matched, and the first match. */
@@ -58,7 +58,7 @@ export function Finder() {
       <div className="finder__field">
         <input
           id="finder-q" type="search" value={q} autoComplete="off" spellCheck={false}
-          placeholder="Try scouting, store or schedule"
+          placeholder="Try player, investors or store"
           onChange={(e) => search(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') { e.preventDefault(); goTo(mark(q).first); }
