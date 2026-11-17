@@ -27,9 +27,12 @@ const PAGE_NAV: Record<string, { links: readonly (readonly [string, string])[]; 
  *  the one you're in. It steps aside while you scroll down and comes back as soon as you
  *  scroll up. Phones fold the rooms into a sheet. On a page we send, it carries that page's
  *  sections and a button to the enquiry form instead. */
+// This site's homepage. It lives at /overview: the main address is the one-page site.
+const HOME = '/overview';
+
 export function Header() {
   const pathname = usePathname();
-  const home = pathname === '/';
+  const home = pathname === HOME;
   const page = PAGE_NAV[pathname];
   const links = page ? page.links : NAV;
   const local = home || !!page;
@@ -81,7 +84,7 @@ export function Header() {
     };
   }, []);
 
-  const href = (id: string) => (local ? '#' : '/#') + id;
+  const href = (id: string) => (local ? '#' : HOME + '#') + id;
 
   return (
     <>
@@ -100,7 +103,7 @@ export function Header() {
           className="relative flex h-14 w-full items-center justify-between gap-6 rounded-full border border-hairline/70 bg-paper pr-2 pl-5 shadow-[0_18px_40px_-24px_rgba(7,18,43,.45)] md:w-auto md:gap-4 lg:gap-10"
         >
           <Link
-            href={home ? '#top' : '/'}
+            href={home ? '#top' : HOME}
             aria-label="Finishers Sharkprint, home"
             className="flex min-h-11 items-center gap-3 text-ink no-underline"
           >

@@ -31,20 +31,20 @@ function Chip({ x, y, w, label, cls }: { x: number; y: number; w: number; label:
 
 /* ------------------------------------------------------------------ Analyst
    Ask a question, gather the data, build the report, reach a verdict. Each loop asks about
-   something else: a player, a roster, a coach, an opponent. */
+   something else: a roster, a coach, an opponent, a market. */
 const A_SUBJECTS = [
-  { q: 'Should we sign Nexo?', title: 'Player report', sub: 'Nexo, duelist', rows: [['Form', 0.86], ['Role fit', 0.9], ['Clutch', 0.78], ['Comms', 0.82]], v: 'Recommend: sign' },
-  { q: 'Is Team Vanta worth acquiring?', title: 'Roster report', sub: 'Team Vanta', rows: [['Results', 0.74], ['Trajectory', 0.88], ['Depth', 0.66], ['Fit', 0.8]], v: 'Worth a bid' },
+  { q: 'Should we sign Team Vanta?', title: 'Roster report', sub: 'Team Vanta', rows: [['Results', 0.78], ['Trajectory', 0.9], ['Teamwork', 0.86], ['Fit', 0.84]], v: 'Recommend: sign' },
   { q: 'Who should coach our roster?', title: 'Staff report', sub: 'Three coaches', rows: [['Results', 0.84], ['Growth', 0.9], ['Comms', 0.76], ['Fit', 0.86]], v: 'Shortlist: 2 of 3' },
   { q: 'How do we beat Orca on Saturday?', title: 'Opponent prep', sub: 'Orca, last 20', rows: [['Map pool', 0.7], ['Openings', 0.82], ['Clutch', 0.64], ['Weak spots', 0.9]], v: 'Game plan ready' },
+  { q: 'Where should we expand next?', title: 'Market report', sub: 'Three regions', rows: [['Audience', 0.82], ['Talent', 0.7], ['Rivals', 0.58], ['Cost', 0.74]], v: 'Expand: 1 of 3' },
 ] as const;
 const A_SRC = ['Results', 'VODs', 'Stats', 'The scene'];
 const aY = (k: number) => 58 + k * 44;
 
 const analyst: Spec = {
   steps: ['Ask', 'Gather', 'Analyse', 'Decide'],
-  caption: 'Sample reports on fictional players, rosters, coaches and opponents.',
-  label: 'A question about a player, roster, coach or opponent; data gathered from results, VODs, stats and the scene; a report built; a verdict reached',
+  caption: 'Sample reports on fictional rosters, coaches, opponents and markets.',
+  label: 'A question about a roster, coach, opponent or market; data gathered from results, VODs, stats and the scene; a report built; a verdict reached',
   scene: (
     <>
       <g className="a-q">

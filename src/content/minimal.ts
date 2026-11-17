@@ -26,12 +26,12 @@ export type PillarInfo = {
 export const PILLARS: PillarInfo[] = [
   {
     id: 'intel', name: 'Analyst', kind: 'Your data department',
-    line: 'We gather data on any player, team, staff member or opponent you’re weighing and turn it into reports you can act on, so your signings, hires and match prep rest on evidence.',
-    gains: ['Sign players, rosters and staff on evidence', 'Walk into every match with a plan', 'Know where to grow before you commit'],
+    line: 'We gather data on any team, player, staff member or opponent you’re weighing and turn it into reports you can act on, so your signings, hires and match prep rest on evidence.',
+    gains: ['Sign rosters, players and staff on evidence', 'Walk into every match with a plan', 'Know where to grow before you commit'],
     caps: [
       { group: 'Before you sign', items: [
-        ['Player reports', 'Any player you’re weighing: form, role fit, consistency and how they hold up under pressure, with a recommendation.'],
         ['Roster reports', 'A whole team you could sign or acquire, measured as a unit: results, trajectory, depth and fit.'],
+        ['Player reports', 'The player to fill an open spot: form, role, consistency and how they’d fit the team you have, with a recommendation.'],
         ['Staff reports', 'Coaches, analysts and managers, judged on what the teams they’ve run actually did.'],
       ] },
       { group: 'Before you play', items: [
@@ -74,7 +74,6 @@ export const PILLARS: PillarInfo[] = [
         ['Moment finding', 'Every stream and match logged; software flags the moments, editors pick the best.'],
         ['Short-form video', 'For Shorts, Reels and TikTok, with subtitles and edits in your colours.'],
         ['Highlight videos', 'The match told in minutes, for YouTube.'],
-        ['Match-day graphics', 'Line-ups, scores and results, designed and posted as they happen.'],
       ] },
       { group: 'Publish', items: [
         ['Content calendar and posting', 'A month planned around your matches, captions written, posted on every platform.'],
@@ -123,7 +122,7 @@ export const PILLARS: PillarInfo[] = [
 // The walls growing orgs hit on the way up, each the reason a partner or investor waits, and
 // the pillar that takes it down. In pillar order. Names are short: they label a picture.
 export const WALLS: { name: string; cost: string; pillar: Pillar; fix: string }[] = [
-  { name: 'Signing off highlight reels', cost: 'One wrong signing can cost a season, and investors want to know how you choose.', pillar: 'intel', fix: 'Every player, roster and staff hire weighed on data.' },
+  { name: 'Signing off highlight reels', cost: 'One wrong signing can cost a season, and investors want to know how you choose.', pillar: 'intel', fix: 'Every roster, player and staff hire weighed on data.' },
   { name: 'Numbers nobody can find', cost: 'A partner asks for your reach and gets a weekend of screenshots.', pillar: 'command', fix: 'Live numbers, and the report ready before they ask.' },
   { name: 'Reach stalls between games', cost: 'Reach is what partners look at, and it stops growing when your content does.', pillar: 'engine', fix: 'Every match and stream feeding every channel, all week.' },
   { name: 'Creators signing elsewhere', cost: 'Their audiences could be growing your brand instead.', pillar: 'studio', fix: 'A program that makes creators want to sign with you.' },
@@ -142,7 +141,7 @@ export const SOURCES: Source[] = [
     forge: 'Match pages and results that update themselves',
   } },
   { id: 'vods', name: 'Match VODs', line: 'Your games, and every opponent’s', feeds: {
-    intel: 'Opponent prep, reviews and player reports',
+    intel: 'Opponent prep, reviews and roster reports',
     engine: 'Highlights and short-form video',
   } },
   { id: 'streams', name: 'Streams', line: 'Your players’ and creators’ broadcasts', feeds: {
@@ -179,7 +178,7 @@ export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 export const MATCH_DAY = 5;
 export const WEEK: Record<Pillar, [number, string][]> = {
   engine: [[0, 'Weekend VODs logged'], [1, 'Shorts batch out'], [5, 'Match clips out'], [6, 'Highlights video']],
-  intel: [[0, 'Scrim review'], [1, 'Player report: Kai'], [3, 'Opponent prep: Orca']],
+  intel: [[0, 'Scrim review'], [1, 'Roster report: Vanta'], [3, 'Opponent prep: Orca']],
   command: [[0, 'Socials synced'], [3, 'Partner post reminder'], [5, 'Match-day dashboard'], [6, 'Week in numbers']],
   forge: [[1, 'Roster page updated'], [3, 'Match page live'], [6, 'Results on the site']],
   studio: [[0, 'Creator schedules out'], [4, 'Watch party booked'], [6, 'Creator clips filed']],
@@ -205,7 +204,7 @@ export const FAQ: { group: string; items: [string, string][] }[] = [
   {
     group: 'What it is',
     items: [
-      ['What does Sharkprint actually do?', 'It runs the work around your teams that most orgs never have enough people for. Analyst is your data department, with reports on any player, roster, staff member or opponent you’re weighing. HQ keeps your numbers live and your partner and investor reports ready. Content turns every match and stream into posts for every channel. Creators runs your creator program, and Platforms builds your site, store and tools. All five work from the same numbers, and you deal with one partner.'],
+      ['What does Sharkprint actually do?', 'It runs the work around your teams that most orgs never have enough people for. Analyst is your data department, with reports on any roster, player, staff member or opponent you’re weighing. HQ keeps your numbers live and your partner and investor reports ready. Content turns every match and stream into posts for every channel. Creators runs your creator program, and Platforms builds your site, store and tools. All five work from the same numbers, and you deal with one partner.'],
       ['Do we need all five pillars?', 'No. Most orgs start with the one that would change the most this season and add others when they pay off. Each pillar works on its own, and each one you add feeds the same numbers, so your reports get more complete.'],
       ['Is this just AI?', 'No. Automation does the repetitive part, like finding the moments in hours of VOD or keeping six social accounts in sync. People who have worked inside esports orgs choose the clips, check the reports and sign off every piece before it reaches you.'],
       ['How is this different from an agency or freelancers?', 'An agency or a freelancer usually covers one job, with its own tools and its own numbers. Sharkprint runs five jobs on one system, so your reports, content, creator program and site all work from the same numbers, and you have one partner to talk to.'],

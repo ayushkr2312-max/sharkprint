@@ -31,17 +31,18 @@ export function SmoothScroll() {
     };
   }, []);
 
-  // On the homepage, links to its own rooms scroll instead of navigating
-  // (#engine, /#insiders).
+  // Links to the page you're on scroll instead of navigating (#engine, /overview#insiders).
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element).closest?.('a[href]');
       if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
       const href = a.getAttribute('href')!;
-      const home = location.pathname === '/';
       let hash: string | null = null;
       if (href.startsWith('#') && href.length > 1) hash = href;
-      else if (home && href.startsWith('/#')) hash = href.slice(1);
+      else if (href.startsWith('/') && href.includes('#')) {
+        const [path, id] = href.split('#');
+        if (id && (path || '/') === location.pathname) hash = '#' + id;
+      }
       if (!hash || !findVisible(hash)) return;
       e.preventDefault();
       e.stopPropagation();

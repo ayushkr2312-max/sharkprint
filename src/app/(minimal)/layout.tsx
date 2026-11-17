@@ -1,13 +1,14 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Michroma, Orbitron, Rethink_Sans } from 'next/font/google';
+import card from '@/app/cards/home.png';
 import { Flags } from '@/components/minimal/Flags';
 import { SmoothScroll } from '@/components/site/SmoothScroll';
-import { share, UNLISTED } from '@/lib/share';
+import { share } from '@/lib/share';
 import { SITE_URL } from '@/lib/site';
 import './minimal.css';
 
-// The one-page site at /overview, with its own root layout: its own fonts, styles and chrome,
-// and nothing linking it to the rest of the site or back. Unlisted, like the pages we send.
+// The main site: one page at the main address, with its own root layout (its own fonts, styles
+// and chrome). The original homepage now lives at /overview; nothing links between the two.
 
 // One family for display and body, at two weights; Michroma only for the wordmark.
 const rethink = Rethink_Sans({ subsets: ['latin'], variable: '--font-rethink' });
@@ -22,9 +23,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title,
   description,
-  ...share(title, description),
-  ...UNLISTED,
+  alternates: { canonical: '/' },
+  // The link preview: the hero's headline, its blue O with the shark, the wordmark and the five
+  // pillars, on black. Imported, so its URL changes with it and chat apps fetch the new one.
+  ...share(title, description, { image: card, alt: 'Play above your weight. Finishers Sharkprint, the team behind your team: Analyst, HQ, Content, Creators and Platforms.' }),
 };
+
+// Light blue: the browser bar on phones, and the strip down the side of a link preview in Discord.
+export const viewport: Viewport = { themeColor: '#94d4fb' };
 
 // Before first paint: the saved page mode, if any (otherwise the OS decides), and the flag
 // that lets reveals start hidden only when a script is there to show them.

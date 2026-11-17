@@ -4,12 +4,12 @@ import { FooterMark } from './FooterMark';
 
 // The homepage's rooms; on the homepage these scroll instead of navigating.
 const NAV = [
-  ['Engine', '/#engine'],
-  ['Intel', '/#intel'],
-  ['Command', '/#command'],
-  ['Forge', '/#forge'],
-  ['Studio', '/#studio'],
-  ['Insiders', '/#insiders'],
+  ['Engine', '/overview#engine'],
+  ['Intel', '/overview#intel'],
+  ['Command', '/overview#command'],
+  ['Forge', '/overview#forge'],
+  ['Studio', '/overview#studio'],
+  ['Insiders', '/overview#insiders'],
 ];
 
 /** The Lateral Line ends by underlining a giant SHARKPRINT wordmark. */

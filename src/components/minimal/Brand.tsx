@@ -3,9 +3,9 @@ import { SharkMark } from '@/components/ui/Icon';
 
 /** The nav and footer lockup: the shark mark, then FINISHERS SHARKPRINT in Michroma. The
  *  mark's dot takes the light blue. */
-export function Logo({ href = '#top' }: { href?: string }) {
+export function Logo({ href = '#top', label = 'Finishers Sharkprint, back to the top' }: { href?: string; label?: string }) {
   return (
-    <a href={href} className="logo" aria-label="Finishers Sharkprint, back to the top">
+    <a href={href} className="logo" aria-label={label}>
       <SharkMark className="logo__mark" />
       <span className="logo__words"><span>Finishers</span> Sharkprint</span>
     </a>

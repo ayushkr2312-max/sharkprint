@@ -219,6 +219,8 @@ html.js .portal > .statement { opacity: 0; }
 .pillar__about { grid-column: 1; align-self: start; display: grid; gap: var(--space-xl); padding-top: var(--space-sm); }
 .pillar__line { font-size: var(--text-lead); line-height: 1.4; max-width: 30ch; }
 .pillar__gains { display: grid; margin: 0; padding: 0; border-top: 1px solid var(--color-rule); list-style: none; }
+.pillar__more { justify-self: start; color: var(--color-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--color-accent); text-decoration-thickness: 2px; text-underline-offset: 0.35em; transition: text-decoration-color var(--dur-short) var(--ease-out); }
+.pillar__more:hover { text-decoration-color: var(--color-ink); }
 .pillar__gains li { position: relative; padding: var(--space-sm) 0 var(--space-sm) var(--space-lg); border-bottom: 1px solid var(--color-rule); font-weight: 600; }
 .pillar__gains li::before { content: ""; position: absolute; left: 0; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 3px; background: var(--color-accent); }
 
@@ -597,3 +599,4 @@ html.js .climb__end:not([data-on]) { opacity: 0.3; }
   .climb__stage--v .climb__end { transform: none; text-align: left; }
   .climb__read { grid-template-columns: minmax(0, 1fr); }
 }
+

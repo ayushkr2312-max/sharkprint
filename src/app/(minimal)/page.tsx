@@ -139,6 +139,7 @@ export default function Home() {
                     <ul className="pillar__gains" data-reveal="" style={i(1)}>
                       {p.gains.map((g) => <li key={g}>{g}</li>)}
                     </ul>
+                    <a className="pillar__more" href={`/pillars/${slug(p)}`} data-reveal="" style={i(2)}>More on {p.name}</a>
                   </div>
                   <Loop id={p.id} />
                   <div className="caps">
@@ -300,6 +301,7 @@ export default function Home() {
             <nav aria-label="Footer">
               <ul>
                 {NAV.map(([label, href]) => <li key={href}><a href={href}>{label}</a></li>)}
+                {PILLARS.map((p) => <li key={p.id}><a href={`/pillars/${slug(p)}`}>{p.name}</a></li>)}
               </ul>
             </nav>
           </div>
