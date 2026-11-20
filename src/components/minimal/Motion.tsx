@@ -64,7 +64,6 @@ function measureO(stage: HTMLElement, o: HTMLElement, base: HTMLElement) {
  *  - Leaving the hero, you zoom through the "o" of its headline and land in the statement,
  *    whose words then light up before the page moves on.
  *  - In the nav, four corner marks lock onto the chapter you're in, or the one under the pointer.
- *  - The walls of the climb split one by one as you scroll through them (Climb.tsx).
  *  - The match week plays out day by day under a sweeping line; the pillar index follows the
  *    pillar in view; on wide screens the five steps slide past while their row holds still.
  *  - Every boundary between sections has its own transition (see "Section transitions"). */
@@ -413,24 +412,11 @@ export function Motion() {
 
     // 1. Statement into the walls: the blue statement sinks back into the page, shrinking like a
     //    card set down, while the walls slide over it like a sheet.
-    const statement = $('.statement'), walls = $('#walls'), pillars = $('#pillars');
+    const statement = $('.statement'), walls = $('#walls');
     if (statement && walls) {
       tie(walls, 'top bottom', () => `top ${navH()}px`, (p) => {
         const d = vh() - navH();
         statement.style.transform = p > 0 ? `translate3d(0, ${(p * d * 0.6).toFixed(1)}px, 0) scale(${(1 - 0.1 * smooth(p)).toFixed(4)})` : '';
-      });
-    }
-
-    // 2. Walls into the pillars: as the pillars rise, the walls of the climb fall, one after
-    //    another from the left, and the line is left standing where it got to.
-    const fallen = walls ? $$<SVGGElement>('.climb__wall', walls) : [];
-    if (pillars && fallen.length) {
-      tie(pillars, 'top 88%', 'top 30%', (p) => {
-        fallen.forEach((el) => {
-          const e = in2(c01((p - Number(el.dataset.k) * 0.09) / 0.6));
-          el.style.transform = e > 0.001 ? `translate(0px, ${(e * 140).toFixed(1)}px)` : '';
-          el.style.opacity = (1 - e).toFixed(3);
-        });
       });
     }
 

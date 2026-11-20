@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react';
 import { FooterMark, Logo, Rise } from '@/components/minimal/Brand';
-import { Climb } from '@/components/minimal/Climb';
 import { FaqToggle } from '@/components/minimal/FaqToggle';
 import { Finder } from '@/components/minimal/Finder';
 import { Intro } from '@/components/minimal/Intro';
@@ -9,6 +8,7 @@ import { Menu } from '@/components/minimal/Menu';
 import { ModeToggle } from '@/components/minimal/ModeToggle';
 import { Motion } from '@/components/minimal/Motion';
 import { Sources } from '@/components/minimal/Sources';
+import { Walls } from '@/components/minimal/Walls';
 import { SharkMark } from '@/components/ui/Icon';
 import { DAYS, FAQ, HERO, INSIDERS, MATCH_DAY, NAV, PILLARS, STATEMENT, STEPS, WEEK } from '@/content/minimal';
 
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
 
         {/* The walls growing orgs hit on the way up, each a reason a partner or investor waits,
-            drawn as one climb that the walls hold back until each pillar splits one open. */}
+            set out as a staircase with the pillar that takes each one down beneath it. */}
         <section id="walls" className="section band invert walls" aria-labelledby="walls-title">
           <span aria-hidden="true" className="texture" />
           <div className="container">
@@ -106,7 +106,7 @@ export default function Home() {
               <Rise id="walls-title" className="display" text="Why partners and investors wait." />
               <p className="lead" data-reveal="" style={i(1)}>Most growing orgs hit the same five walls on the way up. Each pillar is built to take one down.</p>
             </div>
-            <Climb />
+            <Walls />
           </div>
         </section>
 
