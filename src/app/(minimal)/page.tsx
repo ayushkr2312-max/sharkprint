@@ -3,6 +3,7 @@ import { FooterMark, Logo, Rise } from '@/components/minimal/Brand';
 import { Climb } from '@/components/minimal/Climb';
 import { FaqToggle } from '@/components/minimal/FaqToggle';
 import { Finder } from '@/components/minimal/Finder';
+import { Intro } from '@/components/minimal/Intro';
 import { Loop } from '@/components/minimal/Loops';
 import { Menu } from '@/components/minimal/Menu';
 import { ModeToggle } from '@/components/minimal/ModeToggle';
@@ -21,6 +22,7 @@ const slug = (p: (typeof PILLARS)[number]) => p.name.toLowerCase();
 export default function Home() {
   return (
     <>
+      <Intro />
       <a href="#main" className="skip">Skip to content</a>
       <header className="nav band">
         <div className="container nav__inner">

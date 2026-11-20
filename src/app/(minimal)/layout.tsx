@@ -33,8 +33,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: '#94d4fb' };
 
 // Before first paint: the saved page mode, if any (otherwise the OS decides), and the flag
-// that lets reveals start hidden only when a script is there to show them.
-const MODE_SCRIPT = `try{var m=localStorage.getItem('mode');if(m==='light'||m==='dark')document.documentElement.dataset.mode=m}catch(e){}document.documentElement.classList.add('js')`;
+// that lets reveals start hidden only when a script is there to show them. On the main page it
+// also starts the intro (Intro.tsx), unless you came in on a #link or reloaded part-way down.
+const MODE_SCRIPT = `try{var m=localStorage.getItem('mode');if(m==='light'||m==='dark')document.documentElement.dataset.mode=m}catch(e){}document.documentElement.classList.add('js');try{var d=document.documentElement,n=performance.getEntriesByType('navigation')[0],go=location.pathname==='/'&&!location.hash;if(go&&n&&n.type==='reload'&&+sessionStorage.getItem('sy')>40)go=false;if(go){window.__intro=1;d.classList.add('intro-on','intro-win','intro-hold');window.__introT=setTimeout(function(){d.classList.remove('intro-on','intro-win','intro-hold')},8000)}}catch(e){}`;
 
 export default function MinimalLayout({ children }: { children: React.ReactNode }) {
   return (

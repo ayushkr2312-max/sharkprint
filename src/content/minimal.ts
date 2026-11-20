@@ -9,7 +9,7 @@ export const HERO = {
 };
 
 export const STATEMENT =
-  'Every match, player, partner and fan your org has is worth more than your numbers show. We measure it and help you use it.';
+  'Every match, player, partner and fan your org has is worth more than your numbers show. We measure it, help you use it and build what you’re missing, so each season brings more fans and partners than the last.';
 
 export type Cap = [string, string];
 export type PillarInfo = {
